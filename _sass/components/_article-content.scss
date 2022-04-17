@@ -45,10 +45,11 @@
   blockquote {
     padding-left: map-get($spacers, 3);
     font-size: map-get($base, font-size-sm);
-    color: $text-color-l;
-    @include split-line(left, 4px, $border-color);
+    background-color: #f7f7f7;
+    @include split-line(left, 4px, #eda6a1);
     p {
       margin: map-get($spacers, 2) 0;
+      padding: map-get($spacers, 2);
     }
     & > :last-child {
       margin-bottom: 0;
@@ -73,7 +74,7 @@
   }
   code {
     padding: map-get($spacers, 1) map-get($spacers, 2);
-    background-color: $text-background-color;
+    background-color: rgba(239, 230, 212, 0.5);
     border-radius: map-get($base, border-radius);
     span {
       padding: 0;
