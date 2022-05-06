@@ -22,7 +22,7 @@ cover: /assets/images/post/2022-05-06-dao-and-repository/thumb.png
 
 ## @Repository 문서  
 
-스프링 `@Repository` 어노테이션 자바 문서에는 다음과 같이 적혀 있다.  
+스프링 `@Repository` 어노테이션 자바 문서에는 다음과 같이 적혀 있다.  <!--more-->
 
 > 적용 된 클래스가 *Repository* 임을 나타냅니다. 이는 [도메인 주도 설계(에릭 에반스)](http://book.naver.com/bookdb/book_detail.naver?bid=6680572)에서 정의한 *저장소를 캡슐화하고, 저장하고, 검색하여 객체의 컬렉션처럼 다루는 메커니즘*을 뜻합니다.  
 > *Data Access Object*와 같은 전통적인 자바 EE 패턴을 사용하는 팀도 이 스테레오타입을 *DAO* 클래스에 적용할 수 있습니다. 다만 그 전에 *Data Access Object*와 *DDD-style repositories*의 차이를 이해하는 것이 좋습니다. 이 어노테이션은 다목적 스테레오타입이고 개별 팀은 자신들만의 축소된 의미에 맞춰 적절하게 사용하면 됩니다.  
