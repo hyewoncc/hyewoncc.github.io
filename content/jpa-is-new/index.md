@@ -420,12 +420,12 @@ public SimpleJpaRepository(JpaEntityInformation<T, ?> entityInformation, EntityM
 실제 코드를 탐색한 순서대로 포스팅을 했더니 글이 길어졌다. 
 `EntityInformation` 구현을 제외하고, 알아낸 `isNew()`결정 흐름을 정리하자면 다음과 같다.  
 
-- 엔티티 클래스에서 **Persistable\<ID\>**를 구현했다면, 엔티티 클래스 내의 **isNew()**로 판단  
-- **JpaMetamodelEntityInformation**의 **isNew()**가 호출  
+- 엔티티 클래스에서 **Persistable\<ID\>** 를 구현했다면, 엔티티 클래스 내의 **isNew()** 로 판단  
+- **JpaMetamodelEntityInformation**의 **isNew()** 가 호출  
   - **@Version**필드가 있고, 해당 값이 원시 타입이 아니라면  
     - 필드가 **null**이라면 **true**, 아니라면 **false** 반환  
   - **@Version**필드가 없거나, 해당 값이 원시 타입이라면
-    - **AbstractEntityInformation**의 **isNew()**가 호출  
+    - **AbstractEntityInformation**의 **isNew()** 가 호출  
       - **id**가 원시 타입이 아니라면
         - 값이 **null**이라면 **true**, 아니라면 **false** 반환  
       - **id**가 숫자값이라면  
