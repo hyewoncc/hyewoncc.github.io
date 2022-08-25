@@ -397,8 +397,8 @@ JPA는 엔티티의 <code class="language-text">isNew()</code>를 개발자 입�
 <p>실제 코드를 탐색한 순서대로 포스팅을 했더니 글이 길어졌다.
 <code class="language-text">EntityInformation</code> 구현을 제외하고, 알아낸 <code class="language-text">isNew()</code>결정 흐름을 정리하자면 다음과 같다.</p>
 <ul>
-<li>엔티티 클래스에서 **Persistable&#x3C;ID>**를 구현했다면, 엔티티 클래스 내의 **isNew()**로 판단</li>
-<li><strong>JpaMetamodelEntityInformation</strong>의 **isNew()**가 호출
+<li>엔티티 클래스에서 <strong>Persistable&#x3C;ID></strong> 를 구현했다면, 엔티티 클래스 내의 <strong>isNew()</strong> 로 판단</li>
+<li><strong>JpaMetamodelEntityInformation</strong>의 <strong>isNew()</strong> 가 호출
 <ul>
 <li><strong>@Version</strong>필드가 있고, 해당 값이 원시 타입이 아니라면
 <ul>
@@ -407,7 +407,7 @@ JPA는 엔티티의 <code class="language-text">isNew()</code>를 개발자 입�
 </li>
 <li><strong>@Version</strong>필드가 없거나, 해당 값이 원시 타입이라면
 <ul>
-<li><strong>AbstractEntityInformation</strong>의 **isNew()**가 호출
+<li><strong>AbstractEntityInformation</strong>의 <strong>isNew()</strong> 가 호출
 <ul>
 <li><strong>id</strong>가 원시 타입이 아니라면
 <ul>
