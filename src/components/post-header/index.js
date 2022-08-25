@@ -1,11 +1,14 @@
 import { Link } from 'gatsby';
 import React from 'react';
+import Image from '../image';
 import './style.scss';
 
 function PostHeader({ post, viewCount }) {
   return (
     <header className="post-header">
-      {post.emoji && <div className="emoji">{post.emoji}</div>}
+      {post.emoji && <div className="emoji">
+       <Image className="thumbnail" src={post.emoji} alt="hi"/>
+      </div>}
       <div className="info">
         <div className="categories">
           {post.categories.map((category) => (
