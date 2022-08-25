@@ -1,5 +1,5 @@
 ---
-emoji: jpa-static-fixture-trouble/header.png
+emoji: headers/jpa-static-fixture-trouble.png
 title: '[JPA] 상수 픽스쳐 사용 주의'
 date: '2022-08-13 12:40:00'
 author: 써머
