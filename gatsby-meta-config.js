@@ -14,8 +14,8 @@ module.exports = {
     name: `최혜원`,
     bio: {
       role: `개발자`,
-      description: ['사람에 가치를 두는', '능동적으로 일하는', '이로운 것을 만드는'],
-      thumbnail: 'sample.png', // Path to the image in the 'asset' folder
+      description: ['혼자보다 함께가 좋은', '서비스에 관심많은', '개발이 즐거운'],
+      thumbnail: 'profile.png', // Path to the image in the 'asset' folder
     },
     social: {
       github: `https://github.com/hyewoncc`, // `https://github.com/zoomKoding`,
@@ -43,8 +43,8 @@ module.exports = {
       // ========================================================
       // ========================================================
       {
-        date: '~ 2020.02',
-        activity: '홍익대학교 시각디자인과 졸업',
+        date: '2022.03 ~',
+        activity: '우아한테크코스 백엔드 4기',
         links: {
           post: '',
           github: '',
@@ -52,8 +52,8 @@ module.exports = {
         },
       },
       {
-        date: '2022.03 ~',
-        activity: '우아한테크코스 백엔드 4기',
+        date: '~ 2020.02',
+        activity: '홍익대학교 시각디자인과 졸업',
         links: {
           post: '',
           github: '',
