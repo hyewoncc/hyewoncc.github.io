@@ -3,8 +3,8 @@ emoji: headers/dao-and-repository.png
 title: 'DAO 와 Repository'
 date: '2022-05-07 00:25:00'
 author: 써머
-tags: DDD
-categories: DDD
+tags: ETC
+categories: ETC
 ---
 
 [웹 체스 미션](https://github.com/woowacourse/jwp-chess/pull/474)을 진행하면서 `JdbcTemplate`을 이용해 DB에 접근하는 모든 클래스의 이름을 `Repository`라 지었다가 아래와 같은 코멘트를 받았다.  
