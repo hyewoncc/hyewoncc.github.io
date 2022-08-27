@@ -9,7 +9,7 @@ categories: Spring 트러블슈팅
 
 해당 포스팅은 [줍줍](https://github.com/woowacourse-teams/2022-pickpick) 개발 과정 중 맞딱뜨린 문제점과 답을 찾아가는 과정을 다른 방식으로 재구성한 글이다.  
 생각보다 글이 길어진 고로, 문제상황과 해결방안만 보고싶다면  
-- [문제상황](https://hyewoncc.github.io/#슬랙-rtm리얼타임-메시지와의-사투)  
+- [문제상황](https://hyewoncc.github.io/collection-beans/#슬랙-rtm리얼타임-메시지와의-사투)  
 - [빈 컬렉션 주입을 이용한 해결 예시코드](https://github.com/hyewoncc/spring-sandbox/tree/spring/collection-beans)  
 이 둘을 보기를 권한다.  
   
