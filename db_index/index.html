@@ -1,0 +1,1431 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 4.21.1"/><meta data-react-helmet="true" property="og:title" content="줍줍 MySQL 인덱스 탐험"/><meta data-react-helmet="true" property="og:site_title" content="줍줍 MySQL 인덱스 탐험"/><meta data-react-helmet="true" name="description" content="🧳 줍줍 MySQL 인덱스 탐험 ❗️ 해당 포스팅에서 지칭하는 책은 모두 Real MySQL 8.0 1권을 뜻합니다. 우테코 팀 프로젝트 5차 스프린트에서 성능 테스트로 톰캣 설정 최적화 / 모든 쿼리 수집 후 DB 인덱스 설정 이라는 두 개의 백엔드 과제가 있었다.
+나는 이 중 DB 인덱스 설정을 맡게 되었다.
+줍줍의 전체 테이블 구조는 정석 ERD보다 간략하게 표현하자면 이렇다.  쿼리 수집은 쉬웠다.
+줍줍의 모든  클래스들은 를 상속했다.
+는 선언하지 않은 메서드도 사용 가능한 반면, 를 상속하면 선언한 메서드만 사용 가능하다.   뒤집어 말하면 사용을 제외하면,  코드의 모든 메서드가 곧 프로젝트에 사용 중인 모든 쿼리였다. 쿼리 최적화 by.봄🌱 인덱스 최적화를 시작하기 전에 고맙게도 같은 팀 크루인 봄이 불필요햔 left outer join을 제거하는 쿼리 최적화를 해주었다!
+에서 의 PK를 FK로 가진 가 해당 FK를 조건으로 조회할 때, 로 하면 불필요한 이 발생하고 …"/><meta data-react-helmet="true" property="og:description" content="🧳 줍줍 MySQL 인덱스 탐험 ❗️ 해당 포스팅에서 지칭하는 책은 모두 Real MySQL 8.0 1권을 뜻합니다. 우테코 팀 프로젝트 5차 스프린트에서 성능 테스트로 톰캣 설정 최적화 / 모든 쿼리 수집 후 DB 인덱스 설정 이라는 두 개의 백엔드 과제가 있었다.
+나는 이 중 DB 인덱스 설정을 맡게 되었다.
+줍줍의 전체 테이블 구조는 정석 ERD보다 간략하게 표현하자면 이렇다.  쿼리 수집은 쉬웠다.
+줍줍의 모든  클래스들은 를 상속했다.
+는 선언하지 않은 메서드도 사용 가능한 반면, 를 상속하면 선언한 메서드만 사용 가능하다.   뒤집어 말하면 사용을 제외하면,  코드의 모든 메서드가 곧 프로젝트에 사용 중인 모든 쿼리였다. 쿼리 최적화 by.봄🌱 인덱스 최적화를 시작하기 전에 고맙게도 같은 팀 크루인 봄이 불필요햔 left outer join을 제거하는 쿼리 최적화를 해주었다!
+에서 의 PK를 FK로 가진 가 해당 FK를 조건으로 조회할 때, 로 하면 불필요한 이 발생하고 …"/><meta data-react-helmet="true" property="og:author" content="최혜원"/><meta data-react-helmet="true" property="og:image" content="/og-image.png"/><meta data-react-helmet="true" property="og:type" content="website"/><style data-href="/styles.21446ef35f97043d0254.css" data-identity="gatsby-global-css">@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:100;src:local("Montserrat Thin "),local("Montserrat-Thin"),url(/static/montserrat-latin-100-8d7d79679b70dbe27172b6460e7a7910.woff2) format("woff2"),url(/static/montserrat-latin-100-ec38980a9e0119a379e2a9b3dbb1901a.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:100;src:local("Montserrat Thin italic"),local("Montserrat-Thinitalic"),url(/static/montserrat-latin-100italic-e279051046ba1286706adc886cf1c96b.woff2) format("woff2"),url(/static/montserrat-latin-100italic-3b325a3173c8207435cd1b76e19bf501.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:200;src:local("Montserrat Extra Light "),local("Montserrat-Extra Light"),url(/static/montserrat-latin-200-9d266fbbfa6cab7009bd56003b1eeb67.woff2) format("woff2"),url(/static/montserrat-latin-200-2d8ba08717110d27122e54c34b8a5798.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:200;src:local("Montserrat Extra Light italic"),local("Montserrat-Extra Lightitalic"),url(/static/montserrat-latin-200italic-6e5b3756583bb2263eb062eae992735e.woff2) format("woff2"),url(/static/montserrat-latin-200italic-a0d6f343e4b536c582926255367a57da.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:300;src:local("Montserrat Light "),local("Montserrat-Light"),url(/static/montserrat-latin-300-00b3e893aab5a8fd632d6342eb72551a.woff2) format("woff2"),url(/static/montserrat-latin-300-ea303695ceab35f17e7d062f30e0173b.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:300;src:local("Montserrat Light italic"),local("Montserrat-Lightitalic"),url(/static/montserrat-latin-300italic-56f34ea368f6aedf89583d444bbcb227.woff2) format("woff2"),url(/static/montserrat-latin-300italic-54b0bf2c8c4c12ffafd803be2466a790.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat Regular "),local("Montserrat-Regular"),url(/static/montserrat-latin-400-b71748ae4f80ec8c014def4c5fa8688b.woff2) format("woff2"),url(/static/montserrat-latin-400-0659a9f4e90db5cf51b50d005bff1e41.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:400;src:local("Montserrat Regular italic"),local("Montserrat-Regularitalic"),url(/static/montserrat-latin-400italic-6eed6b4cbb809c6efc7aa7ddad6dbe3e.woff2) format("woff2"),url(/static/montserrat-latin-400italic-7583622cfde30ae49086d18447ab28e7.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:500;src:local("Montserrat Medium "),local("Montserrat-Medium"),url(/static/montserrat-latin-500-091b209546e16313fd4f4fc36090c757.woff2) format("woff2"),url(/static/montserrat-latin-500-edd311588712a96bbf435fad264fff62.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:500;src:local("Montserrat Medium italic"),local("Montserrat-Mediumitalic"),url(/static/montserrat-latin-500italic-c90ced68b46050061d1a41842d6dfb43.woff2) format("woff2"),url(/static/montserrat-latin-500italic-5146cbfe02b1deea5dffea27a5f2f998.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:600;src:local("Montserrat SemiBold "),local("Montserrat-SemiBold"),url(/static/montserrat-latin-600-0480d2f8a71f38db8633b84d8722e0c2.woff2) format("woff2"),url(/static/montserrat-latin-600-b77863a375260a05dd13f86a1cee598f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:600;src:local("Montserrat SemiBold italic"),local("Montserrat-SemiBolditalic"),url(/static/montserrat-latin-600italic-cf46ffb11f3a60d7df0567f8851a1d00.woff2) format("woff2"),url(/static/montserrat-latin-600italic-c4fcfeeb057724724097167e57bd7801.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:700;src:local("Montserrat Bold "),local("Montserrat-Bold"),url(/static/montserrat-latin-700-7dbcc8a5ea2289d83f657c25b4be6193.woff2) format("woff2"),url(/static/montserrat-latin-700-99271a835e1cae8c76ef8bba99a8cc4e.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:700;src:local("Montserrat Bold italic"),local("Montserrat-Bolditalic"),url(/static/montserrat-latin-700italic-c41ad6bdb4bd504a843d546d0a47958d.woff2) format("woff2"),url(/static/montserrat-latin-700italic-6779372f04095051c62ed36bc1dcc142.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:800;src:local("Montserrat ExtraBold "),local("Montserrat-ExtraBold"),url(/static/montserrat-latin-800-db9a3e0ba7eaea32e5f55328ace6cf23.woff2) format("woff2"),url(/static/montserrat-latin-800-4e3c615967a2360f5db87d2f0fd2456f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:800;src:local("Montserrat ExtraBold italic"),local("Montserrat-ExtraBolditalic"),url(/static/montserrat-latin-800italic-bf45bfa14805969eda318973947bc42b.woff2) format("woff2"),url(/static/montserrat-latin-800italic-fe82abb0bcede51bf724254878e0c374.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:900;src:local("Montserrat Black "),local("Montserrat-Black"),url(/static/montserrat-latin-900-e66c7edc609e24bacbb705175669d814.woff2) format("woff2"),url(/static/montserrat-latin-900-8211f418baeb8ec880b80ba3c682f957.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:900;src:local("Montserrat Black italic"),local("Montserrat-Blackitalic"),url(/static/montserrat-latin-900italic-4454c775e48152c1a72510ceed3603e2.woff2) format("woff2"),url(/static/montserrat-latin-900italic-efcaa0f6a82ee0640b83a0916e6e8d68.woff) format("woff")}.search-input-wrapper{align-items:center;display:none;margin-top:3px;width:180px}@media(min-width:768px){.search-input-wrapper{display:flex}}.search-icon{color:var(--primary-text-color);margin-right:2px}.search-input{height:100%;width:100%}.search-input .MuiAutocomplete-inputRoot{padding-right:0!important}.search-input .MuiInputBase-input{color:var(--primary-text-color)!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;padding-bottom:2px!important}.search-input .MuiInput-underline:before{border-bottom-width:1px}.search-input .MuiInput-underline:after,.search-input .MuiInput-underline:before{border-bottom-color:var(--primary-text-color)}.page-header-wrapper{display:flex;height:60px;justify-content:center;width:100%}.page-header-wrapper .page-header{align-items:center;display:flex;justify-content:space-between;max-width:720px;width:100%}.page-header-wrapper .page-header .link{color:var(--primary-text-color);font-size:17px;font-weight:700}@media(min-width:768px){.page-header-wrapper .page-header .link{font-size:20px;font-weight:700}}.page-header-wrapper .page-header .trailing-section{align-items:center;display:flex}.page-header-wrapper .page-header .trailing-section .link{margin-right:10px}@media(min-width:768px){.page-header-wrapper .page-header .trailing-section .link{margin-right:20px}}.page-footer-wrapper{align-items:center;display:flex;height:62px;justify-content:center;margin-top:auto;width:100%}.page-footer-wrapper .page-footer{max-width:720px;text-align:center;width:100%}.page-footer-wrapper .page-footer .link{color:var(--primary-text-color);font-size:20px;font-weight:700;margin-right:20px}.page-footer-wrapper .page-footer a{color:#3a95ff}.dark-mode-button-wrapper{align-items:center;bottom:20px;display:flex;justify-content:center;position:fixed;right:20px}.dark-mode-button{-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);background-color:#363f47!important;border-radius:50px;box-shadow:0 5px 25px rgba(0,0,0,.12);cursor:pointer;height:50px;width:50px;z-index:3}.dark-mode-icon{color:#fff}a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{border:0;font-size:100%;font:inherit;margin:0;padding:0;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{outline:none;text-decoration:none}html{--background-color:#fff;--primary-text-color:#000;--secondary-text-color:#9e9e9e;--content-text-color:#37352f;--button-background-color:#f3f3f4;--button-text-color:#363f47;--tab-text-color:#6e6d7a;--tab-hover-text-color:#0d0c22;--tab-selected-background-color:rgba(13,12,34,.05);--bio-link-icon-color:rgba(0,0,0,.54);--about-link-icon-color:#a8a8a8;--chip-background-color:#f3f3f4;--link-text-color:#ffc106;--post-card-border-color:rgba(0,0,0,.12);--markdown-table-even-cell-background-color:#f6f8fa;--markdown-table-border-color:#dfe2e5;--markdown-blockquote-border-color:#dfe2e5;--markdown-border-color:#e1e4e8}html[data-theme=dark]{--background-color:#232326;--primary-text-color:#e6e6e6;--secondary-text-color:#768390;--content-text-color:#e6e6e6;--button-background-color:#444c56;--button-text-color:#363f47;--tab-text-color:#768390;--tab-hover-text-color:#acbac7;--tab-selected-background-color:#373e47;--chip-background-color:#323a42;--bio-link-icon-color:#e6e6e6;--about-link-icon-color:#a8a8a8;--link-text-color:#6a06ff;--post-card-border-color:#363f47;--markdown-table-even-cell-background-color:#2d333b;--markdown-table-border-color:#444c56;--markdown-blockquote-border-color:#4f5864;--markdown-border-color:#e1e4e8}*{-webkit-appearance:none;appearance:none;box-sizing:border-box}html{font-size:14px;height:100%;overflow-y:scroll;width:100%}body{background-color:var(--background-color)!important}a{color:var(--content-text-color)}.page-wrapper{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:var(--primary-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;justify-content:center;min-height:100vh;padding-left:15px;padding-right:15px;word-break:keep-all}.page-wrapper,.page-wrapper .page-content{align-items:center;display:flex;flex-direction:column;width:100%}.page-wrapper .page-content{max-width:720px}.icon{color:var(--about-link-icon-color);font-size:20px}.social-links .icon{color:var(--bio-link-icon-color);font-size:30px}@-webkit-keyframes blinking-cursor{0%{opacity:0}50%{opacity:1}to{opacity:0}}@keyframes blinking-cursor{0%{opacity:0}50%{opacity:1}to{opacity:0}}.bio{color:var(--primary-text-color);display:flex;flex-direction:column;justify-content:space-between;margin-bottom:120px;margin-top:120px;width:100%}@media(min-width:768px){.bio{align-items:center;flex-direction:row}}.bio .introduction{display:flex;flex-direction:column;word-break:keep-all}.bio .introduction .react-rotating-text-cursor{-webkit-animation:blinking-cursor .8s cubic-bezier(.68,.01,.01,.99) 0s infinite;animation:blinking-cursor .8s cubic-bezier(.68,.01,.01,.99) 0s infinite}.bio .introduction strong{display:inline-block;font-weight:600}.bio .introduction.korean{font-size:32px;font-weight:100;line-height:1.2}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:35px;line-height:35px}@media(min-width:768px){.bio .introduction.korean{font-size:40px}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:45px;line-height:45px}}.bio .introduction.english{font-family:montserrat;font-size:25px;line-height:1.2}@media(min-width:768px){.bio .introduction.english{font-size:45px}}.bio .introduction.english .name{font-size:35px;font-weight:600}.bio .introduction.english .job{font-size:35px}.bio .introduction.english .description{font-size:20px;font-weight:200;margin-top:8px}.bio .introduction.english .social-links{display:flex;margin-top:20px}.bio .thumbnail-wrapper{display:none}@media(min-width:768px){.bio .thumbnail-wrapper{display:block}}.section-header-wrapper{display:flex;justify-content:center;margin-bottom:32px;width:100%}.section-header-wrapper .section-header{border-bottom:4px solid var(--primary-text-color);color:var(--primary-text-color);font-size:30px;font-weight:700;padding-bottom:5px}.timestamp-section{align-items:center;display:flex;flex-direction:column;justify-content:center;margin-bottom:50px;width:100%;word-break:keep-all}.timestamp-section .body{padding:0 10px;width:100%}.timestamp-section .body .timestamp{border-left:2px solid #bdbdbd;display:flex;font-size:18px;font-weight:400;justify-items:center;margin-left:5px;padding:10px 0;width:100%}.timestamp-section .body .timestamp:first-child{padding-top:7px}.timestamp-section .body .timestamp:last-child{padding-bottom:7px}.timestamp-section .body .timestamp:before{align-self:center;background-color:var(--background-color);border:2px solid #828282;border-radius:10px;content:"";height:10px;left:-1px;position:relative;-webkit-transform:translatex(-50%);transform:translatex(-50%);width:10px}.timestamp-section .body .timestamp .date{align-self:center;color:#828282;margin-left:5px;margin-right:5px;min-width:115px;width:115px}@media(min-width:768px){.timestamp-section .body .timestamp .date{min-width:200px;width:200px}}.timestamp-section .body .timestamp .activity{line-height:23px;width:100%}.project-section{align-items:center;justify-content:center}.project-section,.project-section .project{display:flex;flex-direction:column;width:100%}.project-section .project{margin-bottom:30px;padding:15px}.project-section .project .head{font-size:20px;font-weight:700;line-height:30px;margin-bottom:10px}.project-section .project .body{display:flex;flex-direction:column;width:100%}.project-section .project .body .thumbnail{margin-bottom:10px;width:100%}.project-section .project .body .tech-stack{display:flex;margin-bottom:10px}.project-section .project .body .tech-stack .tech{background-color:var(--chip-background-color);border-radius:10px;font-size:15px;font-weight:500;margin-right:5px;padding:5px 7px}.project-section .project .body .description{font-size:16px;font-weight:400;line-height:1.4}@media(min-width:768px){.project-section .project .body{flex-direction:column}.project-section .project .body .content{margin-top:0}}.post-header{border-bottom:1px solid var(--post-card-border-color);display:flex;flex-direction:column;justify-content:center;margin-bottom:40px;margin-top:20px;padding-bottom:10px;width:100%;word-break:keep-all}.post-header .emoji{font-size:78px;margin-bottom:20px}.post-header .categories{margin-bottom:5px}.post-header .categories .category{color:var(--primary-text-color);font-weight:600;margin-right:4px}.post-header .categories .category:hover{text-decoration:underline}.post-header .title{color:var(--primary-text-color);font-size:32px;font-weight:600;line-height:1.3;margin-bottom:6px}.post-header .info{color:var(--secondary-text-color);display:flex;flex-wrap:wrap;font-size:16px;font-weight:500;line-height:1.5;width:100%}.post-header .info .author{margin-right:4px}.post-header .info strong{color:var(--primary-text-color);font-weight:600}.post-navigator{-webkit-column-gap:1.4%;column-gap:1.4%;display:grid;grid-template-columns:49.3% 49.3%;width:100%}.post-navigator .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;padding:15px;transition:-webkit-transform .2s;transition:transform .2s;transition:transform .2s,-webkit-transform .2s;width:100%}.post-navigator .post-card:hover .title{text-decoration:underline}.post-navigator .post-card.prev{margin-right:auto}.post-navigator .post-card.next{margin-left:auto}.post-navigator .post-card .direction{color:gray;font-size:14px;font-weight:500;margin-bottom:5px}.post-navigator .post-card .title{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:7px}.markdown .octicon{fill:currentColor;display:inline-block;vertical-align:text-bottom}.markdown .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.markdown .anchor:focus{outline:none}.markdown h1 .octicon-link,.markdown h2 .octicon-link,.markdown h3 .octicon-link,.markdown h4 .octicon-link,.markdown h5 .octicon-link,.markdown h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown h1:hover .anchor,.markdown h2:hover .anchor,.markdown h3:hover .anchor,.markdown h4:hover .anchor,.markdown h5:hover .anchor,.markdown h6:hover .anchor{text-decoration:none}.markdown h1:hover .anchor .octicon-link,.markdown h2:hover .anchor .octicon-link,.markdown h3:hover .anchor .octicon-link,.markdown h4:hover .anchor .octicon-link,.markdown h5:hover .anchor .octicon-link,.markdown h6:hover .anchor .octicon-link{visibility:visible}.markdown h1:hover .anchor .octicon-link:before,.markdown h2:hover .anchor .octicon-link:before,.markdown h3:hover .anchor .octicon-link:before,.markdown h4:hover .anchor .octicon-link:before,.markdown h5:hover .anchor .octicon-link:before,.markdown h6:hover .anchor .octicon-link:before{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' aria-hidden='true' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'/%3E%3C/svg%3E");content:" ";display:inline-block;height:16px;width:16px}.markdown{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word;color:var(--content-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;line-height:1.5}.markdown details{display:block}.markdown summary{display:list-item}.markdown a{background-color:initial}.markdown a:active,.markdown a:hover{background-color:var(--link-text-color);outline-width:0}.markdown strong{font-weight:inherit;font-weight:bolder}.markdown h1{margin:.67em 0}.markdown img{border-style:none}.markdown code,.markdown kbd,.markdown pre{font-family:monospace,monospace;font-size:10px}.markdown hr{box-sizing:initial;overflow:visible}.markdown input{font:inherit;margin:0;overflow:visible}.markdown [type=checkbox]{box-sizing:border-box;padding:0}.markdown *{box-sizing:border-box}.markdown input{font-family:inherit;font-size:inherit;line-height:inherit}.markdown a{border-bottom:.15em solid;border-color:var(--link-text-color);color:var(--content-text-color);text-decoration:none}.markdown a.anchor{border-bottom:none}.markdown strong{font-weight:700}.markdown hr{background:transparent;border-bottom:1px solid var(--markdown-blockquote-border-color);height:0;margin:15px 0;overflow:hidden}.markdown hr:after,.markdown hr:before{content:"";display:table}.markdown hr:after{clear:both}.markdown table{border-collapse:collapse;border-spacing:0}.markdown td,.markdown th{padding:0}.markdown details summary{cursor:pointer}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{margin-bottom:0;margin-top:0}.markdown h1{font-size:32px}.markdown h1,.markdown h2{font-weight:600}.markdown h2{font-size:24px}.markdown h3{font-size:20px}.markdown h3,.markdown h4{font-weight:600}.markdown h4{font-size:16px}.markdown h5{font-size:14px}.markdown h5,.markdown h6{font-weight:600}.markdown h6{font-size:12px}.markdown p{margin-bottom:10px;margin-top:0}.markdown blockquote{margin:0}.markdown ol,.markdown ul{margin-bottom:0;margin-top:0;padding-left:0}.markdown ol ol,.markdown ul ol{list-style-type:lower-roman}.markdown ol ol ol,.markdown ol ul ol,.markdown ul ol ol,.markdown ul ul ol{list-style-type:lower-alpha}.markdown dd{margin-left:0}.markdown code,.markdown pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px}.markdown code.language-text{border-radius:3px;font-size:85%;padding:.2em .4em}.markdown :not(pre)>code.language-text{background:hsla(44,6%,50%,.15);color:#eb5757;overflow-wrap:break-word}.markdown pre{margin-bottom:0;margin-top:0}.markdown input::-webkit-inner-spin-button,.markdown input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.markdown :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.markdown .border{border:1px solid var(--markdown-border-color)!important}.markdown .border-0{border:0!important}.markdown .border-bottom{border-bottom:1px solid var(--markdown-border-color)!important}.markdown .rounded-1{border-radius:3px!important}.markdown .bg-white{background-color:transparent!important}.markdown .bg-gray-light{background-color:#fafbfc!important}.markdown .text-gray-light{color:#6a737d!important}.markdown .pl-3,.markdown .px-3{padding-left:16px!important}.markdown .px-3{padding-right:16px!important}.markdown .f6{font-size:12px!important}.markdown .lh-condensed{line-height:1.25!important}.markdown .text-bold{font-weight:600!important}.markdown .pl-c{color:#6a737d}.markdown .pl-c1,.markdown .pl-s .pl-v{color:#005cc5}.markdown .pl-e,.markdown .pl-en{color:#6f42c1}.markdown .pl-s .pl-s1,.markdown .pl-smi{color:#24292e}.markdown .pl-ent{color:#22863a}.markdown .pl-k{color:#d73a49}.markdown .pl-pds,.markdown .pl-s,.markdown .pl-s .pl-pse .pl-s1,.markdown .pl-sr,.markdown .pl-sr .pl-cce,.markdown .pl-sr .pl-sra,.markdown .pl-sr .pl-sre{color:#032f62}.markdown .pl-smw,.markdown .pl-v{color:#e36209}.markdown .pl-bu{color:#b31d28}.markdown .pl-ii{background-color:#b31d28;color:#fafbfc}.markdown .pl-c2{background-color:#d73a49;color:#fafbfc}.markdown .pl-c2:before{content:"^M"}.markdown .pl-sr .pl-cce{color:#22863a;font-weight:700}.markdown .pl-ml{color:#735c0f}.markdown .pl-mh,.markdown .pl-mh .pl-en,.markdown .pl-ms{color:#005cc5;font-weight:700}.markdown .pl-mi{color:#24292e;font-style:italic}.markdown .pl-mb{color:#24292e;font-weight:700}.markdown .pl-md{background-color:#ffeef0;color:#b31d28}.markdown .pl-mi1{background-color:#f0fff4;color:#22863a}.markdown .pl-mc{background-color:#ffebda;color:#e36209}.markdown .pl-mi2{background-color:#005cc5;color:#f6f8fa}.markdown .pl-mdr{color:#6f42c1;font-weight:700}.markdown .pl-ba{color:#586069}.markdown .pl-sg{color:#959da5}.markdown .pl-corl{color:#032f62;text-decoration:underline}.markdown .mb-0{margin-bottom:0!important}.markdown .my-2{margin-bottom:8px!important;margin-top:8px!important}.markdown .pl-0{padding-left:0!important}.markdown .py-0{padding-bottom:0!important;padding-top:0!important}.markdown .pl-1{padding-left:4px!important}.markdown .pl-2{padding-left:8px!important}.markdown .py-2{padding-bottom:8px!important;padding-top:8px!important}.markdown .pl-3{padding-left:16px!important}.markdown .pl-4{padding-left:24px!important}.markdown .pl-5{padding-left:32px!important}.markdown .pl-6{padding-left:40px!important}.markdown .pl-7{padding-left:48px!important}.markdown .pl-8{padding-left:64px!important}.markdown .pl-9{padding-left:80px!important}.markdown .pl-10{padding-left:96px!important}.markdown .pl-11{padding-left:112px!important}.markdown .pl-12{padding-left:128px!important}.markdown hr{border-bottom-color:#eee}.markdown kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da;color:#444d56;display:inline-block;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown:after,.markdown:before{content:"";display:table}.markdown:after{clear:both}.markdown>:first-child{margin-top:0!important}.markdown>:last-child{margin-bottom:0!important}.markdown a:not([href]){color:inherit;text-decoration:none}.markdown blockquote,.markdown details,.markdown dl,.markdown ol,.markdown p,.markdown pre,.markdown table,.markdown ul{margin-bottom:16px;margin-top:0}.markdown hr{background-color:var(--markdown-border-color);border:0;height:.25em;margin:24px 0;padding:0}.markdown blockquote{border-left:.25em solid var(--markdown-blockquote-border-color);color:#6a737d;padding:0 1em}.markdown blockquote>:first-child{margin-top:0}.markdown blockquote>:last-child{margin-bottom:0}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.markdown h1{font-size:2em}.markdown h2{font-size:1.5em}.markdown h3{font-size:1.25em}.markdown h4{font-size:1em}.markdown h5{font-size:.875em}.markdown h6{color:#6a737d;font-size:.85em}.markdown ol,.markdown ul{padding-left:2em}.markdown ol ol,.markdown ol ul,.markdown ul ol,.markdown ul ul{margin-bottom:0;margin-top:0}.markdown ol{list-style-type:decimal}.markdown ul{list-style-type:disc}.markdown li{word-wrap:break-all;display:list-item;text-align:-webkit-match-parent}.markdown li>p{margin-top:16px}.markdown li+li{margin-top:.25em}.markdown dl{padding:0}.markdown dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.markdown dl dd{margin-bottom:16px;padding:0 16px}.markdown table{display:block;overflow:auto;width:100%}.markdown table th{font-weight:600}.markdown table td,.markdown table th{border:1px solid var(--markdown-table-border-color);padding:6px 13px}.markdown table tr{border-top:1px solid var(--markdown-table-border-color)}.markdown table tr:nth-child(2n){background-color:var(--markdown-table-even-cell-background-color)}.markdown img{background-color:transparent;box-sizing:initial;display:block;margin:0 auto;max-width:100%}.markdown img[align=right]{padding-left:20px}.markdown img[align=left]{padding-right:20px}.markdown code{background-color:rgba(27,31,35,.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.markdown pre{word-wrap:normal}.markdown pre>code{background:transparent;border:0;font-size:85%;margin:0;padding:0;white-space:pre;word-break:normal}.markdown .highlight{margin-bottom:16px}.markdown .highlight pre{margin-bottom:0;word-break:normal}.markdown .highlight pre,.markdown pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.markdown pre code{word-wrap:normal;background-color:initial;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0}.markdown .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:90%}.markdown .full-commit .btn-outline:not(:disabled):hover{border-color:#005cc5;color:#005cc5}.markdown .blob-wrapper{overflow-x:auto;overflow-y:hidden}.markdown .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.markdown .blob-num{color:rgba(27,31,35,.3);cursor:pointer;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;-webkit-user-select:none;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.markdown .blob-num:hover{color:rgba(27,31,35,.6)}.markdown .blob-num:before{content:attr(data-line-number)}.markdown .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.markdown .blob-code-inner{word-wrap:normal;color:#24292e;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;overflow:visible;white-space:pre}.markdown .pl-token.active,.markdown .pl-token:hover{background:#ffea7f;cursor:pointer}.markdown .tab-size[data-tab-size="1"]{-o-tab-size:1;tab-size:1}.markdown .tab-size[data-tab-size="2"]{-o-tab-size:2;tab-size:2}.markdown .tab-size[data-tab-size="3"]{-o-tab-size:3;tab-size:3}.markdown .tab-size[data-tab-size="4"]{-o-tab-size:4;tab-size:4}.markdown .tab-size[data-tab-size="5"]{-o-tab-size:5;tab-size:5}.markdown .tab-size[data-tab-size="6"]{-o-tab-size:6;tab-size:6}.markdown .tab-size[data-tab-size="7"]{-o-tab-size:7;tab-size:7}.markdown .tab-size[data-tab-size="8"]{-o-tab-size:8;tab-size:8}.markdown .tab-size[data-tab-size="9"]{-o-tab-size:9;tab-size:9}.markdown .tab-size[data-tab-size="10"]{-o-tab-size:10;tab-size:10}.markdown .tab-size[data-tab-size="11"]{-o-tab-size:11;tab-size:11}.markdown .tab-size[data-tab-size="12"]{-o-tab-size:12;tab-size:12}.markdown .task-list-item{list-style-type:none}.markdown .task-list-item+.task-list-item{margin-top:3px}.markdown .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown .table-of-contents{align-items:flex-start;display:flex;flex-direction:column;justify-content:center;position:fixed;right:0;top:75px;width:340px}@media(max-width:1300px){.markdown .table-of-contents{display:none}}.markdown .table-of-contents ul{cursor:pointer;list-style-type:none}.markdown .table-of-contents ul li a{border-bottom:none;color:var(--secondary-text-color);font-size:14px;height:30px;padding:6px 2px;width:100%}.markdown .table-of-contents ul p{margin:0}.markdown .gatsby-resp-image-wrapper{display:flex!important;justify-content:center!important;max-height:560px!important;width:100%!important}.markdown .gatsby-resp-image-wrapper img{height:auto!important;max-height:560px!important;max-width:100%!important;position:relative!important;width:auto!important}.markdown .gatsby-resp-image-wrapper+em{color:#6a737d;display:block;font-size:15px;font-style:italic;text-align:center}code[class*=language-],pre[class*=language-]{word-wrap:normal;background:none;color:#ccc;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;hyphens:none;line-height:1.5;-o-tab-size:4;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}.post-content{margin-bottom:20px;width:100%}.category-page-header-wrapper,.post-content{display:flex;flex-direction:column;justify-content:center}.category-page-header-wrapper{align-items:center;margin-bottom:30px;margin-top:30px}.category-page-header-wrapper .category-page-title{border-bottom:3px solid var(--primary-text-color);font-size:40px;font-weight:700;margin-bottom:15px;padding-bottom:7px;text-align:center;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}.category-page-header-wrapper .category-page-subtitle{font-size:20px;font-weight:500;padding-bottom:10px;text-align:center}.post-card-wrapper{display:flex;justify-content:center;min-height:150px;width:100%}.post-card-wrapper .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;height:100%;margin-bottom:15px;max-width:720px;padding:15px;transition:-webkit-transform .2s;transition:transform .2s;transition:transform .2s,-webkit-transform .2s;width:100%}.post-card-wrapper .post-card:hover .title{text-decoration:underline}@media(min-width:768px){.post-card-wrapper .post-card{margin-bottom:0}}.post-card-wrapper .post-card .title{font-size:18px;font-weight:600;line-height:1.4;margin-bottom:7px}.post-card-wrapper .post-card .description{-webkit-line-clamp:3;-webkit-box-orient:vertical;color:var(--primary-text-color);display:-webkit-box;font-size:13px;line-height:20px;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis}.post-card-wrapper .post-card .info{color:var(--about-link-icon-color);display:flex;font-size:14px;justify-content:space-between;margin-top:auto}.post-card-wrapper .post-card .info .categories{display:flex}.post-card-wrapper .post-card .info .categories .category{margin-left:4px}.post-card-wrapper .post-card .info .categories .category:hover{text-decoration:underline}.post-card-column-wrapper{display:flex;justify-content:center;width:100%}.post-card-column-wrapper .post-card-column{align-items:center;display:flex;flex-direction:column;width:100%}.post-card-column-wrapper .post-card-column .post-card-wrapper{margin-bottom:10px}.post-card-column-wrapper .post-card-column .more-post-card-button{background-color:var(--button-background-color);color:var(--tab-hover-text-color);font-size:15px;font-weight:500;height:40px}.post-tabs-wrapper{align-self:flex-start;display:flex;flex-direction:column;justify-content:center;top:0;width:100%}.post-tabs-wrapper .post-tabs{display:flex;height:40px;justify-content:center;margin-bottom:12px;max-width:760px;width:100%}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root{color:var(--tab-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:17px;font-weight:500;height:40px;min-height:auto;min-width:auto;padding:10px 12px;transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected,.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root :hover{color:var(--tab-hover-text-color);transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected{background-color:var(--tab-selected-background-color);border-radius:8px;font-weight:600}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabScrollButton-root{height:40px;width:20px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-scrollable{height:40px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-indicator{display:none}</style><style data-emotion="css-global o6gwfi">html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;}*,*::before,*::after{box-sizing:inherit;}strong,b{font-weight:700;}body{margin:0;color:rgba(0, 0, 0, 0.87);font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;background-color:#fff;}@media print{body{background-color:#fff;}}body::backdrop{background-color:#fff;}</style><style data-emotion="css-global 1prfaxn">@-webkit-keyframes mui-auto-fill{from{display:block;}}@keyframes mui-auto-fill{from{display:block;}}@-webkit-keyframes mui-auto-fill-cancel{from{display:block;}}@keyframes mui-auto-fill-cancel{from{display:block;}}</style><style data-emotion="css 1l6di18 feqhe6 11tfndm mnn31 vubbuv 1yxmbwk 6flbmm">.css-1l6di18.Mui-focused .MuiAutocomplete-clearIndicator{visibility:visible;}@media (pointer: fine){.css-1l6di18:hover .MuiAutocomplete-clearIndicator{visibility:visible;}}.css-1l6di18 .MuiAutocomplete-tag{margin:3px;max-width:calc(100% - 6px);}.css-1l6di18 .MuiAutocomplete-inputRoot{-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}.MuiAutocomplete-hasPopupIcon.css-1l6di18 .MuiAutocomplete-inputRoot,.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiAutocomplete-inputRoot{padding-right:30px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiAutocomplete-inputRoot{padding-right:56px;}.css-1l6di18 .MuiAutocomplete-inputRoot .MuiAutocomplete-input{width:0;min-width:30px;}.css-1l6di18 .MuiInput-root{padding-bottom:1px;}.css-1l6di18 .MuiInput-root .MuiInput-input{padding:4px 4px 4px 0px;}.css-1l6di18 .MuiInput-root.MuiInputBase-sizeSmall .MuiInput-input{padding:2px 4px 3px 0;}.css-1l6di18 .MuiOutlinedInput-root{padding:9px;}.MuiAutocomplete-hasPopupIcon.css-1l6di18 .MuiOutlinedInput-root,.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiOutlinedInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiOutlinedInput-root{padding-right:65px;}.css-1l6di18 .MuiOutlinedInput-root .MuiAutocomplete-input{padding:7.5px 4px 7.5px 6px;}.css-1l6di18 .MuiOutlinedInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1l6di18 .MuiOutlinedInput-root.MuiInputBase-sizeSmall{padding:6px;}.css-1l6di18 .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input{padding:2.5px 4px 2.5px 6px;}.css-1l6di18 .MuiFilledInput-root{padding-top:19px;padding-left:8px;}.MuiAutocomplete-hasPopupIcon.css-1l6di18 .MuiFilledInput-root,.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiFilledInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1l6di18 .MuiFilledInput-root{padding-right:65px;}.css-1l6di18 .MuiFilledInput-root .MuiFilledInput-input{padding:7px 4px;}.css-1l6di18 .MuiFilledInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1l6di18 .MuiFilledInput-root.MuiInputBase-sizeSmall{padding-bottom:1px;}.css-1l6di18 .MuiFilledInput-root.MuiInputBase-sizeSmall .MuiFilledInput-input{padding:2.5px 4px;}.css-1l6di18 .MuiInputBase-hiddenLabel{padding-top:8px;}.css-1l6di18 .MuiAutocomplete-input{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;text-overflow:ellipsis;opacity:1;}.css-feqhe6{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;position:relative;min-width:0;padding:0;margin:0;border:0;vertical-align:top;width:100%;}.css-11tfndm{font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.4375em;letter-spacing:0.00938em;color:rgba(0, 0, 0, 0.87);box-sizing:border-box;position:relative;cursor:text;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:100%;position:relative;}.css-11tfndm.Mui-disabled{color:rgba(0, 0, 0, 0.38);cursor:default;}label+.css-11tfndm{margin-top:16px;}.css-11tfndm:after{border-bottom:2px solid #1976d2;left:0;bottom:0;content:"";position:absolute;right:0;-webkit-transform:scaleX(0);-moz-transform:scaleX(0);-ms-transform:scaleX(0);transform:scaleX(0);-webkit-transition:-webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;transition:transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;pointer-events:none;}.css-11tfndm.Mui-focused:after{-webkit-transform:scaleX(1);-moz-transform:scaleX(1);-ms-transform:scaleX(1);transform:scaleX(1);}.css-11tfndm.Mui-error:after{border-bottom-color:#d32f2f;-webkit-transform:scaleX(1);-moz-transform:scaleX(1);-ms-transform:scaleX(1);transform:scaleX(1);}.css-11tfndm:before{border-bottom:1px solid rgba(0, 0, 0, 0.42);left:0;bottom:0;content:"\00a0";position:absolute;right:0;-webkit-transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;pointer-events:none;}.css-11tfndm:hover:not(.Mui-disabled):before{border-bottom:2px solid rgba(0, 0, 0, 0.87);}@media (hover: none){.css-11tfndm:hover:not(.Mui-disabled):before{border-bottom:1px solid rgba(0, 0, 0, 0.42);}}.css-11tfndm.Mui-disabled:before{border-bottom-style:dotted;}.css-mnn31{font:inherit;letter-spacing:inherit;color:currentColor;padding:4px 0 5px;border:0;box-sizing:content-box;background:none;height:1.4375em;margin:0;-webkit-tap-highlight-color:transparent;display:block;min-width:0;width:100%;-webkit-animation-name:mui-auto-fill-cancel;animation-name:mui-auto-fill-cancel;-webkit-animation-duration:10ms;animation-duration:10ms;}.css-mnn31::-webkit-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-moz-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:focus{outline:0;}.css-mnn31:invalid{box-shadow:none;}.css-mnn31::-webkit-search-decoration{-webkit-appearance:none;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-webkit-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-moz-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-webkit-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-moz-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus:-ms-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-ms-input-placeholder{opacity:0.42;}.css-mnn31.Mui-disabled{opacity:1;-webkit-text-fill-color:rgba(0, 0, 0, 0.38);}.css-mnn31:-webkit-autofill{-webkit-animation-duration:5000s;animation-duration:5000s;-webkit-animation-name:mui-auto-fill;animation-name:mui-auto-fill;}.css-vubbuv{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}.css-1yxmbwk{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-1yxmbwk::-moz-focus-inner{border-style:none;}.css-1yxmbwk.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1yxmbwk{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1yxmbwk:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1yxmbwk:hover{background-color:transparent;}}.css-1yxmbwk.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-6flbmm{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:2.1875rem;}</style><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><script>
+  
+  function gaOptout(){document.cookie=disableStr+'=true; expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/',window[disableStr]=!0}var gaProperty='0',disableStr='ga-disable-'+gaProperty;document.cookie.indexOf(disableStr+'=true')>-1&&(window[disableStr]=!0);
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', '0', 'auto', {});
+      ga('set', 'anonymizeIp', true);
+      
+      
+      
+      
+      }</script><link rel="icon" href="/favicon-32x32.png?v=ac282ee8b425d7125928e69153395c36" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="alternate" type="application/rss+xml" title="어제보다 오늘 더" href="/feed.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2"/><style>@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc-.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxM.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc-.woff) format("woff")}</style><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-react-helmet="true">줍줍 MySQL 인덱스 탐험</title></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="page-wrapper"><header class="page-header-wrapper"><div class="page-header"><div class="front-section"><a class="link" href="/">어제보다 오늘 더 </a></div><div class="trailing-section"><a class="link" href="/about">about</a><a class="link" href="/posts">posts</a><div class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1l6di18" role="combobox" aria-expanded="false"><div class="search-input-wrapper"><div class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root search-input css-feqhe6"><div class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-11tfndm"><input type="text" aria-invalid="false" autoComplete="off" value="" class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-mnn31" aria-autocomplete="list" autoCapitalize="none" spellcheck="false"/><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium search-icon css-vubbuv" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="SearchOutlinedIcon"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div></div></div></div></div></div></header><main class="page-content"><header class="post-header"><div class="emoji"><div data-gatsby-image-wrapper="" class="gatsby-image-wrapper gatsby-image-wrapper-constrained thumbnail"><div style="max-width:1952px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg height=&#x27;488&#x27; width=&#x27;1952&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27; version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#483828;position:absolute;top:0;left:0;bottom:0;right:0"></div><picture><source type="image/webp" data-srcset="/static/771bb70cbabf702b2e7c115eb432947f/bfb5f/db_index.webp 488w,/static/771bb70cbabf702b2e7c115eb432947f/ec3f3/db_index.webp 976w,/static/771bb70cbabf702b2e7c115eb432947f/f98a3/db_index.webp 1952w" sizes="(min-width: 1952px) 1952px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 1952px) 1952px, 100vw" decoding="async" loading="lazy" data-src="/static/771bb70cbabf702b2e7c115eb432947f/0ce33/db_index.png" data-srcset="/static/771bb70cbabf702b2e7c115eb432947f/60203/db_index.png 488w,/static/771bb70cbabf702b2e7c115eb432947f/2ea32/db_index.png 976w,/static/771bb70cbabf702b2e7c115eb432947f/0ce33/db_index.png 1952w" alt="hi"/></picture><noscript><picture><source type="image/webp" srcSet="/static/771bb70cbabf702b2e7c115eb432947f/bfb5f/db_index.webp 488w,/static/771bb70cbabf702b2e7c115eb432947f/ec3f3/db_index.webp 976w,/static/771bb70cbabf702b2e7c115eb432947f/f98a3/db_index.webp 1952w" sizes="(min-width: 1952px) 1952px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 1952px) 1952px, 100vw" decoding="async" loading="lazy" src="/static/771bb70cbabf702b2e7c115eb432947f/0ce33/db_index.png" srcSet="/static/771bb70cbabf702b2e7c115eb432947f/60203/db_index.png 488w,/static/771bb70cbabf702b2e7c115eb432947f/2ea32/db_index.png 976w,/static/771bb70cbabf702b2e7c115eb432947f/0ce33/db_index.png 1952w" alt="hi"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div></div><div class="info"><div class="categories"><a class="category" href="/posts/etc">etc</a><a class="category" href="/posts/우아한테크코스">우아한테크코스</a><a class="category" href="/posts/트러블슈팅">트러블슈팅</a></div></div><h1 class="title">줍줍 MySQL 인덱스 탐험</h1><div class="info"><div class="author">posted by <strong>써머</strong>,</div> <!-- -->October 04, 2022</div></header><div class="post-content"><div class="markdown"><h2 id="-줍줍-mysql-인덱스-탐험" style="position:relative;"><a href="#-%EC%A4%8D%EC%A4%8D-mysql-%EC%9D%B8%EB%8D%B1%EC%8A%A4-%ED%83%90%ED%97%98" aria-label=" 줍줍 mysql 인덱스 탐험 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🧳 줍줍 MySQL 인덱스 탐험</h2>
+<p>❗️ 해당 포스팅에서 지칭하는 <strong>책</strong>은 모두 <a href="https://search.shopping.naver.com/book/catalog/32443973624?cat_id=50010586&#x26;frm=PBOKPRO&#x26;query=realmysql&#x26;NaPm=ct%3Dl8u5bsc0%7Cci%3D283e817c3ef615da4bb3c94f9385d94070cbbc93%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D702ada6411525c62218b0df3e900c84c33c4cdd2">Real MySQL 8.0 1권</a>을 뜻합니다.</p>
+<p>우테코 팀 프로젝트 5차 스프린트에서 성능 테스트로 톰캣 설정 최적화 / 모든 쿼리 수집 후 DB 인덱스 설정 이라는 두 개의 백엔드 과제가 있었다.
+나는 이 중 <strong>DB 인덱스 설정</strong>을 맡게 되었다.
+줍줍의 전체 테이블 구조는 정석 ERD보다 간략하게 표현하자면 이렇다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB9ElEQVQozz2S23KbQBBE9QPiDiuW5bJACVlIJjJGFyzZqSR+cN78/x9zUrty/DBQw7Dd0729CIIAU47rsnQcPM+zvR8EuK5n+/Fw4DhNRFGE5/l2Zv/xfRzHwXXd735hHubDQ9cxX84opSx4FHrsu4KyrGhrzfXlhTwvSGOPJApZLh2klMzzzG63+15kIVOByiSFUoxPT7RtQxQKZByy60p+/f5D0zTcbldeX39SyJgsdml0bgG3260F/L/lQknBcXomEYJhGLjMZ5TUFCtDkjAdT+iq4vl5ZN1tyIRPXcUcxoHr9cZms2EcR9I0vQPGUWSZTBPHMUIkxNGKMpWkiYcfhF8+OTiuhxQBstUUTcvhcKCqKvq+tyqM7IUxPs9zu7oZdN2aXFUUaYqI7iB9v2W/31tw42FWKUsSBD5lWdqFviWnqwSlMrTWnM9n6+FK5OQric4TC7J92DBNE2EYkeUrsnWL47iEYWjPGLI7gQUUzPOF9XptD9V1jc5K+kozDz3zy9XKMR6mqUTlEv1QM/Qtdd1YyUadATe18P2AYfhhzTXSDKCIA5LQYdMWfH5+cjqdeH9/t2Uik8iEp/ORvx8fPD4+crvdyLLsvqEN9Vc4TRljDcnScdG6ssabG7xcLry9vdk0mJwa+UIIe5Fmbt4m2P8Av94QAZ/CxekAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="erd"
+        title="erd"
+        src="/static/04f240438cca4d0a360f7e62c155feaa/37523/jupjup_tables.png"
+        srcset="/static/04f240438cca4d0a360f7e62c155feaa/e9ff0/jupjup_tables.png 180w,
+/static/04f240438cca4d0a360f7e62c155feaa/f21e7/jupjup_tables.png 360w,
+/static/04f240438cca4d0a360f7e62c155feaa/37523/jupjup_tables.png 720w,
+/static/04f240438cca4d0a360f7e62c155feaa/302a4/jupjup_tables.png 1080w,
+/static/04f240438cca4d0a360f7e62c155feaa/07a9c/jupjup_tables.png 1440w,
+/static/04f240438cca4d0a360f7e62c155feaa/95e59/jupjup_tables.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>쿼리 수집은 쉬웠다.
+줍줍의 모든 <code class="language-text">Repository</code> 클래스들은 <code class="language-text">Repository&lt;Domain, ID></code>를 상속했다.
+<code class="language-text">JpaRepository</code>는 선언하지 않은 메서드도 사용 가능한 반면, <code class="language-text">Repository</code>를 상속하면 선언한 메서드만 사용 가능하다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpUlEQVQoz32S2Y7aQBBF+ZpkcC/esCcoGBizGe8bmCUj5f9/4kRu0Ix4ycPRvV1S3ypV98RVPxFvP5DWG1paKKVRWj9UCrSYopRCa42U0nj1VCkshPXKZHUoWO0Lfsd7vCDEmwV4QYAfhPjh+4Pg/fscfNdm4StjfTJfbtjGMfkxoTqs2K3n+GGAbTsPnP9gO2jbNozecT0mSgksYeEqF9f28GyfJMnYJ0eWqzXRckW0Wj/8k0d9zUe8YbPdEW+2rD9i02Qy7sLTUxwtULZm5vtcz3+4fv6l7QeKuqOoW9KiJiubF8qmoztfOF/uxjuuy0Qqxcy2iHyLefiLONoytFdO1ztt11O3PWXdUNYtSZqx2R3Y7RO2+4R9klJUNW13Is0LHGcMlJKpEEynFkIqlosFt9Od4f5JfzrT9icT1vVniqox5GXNMSs4HDN2hyNNdyIvq2egUgglzJOP3yVaRFy6mwkcLjeatqduOuq2M8FV05IVlZnsoY0JHBuYHUolzaMIM+UUR2mG9kI3XE3YOE2Wl+ZCkuZfmualaWCoGnZJitI2/wC8hzdG9GmzpQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="JpaRepository"
+        title="JpaRepository"
+        src="/static/610e8798201278004b7fd531bea1d86f/37523/jpa_repository.png"
+        srcset="/static/610e8798201278004b7fd531bea1d86f/e9ff0/jpa_repository.png 180w,
+/static/610e8798201278004b7fd531bea1d86f/f21e7/jpa_repository.png 360w,
+/static/610e8798201278004b7fd531bea1d86f/37523/jpa_repository.png 720w,
+/static/610e8798201278004b7fd531bea1d86f/302a4/jpa_repository.png 1080w,
+/static/610e8798201278004b7fd531bea1d86f/07a9c/jpa_repository.png 1440w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  JpaRepository를 상속했을 때
+</div>
+<br>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABiElEQVQoz32S247aMBRF8zUVkKsdOwnkSiiXMAQCYRhGpdNW6v//wqoSYAoP7cPS2Tq29tk+siFchyTNSdOEoixJJpp65rMqNXk2ZhxIpK/QgcZxbGz7jsVoNMI0zScM23HIsoJZEVHNE9K84OssZz7tzDx0GCGkRAgP0xz1Jv/DcGybsXIp0pB0IplmEWms8ZVGCInWGs+x+ul/0/0bY5LEBHFGMElwpUIr0eOJG15X5TWllL32HqqQz2dGuW5ZbvYsXmrKIiZJIoQOkErj6+AT+aAfe929O34QYjiOgxIWZZGymudMi5isyAnDCCklvu/fUA/6hlIEQYDSul+N67oY3buHlslgaPJlMMS2bF7bd96//2CzbVis1j3zZfWp76zWG7bNgX372tduPb1h5A1IlUkUhuRxzre3Dy6/fnP5+MnxdGa3b6mbA9umZV3veqrNjt3hyOF4oj2daQ7H6w4ty8KyTKQ9RHiCWbHgcnyjPV96k+qlfmK53rCsrnQJV7d+l7D7FX8A4/ctw+64JMEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="Repository"
+        title="Repository"
+        src="/static/07fa46015009235d0a4b55a84bc7d699/37523/repository.png"
+        srcset="/static/07fa46015009235d0a4b55a84bc7d699/e9ff0/repository.png 180w,
+/static/07fa46015009235d0a4b55a84bc7d699/f21e7/repository.png 360w,
+/static/07fa46015009235d0a4b55a84bc7d699/37523/repository.png 720w,
+/static/07fa46015009235d0a4b55a84bc7d699/302a4/repository.png 1080w,
+/static/07fa46015009235d0a4b55a84bc7d699/07a9c/repository.png 1440w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  Repository를 상속했을 때
+</div>
+<br>
+<p>뒤집어 말하면 <code class="language-text">QueryDsl</code>사용을 제외하면, <code class="language-text">Repository</code> 코드의 모든 메서드가 곧 프로젝트에 사용 중인 모든 쿼리였다.</p>
+<br>
+<h2 id="쿼리-최적화-by봄" style="position:relative;"><a href="#%EC%BF%BC%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94-by%EB%B4%84" aria-label="쿼리 최적화 by봄 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>쿼리 최적화 by.봄🌱</h2>
+<p>인덱스 최적화를 시작하기 전에 고맙게도 같은 팀 크루인 봄이 <a href="https://github.com/woowacourse-teams/2022-pickpick/pull/531">불필요햔 left outer join을 제거하는 쿼리 최적화</a>를 해주었다!
+<code class="language-text">Repository</code>에서 <code class="language-text">B</code>의 PK를 FK로 가진 <code class="language-text">A</code>가 해당 FK를 조건으로 조회할 때, <code class="language-text">findByBId</code>로 하면 불필요한 <code class="language-text">left outer join</code>이 발생하고 있었다.
+이를 이미 <code class="language-text">B</code>를 조회한 곳에서는 <code class="language-text">findByB</code>를 사용하도록 바꾸고, <code class="language-text">B</code>를 조회하지 않는 곳에서는 <code class="language-text">@Query</code>로 직접 쿼리문을 작성해 개선해주었다.
+고마워요 최고 봄!</p>
+<div class="gatsby-highlight" data-language="java"><pre class="language-java"><code class="language-java"><span class="token comment">// 멤버의 채널 구독을 화면 순서대로 가져오는 메서드</span>
+<span class="token comment">// Before</span>
+<span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ChannelSubscription</span><span class="token punctuation">></span></span> <span class="token function">findFirstByMemberIdOrderByViewOrderDesc</span><span class="token punctuation">(</span><span class="token class-name">Long</span> memberId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// After</span>
+<span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ChannelSubscription</span><span class="token punctuation">></span></span> <span class="token function">findFirstByMemberOrderByViewOrderDesc</span><span class="token punctuation">(</span><span class="token class-name">Member</span> member<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 멤버와 메시지로 일치하는 북마크를 찾는 메서드</span>
+<span class="token comment">// Before</span>
+<span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Bookmark</span><span class="token punctuation">></span></span> <span class="token function">findByMessageIdAndMemberId</span><span class="token punctuation">(</span><span class="token class-name">Long</span> messageId<span class="token punctuation">,</span> <span class="token class-name">Long</span> memberId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// After</span>
+<span class="token annotation punctuation">@Query</span><span class="token punctuation">(</span><span class="token string">"select b from Bookmark b WHERE b.message.id = :messageId and b.member.id = :memberId"</span><span class="token punctuation">)</span>
+<span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Bookmark</span><span class="token punctuation">></span></span> <span class="token function">findByMessageIdAndMemberId</span><span class="token punctuation">(</span><span class="token class-name">Long</span> messageId<span class="token punctuation">,</span> <span class="token class-name">Long</span> memberId<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<br>
+<h2 id="-실험-환경" style="position:relative;"><a href="#-%EC%8B%A4%ED%97%98-%ED%99%98%EA%B2%BD" aria-label=" 실험 환경 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🧪 실험 환경</h2>
+<p>모든 테스트는 로컬 <code class="language-text">docker</code>에 <code class="language-text">mysql</code>을 띄워, 프로젝트와 동일하게 DB를 설정해 진행했다.<br>
+그리고 <code class="language-text">프로시저</code>로 10만건의 <code class="language-text">Member</code> 더미데이터를 넣으려고 했는데…
+느려도 <strong>너무</strong> 느렸다.
+찾아보니 유니크한 <code class="language-text">slackId</code>를 부여하기 위해 <code class="language-text">UUID</code> 값 생성 후 적당히 잘라서 쓰고 있었는데, 여기가 문제였다.
+그래서 <code class="language-text">JdbcTemplate</code>의 <code class="language-text">batchUpdate</code>로 데이터를 넣도록 간단한 코드를 짰다.
+10만건 삽입에 프로시저는 <strong>4분</strong> 전후, 자바 코드로는 16초가 걸렸다…
+<code class="language-text">JdbcTemplate</code>으로 하는 게 훨씬 빠르다고 알려준 매트에게 고맙다.😭</p>
+<br>  
+<h2 id="️-mysql의-자동-생성-인덱스" style="position:relative;"><a href="#%EF%B8%8F-mysql%EC%9D%98-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1-%EC%9D%B8%EB%8D%B1%EC%8A%A4" aria-label="️ mysql의 자동 생성 인덱스 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>⚙️ MySQL의 자동 생성 인덱스</h2>
+<p>사실 내가 모르는 새에 우리 DB에는 필요한 대부분의 인덱스가 설정되어 있었다.
+컬럼이 1.유니크하면서 2.null을 허용하지 않을 때, MySQL에서 자동으로 해당 컬럼으로 인덱스를 만들기 때문이다.
+마침 프로젝트에서 슬랙 정보를 이용하는 <code class="language-text">member, channel, message</code> 테이블에는 해당 조건을 충족하는 <code class="language-text">slack_id</code> 컬럼이 있었다.
+아래 그림에서 하이라이트 된 컬럼은 모두 자동 인덱스가 이미 설정 된 컬럼이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACnElEQVQozyWSzWscZQDGB2qx6e687zvvfM/u7OxmM5NM9qu7TbLZtHHTlMQmbtLQptVYba1EYiqCYrRa6KFV8ANPASmix/4lIoo3BS/FqyBePHn/SdbDc3g+Dg8Pj6G1RmsbKRVCSCxljfmJLqSgIE7R6tTpns+R+nmELIw9+yRj2UihUMrC1s5YNyzLwhRnybIai4tzRCUPU5rYusD8bJdR55jd3ne8eeV7Ru0nNErL2E6RglnADQQLgw4zjUkK4jksrTBKUUivfp2lbJ+NwT2GrbdJw1V8p0gv73B3+5i1zgP21j/j9uYxzaSP75xmfvol1vLP2el/zc7gCxbjT/CdCkYclbmx8piV9BHXLnzJ7RefsFC/SzlwqZRdunNNSonNuV5OLSsTeYKkItge3ufhzWccDH/ig9Gv3Dn/M5GbYbiOS7U8S9ltEvuzJFGDkpdTCQMiz8K2A5S0UVKjlEvJdwinqlRqM3TbC9SrszTzOaanzmFZGkNKSVBS1GcC0jymlnqEkUcSRnhOkQnzFFkekzcnKarT+E6BcjXGNAtIq0hcCfFDB1NMoLWFEQYB7ckr9GdusfnCWwyae6Tl4bhJltRplV5lrfcuW8vv0YlvkVa7hGmCkh6Bm3BxaZVuu49W3vgdRhzV+Ojqb3x46R8ebP3J0fBfbrSeMlURbMzt8PD6X7xz8Q+ONp9xb/5vBtP7RJngav9jDpZ+542FHzlc+YVXGj8QuSmG1g793mV6zVXm22u0s1WqQYZrn6WZ5uy//Jjt4fvsje7z2tYjEr+BHUouLb/O4e63XLvwFXc2vuFy/imeHWNY+v8fnmwwhjyDtARFYZJONlgfHNCt3WS0csju+hFJ1MIURbQtsT0TZU/g+ALlnMGyFP8BViM3exuWJ9oAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="indexes"
+        title="indexes"
+        src="/static/d2fabf195ae1c7d0be2a4c9faeca315e/37523/db_indexes.png"
+        srcset="/static/d2fabf195ae1c7d0be2a4c9faeca315e/e9ff0/db_indexes.png 180w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/f21e7/db_indexes.png 360w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/37523/db_indexes.png 720w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/302a4/db_indexes.png 1080w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/07a9c/db_indexes.png 1440w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/95e59/db_indexes.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>그래도 궁금하니 한번 자동 생성된 인덱스를 삭제하고 <code class="language-text">explain analyze</code> 쿼리를 통해 실행 시간을 재어 보았다.
+<code class="language-text">member</code>에 10만개의 데이터를 넣고 99,998번째 row의 <code class="language-text">slack_id</code>로 검색했다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">explain</span> <span class="token keyword">analyze</span>
+<span class="token keyword">select</span> id<span class="token punctuation">,</span> first_login<span class="token punctuation">,</span> slack_id<span class="token punctuation">,</span> thumbnail_url<span class="token punctuation">,</span> username
+<span class="token keyword">from</span> member
+<span class="token keyword">where</span> slack_id <span class="token operator">=</span> :slackId<span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAW0lEQVQI11WLSw6AIAxEuRO05VdYaox6/9uMoRCji+Z13mTcft7YjgvaOqq294oqStWfM7/c6Gvrk5/OEUdIymBJYIkgFmMghvcBHJN1gcT+4cdmUGJeeW58IDxruEMlyKijswAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="인덱스 있을 떄"
+        title="인덱스 있을 떄"
+        src="/static/1a39f7c934454940377514a42a306e62/37523/time_auto_index_member.png"
+        srcset="/static/1a39f7c934454940377514a42a306e62/e9ff0/time_auto_index_member.png 180w,
+/static/1a39f7c934454940377514a42a306e62/f21e7/time_auto_index_member.png 360w,
+/static/1a39f7c934454940377514a42a306e62/37523/time_auto_index_member.png 720w,
+/static/1a39f7c934454940377514a42a306e62/302a4/time_auto_index_member.png 1080w,
+/static/1a39f7c934454940377514a42a306e62/2cefc/time_auto_index_member.png 1400w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWklEQVQI102LURKFIAwDvZJAW2gL97/VvhF9o1/ZzCZHZOKRRE48YnPORa6FexBPv/3L/9+3X3nYcGoTRDul1M0jJp6T8yw0Ua6N9nE7z70VNWp7nHWaGmKdHxmTQqRt4VJdAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="인덱스 없을 때"
+        title="인덱스 없을 때"
+        src="/static/33cb14290223f0b53720a3ba42a4f52e/37523/time_no_index_member.png"
+        srcset="/static/33cb14290223f0b53720a3ba42a4f52e/e9ff0/time_no_index_member.png 180w,
+/static/33cb14290223f0b53720a3ba42a4f52e/f21e7/time_no_index_member.png 360w,
+/static/33cb14290223f0b53720a3ba42a4f52e/37523/time_no_index_member.png 720w,
+/static/33cb14290223f0b53720a3ba42a4f52e/302a4/time_no_index_member.png 1080w,
+/static/33cb14290223f0b53720a3ba42a4f52e/2cefc/time_no_index_member.png 1400w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>자동 생성된 인덱스를 두고 조회했을 때 <strong>0.017~0.025ms</strong>가,
+해당 인덱스를 삭제하고 조회했을 때 <strong>1857ms</strong>가 소요되었다.
+1.8초도 느리긴 하지만, <strong>10000배</strong> 차이난다고 생각하니 정말 많~이 느려졌다.</p>
+<p>그럼 프로젝트의 쿼리가 최적의 인덱스를 타고 있는지 일단 <strong>모두</strong> 확인해보자.</p>
+<ul>
+<li>Member
+<ul>
+<li>✅ findById(Long id)</li>
+<li>✅ findBySlackId(String slackId)</li>
+</ul>
+</li>
+<li>Channel
+<ul>
+<li>✅ findById(Long id)</li>
+<li>✅ findBySlackId(String slackId)</li>
+<li>⬜️ findAllByOrderByName()</li>
+</ul>
+</li>
+<li>ChannelSubscription
+<ul>
+<li>✅ findAllByMemberId(Long memberId)</li>
+<li>⬜️ findAllByMemberIdOrderByViewOrder(Long memberId)</li>
+<li>⬜️ findFirstByMemberOrderByViewOrderDesc(Member member)</li>
+<li>⬜️ findFirstByMemberIdOrderByViewOrderAsc(Long memberId)</li>
+<li>⬜️ existsByChannelAndMember(Channel channel, Member member)</li>
+</ul>
+</li>
+<li>Message
+<ul>
+<li>✅ findById(long id)</li>
+<li>✅ findBySlackId(String slackMessageId)</li>
+<li>⬜️ Querydsl을 이용한 복잡한 조회쿼리</li>
+</ul>
+</li>
+<li>Bookmark
+<ul>
+<li>✅ findById(Long id)</li>
+<li>⬜️ findByMessageIdAndMemberId(Long messageId, Long memberId)</li>
+<li>⬜️ Querydsl을 이용한 복잡한 조회쿼리</li>
+</ul>
+</li>
+<li>Reminder
+<ul>
+<li>✅ findById(Long id)</li>
+<li>⬜️ findByMessageIdAndMemberId(Long messageId, Long memberId)</li>
+<li>⬜️ findAllByRemindDate(LocalDateTime remindDate)</li>
+<li>⬜️ Querydsl을 이용한 복잡한 조회쿼리</li>
+</ul>
+</li>
+</ul>
+<p>이미 최적의 인덱스를 사용하고 있을 쿼리는 체크해줬다.
+위에서부터 하나씩 제거해보자.</p>
+<h2 id="-channel" style="position:relative;"><a href="#-channel" aria-label=" channel permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>📺 Channel</h2>
+<p>채널의 <code class="language-text">findAllByOderByName()</code>은 워크스페이스의 모든 채널 목록을 반환한다.
+현재 1.한 워크스페이스만 지원하고있고 2.공개 채널만 저장되기 떄문에, 별다른 조건을 주지 않고 모두 조회중이다.
+그래서 넉넉하게 500개의 데이터를 넣고 조회했는데, <code class="language-text">name</code> 컬럼에 인덱스를 설정 한 것과 안 한 것의 차이가 없었다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> channel
+<span class="token keyword">order</span> <span class="token keyword">by</span> name <span class="token keyword">asc</span>
+<span class="token keyword">limit</span> <span class="token number">500</span><span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXElEQVQI11WKRwqAMBQFPZIpv8Q0d4qS+x/niQlBXAwzvyzn3XBcDaXuSLkgptQ9yaX+5knMeXT5dltMWJwnsASQaLe1DsQCFu3WEEGs/e5JRvPbPP40DCRgNQYPa0VDHytJ0mgAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="인덱스 없음"
+        title="인덱스 없음"
+        src="/static/d31fb8ed49d623f761fac015c0265def/37523/channel_name_no_index.png"
+        srcset="/static/d31fb8ed49d623f761fac015c0265def/e9ff0/channel_name_no_index.png 180w,
+/static/d31fb8ed49d623f761fac015c0265def/f21e7/channel_name_no_index.png 360w,
+/static/d31fb8ed49d623f761fac015c0265def/37523/channel_name_no_index.png 720w,
+/static/d31fb8ed49d623f761fac015c0265def/302a4/channel_name_no_index.png 1080w,
+/static/d31fb8ed49d623f761fac015c0265def/2cefc/channel_name_no_index.png 1400w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWUlEQVQI133KNw6AMBBEUR8Jhw3GiQ4E8v2PM0g2FDQUX0+rWXNcHfvZUduGXCpSzsO3Utvn/mtNGcYHAksEiQ6d8yAWsOhQYwKxjj2QTFmefwVrnEnEYi1ubElDJ21QWRcAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="인덱스 있음"
+        title="인덱스 있음"
+        src="/static/e54bad9215158cf816ce4b318c933763/37523/channel_name_index.png"
+        srcset="/static/e54bad9215158cf816ce4b318c933763/e9ff0/channel_name_index.png 180w,
+/static/e54bad9215158cf816ce4b318c933763/f21e7/channel_name_index.png 360w,
+/static/e54bad9215158cf816ce4b318c933763/37523/channel_name_index.png 720w,
+/static/e54bad9215158cf816ce4b318c933763/302a4/channel_name_index.png 1080w,
+/static/e54bad9215158cf816ce4b318c933763/2cefc/channel_name_index.png 1400w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<table>
+<thead>
+<tr>
+<th>name 인덱스 X</th>
+<th>name 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15~34ms</td>
+<td>15~33ms</td>
+</tr>
+</tbody>
+</table>
+<p><code class="language-text">order by</code>는 원래 인덱스를 이용하지 않나 싶어서 책이랑 구글도 찾아봤는데 이유를 잘 모르겠다.
+데이터가 너무 적어서 그럴 수도 있겠다.
+어쨌든 추가로 인덱스를 설정하지 않았다.</p>
+<h2 id="-channelsubscription" style="position:relative;"><a href="#-channelsubscription" aria-label=" channelsubscription permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🔖 ChannelSubscription</h2>
+<p>채널 구독은 2000명의 멤버가 500개의 채널을 각각 구독하는 상황을 가정해 <strong>10만개</strong>의 더미데이터를 삽입했다.
+우선 쿼리가 비슷한 아래 세 메서드를 보자.</p>
+<ul>
+<li>findAllByMemberIdOrderByViewOrder(Long memberId)</li>
+<li>findFirstByMemberOrderByViewOrderDesc(Member member)</li>
+<li>findFirstByMemberIdOrderByViewOrderAsc(Long memberId)</li>
+</ul>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> channel_subscription
+<span class="token keyword">where</span> member_id <span class="token operator">=</span> :memberId
+<span class="token keyword">order</span> <span class="token keyword">by</span> view_order<span class="token punctuation">;</span> <span class="token comment">#desc;</span>
+<span class="token keyword">limit</span> <span class="token number">500</span><span class="token punctuation">;</span> <span class="token comment">#limit 1; </span></code></pre></div>
+<p>구독은 멤버에 종속적인 개념이기에, 항상 <code class="language-text">memberId</code>를 기준으로 조회된다.
+그리고 <code class="language-text">view_order</code> 순서대로 모두 조회하기 또는 첫번째 값을 가져오기기에,
+<code class="language-text">memberId</code>와 <code class="language-text">view_order</code>로 복합 인덱스를 설정해봤다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">index</span> member_view_order <span class="token keyword">on</span> channel_subscription <span class="token punctuation">(</span>member_id<span class="token punctuation">,</span> view_order<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>복합 인덱스를 설정했을 떄, 실제로 해당 인덱스를 이용해 쿼리가 실행된다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdElEQVQI1x2LWRKCMBBEOVISKqBmMhMUKZaS0vsf5lnMVy+vu7M2UYogVZFaKSKuqsay7SzbwfScPR/nj/e6O79++/lFraFmrMeH6TXTVW08pCJqSDXuRbg60UbOAzEmYoyklHxTRJ0N48193/fOQwjkYeQP4UJEkmuOp8wAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 전"
+        title="복합 인덱스 설정 전"
+        src="/static/08f9887cb6960baf9eda7bd0ac3b125d/37523/subs_explain_no_index.png"
+        srcset="/static/08f9887cb6960baf9eda7bd0ac3b125d/e9ff0/subs_explain_no_index.png 180w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/f21e7/subs_explain_no_index.png 360w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/37523/subs_explain_no_index.png 720w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/302a4/subs_explain_no_index.png 1080w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/07a9c/subs_explain_no_index.png 1440w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/95e59/subs_explain_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdklEQVQI1z3KWw6CMBRFUQbUiyJtAWkLlVeFaJz/ZLahMX6d7JVThDHSe48PA/P2ZFo2nA/s7w9hGOmdz7umnce8/n6JOC0MMZKOV7bzc3phbIttO4xtqLWhLC+IlNydz2abDm0s16pCRFBK5a5udW6t9d+VCF+wN0MXUyQZPgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 후"
+        title="복합 인덱스 설정 후"
+        src="/static/378940d78a6f24c78f34d64c660e2bc8/37523/subs_explain_index.png"
+        srcset="/static/378940d78a6f24c78f34d64c660e2bc8/e9ff0/subs_explain_index.png 180w,
+/static/378940d78a6f24c78f34d64c660e2bc8/f21e7/subs_explain_index.png 360w,
+/static/378940d78a6f24c78f34d64c660e2bc8/37523/subs_explain_index.png 720w,
+/static/378940d78a6f24c78f34d64c660e2bc8/302a4/subs_explain_index.png 1080w,
+/static/378940d78a6f24c78f34d64c660e2bc8/07a9c/subs_explain_index.png 1440w,
+/static/378940d78a6f24c78f34d64c660e2bc8/95e59/subs_explain_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  복합 인덱스 설정하기 전과 후
+</div>
+<br> 
+<p>하지만 실행시간에서 유의미한 차이를 볼 수 없었다.
+의문인 점은 복합 인덱스 설정 전에는 <code class="language-text">Extra</code> 필드에 <code class="language-text">Using filesort</code>가 표기된다는 점이다.
+이건 <code class="language-text">order by</code> 처리 시, 적합한 인덱스를 사용하지 못해 MySQL 서버가 조회된 레코드를 다시 정렬한다는 뜻이다.
+복합 인덱스 설정 시 해당 인덱스를 사용하기에 <code class="language-text">Extra</code>는 <code class="language-text">null</code>이 된다.
+그럼에도 실행시간이 뚜렷하게 개선되지 않았다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAU0lEQVQI112Lxw3AMAwDvZGRZksitf9YDFw+yeMA1sJMAVQAAvkF3N3yZC6N34brPygelAV03Y/Moe6h1l0OqpnPrnWbPphTz3xvB47UcZyqteoFJcxC5vOdpXkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 전"
+        title="복합 인덱스 설정 전"
+        src="/static/cf3cfd9d769e010b40df197d8f90b2a5/37523/subs_analyze_no_index.png"
+        srcset="/static/cf3cfd9d769e010b40df197d8f90b2a5/e9ff0/subs_analyze_no_index.png 180w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/f21e7/subs_analyze_no_index.png 360w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/37523/subs_analyze_no_index.png 720w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/302a4/subs_analyze_no_index.png 1080w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/07a9c/subs_analyze_no_index.png 1440w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/95e59/subs_analyze_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI11WLXQ6AMAyCd6IlTl1/aO9/LMyaLOoDAfJBi0wCQQfKEUlEvCq2e37yf7v+S808qA6e10010BCcauWiXmyKVi8mVrstqU/yGIO9dz4pjkL2PzM53AAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 후"
+        title="복합 인덱스 설정 후"
+        src="/static/219b4b8a0c225664a54f99441075114e/37523/subs_analyze_index.png"
+        srcset="/static/219b4b8a0c225664a54f99441075114e/e9ff0/subs_analyze_index.png 180w,
+/static/219b4b8a0c225664a54f99441075114e/f21e7/subs_analyze_index.png 360w,
+/static/219b4b8a0c225664a54f99441075114e/37523/subs_analyze_index.png 720w,
+/static/219b4b8a0c225664a54f99441075114e/302a4/subs_analyze_index.png 1080w,
+/static/219b4b8a0c225664a54f99441075114e/07a9c/subs_analyze_index.png 1440w,
+/static/219b4b8a0c225664a54f99441075114e/95e59/subs_analyze_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>캡쳐는 시간 차이가 조굼 나는 걸로 찍혔지만, 여러번 수행했을 때 평균치는 차이가 없었다.
+채널이 500개나 있는 과장된 상황에서도 차이가 없는 것이라 적용하지 않기로 정했다.</p>
+<br>
+<p>나머지 한 메서드는 처음에는 추가 인덱스 설정이 필요하지 않을 것이라 생각했다.</p>
+<ul>
+<li>existsByChannelAndMember(Channel channel, Member member)</li>
+</ul>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> channel_subscription<span class="token punctuation">.</span>id
+<span class="token keyword">from</span> channel_subscription
+<span class="token keyword">where</span> channel_subscription<span class="token punctuation">.</span>channel_id <span class="token operator">=</span> :channelId
+  <span class="token operator">and</span> channel_subscription<span class="token punctuation">.</span>member_id <span class="token operator">=</span> :memberId
+<span class="token keyword">limit</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre></div>
+<p><code class="language-text">FK</code>인 <code class="language-text">channel_id</code>와 <code class="language-text">member_id</code>에 이미 각각 인덱스가 걸려있었기 때문이다.
+그래서 실행 계획을 보면, <code class="language-text">type</code>이 <code class="language-text">index_merge</code>로 나온다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAcklEQVQI1y2LWw7CMBADe6HyBelmH0kpJdAC4v6nmUqBj5Eljz3U+cr2+TIvN1QN88DcMfOeHoGa4VEopbKsjbbtrO3Jst557G/a9iJK7Z/hnCYkG+qFJJmsjqiTJvn1Ubkk6X6SzDiOf06IGtmi7zpqHKpbQ/8zpZW5AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 전 실행계획"
+        title="복합 인덱스 설정 전 실행계획"
+        src="/static/0c50a3ac4e02025aa7ca1e5fee8b190b/37523/subs_channel_member_no_index.png"
+        srcset="/static/0c50a3ac4e02025aa7ca1e5fee8b190b/e9ff0/subs_channel_member_no_index.png 180w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/f21e7/subs_channel_member_no_index.png 360w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/37523/subs_channel_member_no_index.png 720w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/302a4/subs_channel_member_no_index.png 1080w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/07a9c/subs_channel_member_no_index.png 1440w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/95e59/subs_channel_member_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>그런데 <code class="language-text">index_merge</code>를 책에서 찾아보니 개선이 필요했다.
+아래는 해당 책의 설명이다.</p>
+<p><code class="language-text">index_merge</code>는 2개 이상의 인덱스를 이용해 각각의 검색 결과를 만들어낸 후, 그 결과를 병합하는 처리 방식이며 다음과 같은 특징이 있다.</p>
+<ul>
+<li>여러 인덱스를 읽어야 하므로 일반적으로 <code class="language-text">range</code> 접근 방식보다 효율성이 떨어진다</li>
+<li>AND와 OR 연산이 복잡하게 연결된 쿼리에서는 제대로 최적화되지 못할 때가 많다</li>
+<li>전문 검색 인덱스를 사용하는 쿼리에서는 <code class="language-text">index_merge</code>가 적용되지 않는다</li>
+<li><code class="language-text">index_merge</code> 접근 방식으로 처리된 결과는 항상 2개 이상의 집합이 되기 떄문에 그 두 집합의 교집합이나 합집합 또는 중복 제거와 같은 부가적인 작업이 더 필요하다</li>
+</ul>
+<p>현재 <code class="language-text">Extra</code>에 표시된 <code class="language-text">Using intersect...</code>는 각 처리 결과에서 교집합을 추출해내는 작업을 수행했다는 의미다.
+더 효율적인 수행을 위해 <code class="language-text">channel_id</code>와 <code class="language-text">member_id</code>로 복합 인덱스를 생성했다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">index</span> subscription_channel_and_member <span class="token keyword">on</span> channel_subscription <span class="token punctuation">(</span>member_id<span class="token punctuation">,</span> channel_id<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeUlEQVQI1yXLSxKCMBBFURYEhcU3pDskGj6aAnX/m7mWYfBG577Ch0A6P/hwx4og6hBRRBV1jr+/jjdx3XHeE5eVPR3ZwiOSzi9x2XK/PRNFXd+wOmOsMk7CJC7PTILMgX4Yabueqqooy5Kmaa/WWLphxNjr0/VD9h/G1kQHdvqeGgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 후 실행계획"
+        title="복합 인덱스 설정 후 실행계획"
+        src="/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/37523/subs_channel_member_index.png"
+        srcset="/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/e9ff0/subs_channel_member_index.png 180w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/f21e7/subs_channel_member_index.png 360w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/37523/subs_channel_member_index.png 720w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/302a4/subs_channel_member_index.png 1080w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/07a9c/subs_channel_member_index.png 1440w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/95e59/subs_channel_member_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>실행 계획에서 해당 인덱스를 사용함을 볼 수 있다.
+사진 상 실수로 이름을 잘못 설정했는데, <code class="language-text">subscription_channel_and_member</code>가 맞다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAT0lEQVQI112LSwoAIQxDvZELdbRp69z/VBEVQVw8EvIJ3n8KlNCDXf7Nb54eexO+2gh15lIIc1YBG3QjoKhRYFTrazf90dmpd6aUGWNcnwEeM0MNkavd8QAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 전 실행시간"
+        title="복합 인덱스 설정 전 실행시간"
+        src="/static/470210ea686d16f132bd85ea92134ab6/37523/subs_analyze_channel_member_no_index.png"
+        srcset="/static/470210ea686d16f132bd85ea92134ab6/e9ff0/subs_analyze_channel_member_no_index.png 180w,
+/static/470210ea686d16f132bd85ea92134ab6/f21e7/subs_analyze_channel_member_no_index.png 360w,
+/static/470210ea686d16f132bd85ea92134ab6/37523/subs_analyze_channel_member_no_index.png 720w,
+/static/470210ea686d16f132bd85ea92134ab6/302a4/subs_analyze_channel_member_no_index.png 1080w,
+/static/470210ea686d16f132bd85ea92134ab6/07a9c/subs_analyze_channel_member_no_index.png 1440w,
+/static/470210ea686d16f132bd85ea92134ab6/95e59/subs_analyze_channel_member_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI11WMUQqAMAxDd6EJKq5d2nn/W0VqHcyPR8hLaYEZzTzxxH38uvlIt/Q1ATD+xE1ROK8mvEQpHRQFwzXRN2fvNnL/iH26Wjfux0n4zQcmpkLwP/+25gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="복합 인덱스 설정 후 실행시간"
+        title="복합 인덱스 설정 후 실행시간"
+        src="/static/ec8b2dacd32c44f9da0581dfb211fe0e/37523/subs_anaylze_channel_member_index.png"
+        srcset="/static/ec8b2dacd32c44f9da0581dfb211fe0e/e9ff0/subs_anaylze_channel_member_index.png 180w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/f21e7/subs_anaylze_channel_member_index.png 360w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/37523/subs_anaylze_channel_member_index.png 720w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/302a4/subs_anaylze_channel_member_index.png 1080w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/07a9c/subs_anaylze_channel_member_index.png 1440w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/95e59/subs_anaylze_channel_member_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.386ms</td>
+<td>0.015ms</td>
+</tr>
+</tbody>
+</table>
+<p>실행 시간은 약 0.386ms에서 0.015ms로 <strong>95%</strong> 가량 감소했다.</p>
+<h2 id="️bookmark--reminder" style="position:relative;"><a href="#%EF%B8%8Fbookmark--reminder" aria-label="️bookmark  reminder permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>⭐️Bookmark &#x26; ⏰Reminder</h2>
+<p>바로 위 사례와 비슷한 쿼리가 북마크와 리마인더에도 각각 존재한다.</p>
+<ul>
+<li>Optional<Bookmark> findByMessageIdAndMemberId(Long messageId, Long memberId)</li>
+<li>Optional<Reminder> findByMessageIdAndMemberId(Long messageId, Long memberId)</li>
+</ul>
+<p>북마크와 리마인더는 100만개의 메시지를 바탕으로 2000명의 멤버가 각각을 300개씩 등록한 것을 가정해, 각 60만개 더미데이터를 넣었다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> bookmark
+<span class="token keyword">where</span> message_id <span class="token operator">=</span> :messageId <span class="token operator">and</span> member_id <span class="token operator">=</span> :memberId<span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeElEQVQI1zXKSwqDMAAAUc+jwU+tmsT8MMZatELvf5gpBrp4MIspfAgc15ewRPQ8MxuDtQ6lNVJKnPfs50VcN4x1xLSxHx+U0hhjSa93tqyJuCaKpmmZlEYbxzjJ7O627SjLkrpuuJ+qqrLu0TOMMrcQIvt3/xz4AY2zQqCZAk/yAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 실행계획"
+        title="북마크 실행계획"
+        src="/static/9828735c2d4adf1e8827d01c7d1e57ac/37523/bookmark_explain_no_index.png"
+        srcset="/static/9828735c2d4adf1e8827d01c7d1e57ac/e9ff0/bookmark_explain_no_index.png 180w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/f21e7/bookmark_explain_no_index.png 360w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/37523/bookmark_explain_no_index.png 720w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/302a4/bookmark_explain_no_index.png 1080w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/07a9c/bookmark_explain_no_index.png 1440w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/95e59/bookmark_explain_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>아까와 달리 <code class="language-text">Extra</code> 필드에 <code class="language-text">Using where</code>가 표기된다.
+<code class="language-text">Using where</code>은 스토리지 엔진으로부터 받은 레코드를 MySQL 엔진 레이어에서 별도의 가공을 통해 필터링 작업을 거쳤음을 나타낸다.
+또, <code class="language-text">filtered</code> 필드에 <code class="language-text">5</code>가 적혀있다.
+이는 스토리지 엔진으로부터 100건의 레코드를 받아 95건을 걸러내고 5건만 남았다는 의미다.
+결국 조회된 데이터 중 <strong>95%</strong> 를 버린 것이다.<br>
+이번에는 <code class="language-text">index_merge</code>를 쓰지 않았는데, 데이터 양의 차이로 추측된다.
+현재 더미데이터는 계산 시 각 메시지에 평균 1건 이하의 북마크가 등록되어 있다.
+보통 중요한 메시지에 북마크 생성이 치중될 것을 생각하면, 실제 상황과 조금 괴리가 있는 데이터 셋업이다.
+운영 데이터가 더 쌓이면 이를 분석해서 더 적절한 실험 상황으로 개선해야 할 것 같다.</p>
+<p>어쨌든 <code class="language-text">message_id</code>와 <code class="language-text">member_id</code>로 복합 인덱스 설정 시, 해당 인덱스를 이용하며 속도도 개선된다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">index</span> bookmark_message_and_member <span class="token keyword">on</span> bookmark <span class="token punctuation">(</span>message_id<span class="token punctuation">,</span> member_id<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeElEQVQI1x2MWw6DIBQF3Y9iTVpb4F6oVST46v53M035OJmcTDKNqFKOi7XseBFEAyJaqSGQy07eDqZ5IcTIdn6ZPgsiwpxy9SkX5rRS9pOmbVusVzROvJxHwrvSa8R64f4YuQ0DXWcwxmCdVD8+bf3/9X1fG04CP8kFQ+ag0cbwAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 실행계획"
+        title="북마크 복합 인덱스 실행계획"
+        src="/static/ff564d0002316fb7eedcfe35d3c91f38/37523/bookmark_explain_index.png"
+        srcset="/static/ff564d0002316fb7eedcfe35d3c91f38/e9ff0/bookmark_explain_index.png 180w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/f21e7/bookmark_explain_index.png 360w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/37523/bookmark_explain_index.png 720w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/302a4/bookmark_explain_index.png 1080w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/07a9c/bookmark_explain_index.png 1440w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/95e59/bookmark_explain_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span><br>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI10WL2w3AMAjEslOT8Dq6/1ZXQVTlw0IYMwIg8m0CSY8gMln+3PKC6/+/u59mmIPqoEVSLfjMSTHnXMK1pZ2ot6u51Q6itEA31Zar9gM1akMSQztJnwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 기본 수행시간"
+        title="북마크 기본 수행시간"
+        src="/static/8cfef3b0b61fbad1d50c84620e2e806f/37523/bookmark_analyze_no_index.png"
+        srcset="/static/8cfef3b0b61fbad1d50c84620e2e806f/e9ff0/bookmark_analyze_no_index.png 180w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/f21e7/bookmark_analyze_no_index.png 360w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/37523/bookmark_analyze_no_index.png 720w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/302a4/bookmark_analyze_no_index.png 1080w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/07a9c/bookmark_analyze_no_index.png 1440w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/95e59/bookmark_analyze_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXUlEQVQI102LSQ6AMAwDeRFJoUmbluX/rxoEiOVgWR7bg2hiFEVEGUUQVTRNN9OPnf7Xs3+znvvE0JYN80JtCyU6JRp93cnmRF/vLjqz+cXMK9kKXoM5O17bxZ/vAcReP/hJx9DSAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 수행시간"
+        title="북마크 복합 인덱스 수행시간"
+        src="/static/c051125079ad15a29c01454795e6bc41/37523/bookmark_analyze_index.png"
+        srcset="/static/c051125079ad15a29c01454795e6bc41/e9ff0/bookmark_analyze_index.png 180w,
+/static/c051125079ad15a29c01454795e6bc41/f21e7/bookmark_analyze_index.png 360w,
+/static/c051125079ad15a29c01454795e6bc41/37523/bookmark_analyze_index.png 720w,
+/static/c051125079ad15a29c01454795e6bc41/302a4/bookmark_analyze_index.png 1080w,
+/static/c051125079ad15a29c01454795e6bc41/07a9c/bookmark_analyze_index.png 1440w,
+/static/c051125079ad15a29c01454795e6bc41/95e59/bookmark_analyze_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.161ms</td>
+<td>0.041ms</td>
+</tr>
+</tbody>
+</table>
+<p>더미데이터와 달리 한 메시지에 북마크가 몰리는 상황을 생각하면, 복합 인덱스 설정 시 조금 더 큰폭으로 효율이 개선될 것 같다.</p>
+<p>리마인더도 완전히 동일한 포맷의 sql문을 사용중이다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> reminder
+<span class="token keyword">where</span> message_id <span class="token operator">=</span> :messageId <span class="token operator">and</span> member_id <span class="token operator">=</span> :memberId<span class="token punctuation">;</span> </code></pre></div>
+<p>복합 인덱스 설정 전/후에 북마크와 동일한 설정의 실행계획이 나오는 것을 확인했고, 실행시간을 비교해보았다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>북마크</th>
+<th>리마인더</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>복합 인덱스 설정 전</td>
+<td>0.161ms</td>
+<td>0.023ms</td>
+</tr>
+<tr>
+<td>복합 인덱스 설정 후</td>
+<td>0.041ms</td>
+<td>0.017ms</td>
+</tr>
+</tbody>
+</table>
+<p>북마크 수행 시간이 더 극적으로 차이나는 것은…
+북마크를 테스트하고 맥북이 좀 느려졌길래 재부팅을 한번 해서 그런 것 같다 🙃</p>
+<p><code class="language-text">Querydsl</code>을 제외하고 남은 마지막 쿼리는 리마인더 발송을 위해 10분마다 실행되는 쿼리다.</p>
+<ul>
+<li>findAllByRemindDate(LocalDateTime remindDate)</li>
+</ul>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> reminder
+<span class="token keyword">where</span> remind_date <span class="token operator">=</span> <span class="token string">'2022-10-03 00:10:30'</span><span class="token punctuation">;</span> <span class="token comment">#이해를 돕기 위해 아무 시각이나 넣었다 </span></code></pre></div>
+<p>예상 가능한 부분이지만 사용할 수 있는 인덱스가 없어서 <strong>풀 테이블 스캔</strong>이 일어나고 있다.
+시간도 앞선 쿼리들에 비하면 아주 길다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAd0lEQVQI1x2KXQ6DIBjAvBCfDzpgAwTnD+Kcu/9pusBD06RpF8LEXk6c98SUKNePLZ+subDlgnOeZds5Pl9imlnz0fq6H8zvhXLd7Q1TJJ8XnYig7ZNqpRRaa4ZhQInQ931rFWNf+CkhUpu0XxuLC7HxMJZxHPkD4T5D4W1pOxUAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="리마인더 실행계획"
+        title="리마인더 실행계획"
+        src="/static/33afadc187330a6b1211d0e9f8621881/37523/reminder_no_index.png"
+        srcset="/static/33afadc187330a6b1211d0e9f8621881/e9ff0/reminder_no_index.png 180w,
+/static/33afadc187330a6b1211d0e9f8621881/f21e7/reminder_no_index.png 360w,
+/static/33afadc187330a6b1211d0e9f8621881/37523/reminder_no_index.png 720w,
+/static/33afadc187330a6b1211d0e9f8621881/302a4/reminder_no_index.png 1080w,
+/static/33afadc187330a6b1211d0e9f8621881/07a9c/reminder_no_index.png 1440w,
+/static/33afadc187330a6b1211d0e9f8621881/95e59/reminder_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWUlEQVQI102LWQrAIBBDPVKVOlvG3v9WKQ4V+vFIyNKQSffg1lxPASQzVxFAdSc7vvTH7jyCTS149UExp2Mx8uFUowVokbyncm+mKM1B+fzORK1+ol7b3gdfIk9C1zN7twgAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="리마인더 수행시간"
+        title="리마인더 수행시간"
+        src="/static/f9674b1a18e7d4ee6c48b1fba93b90ad/37523/reminder_analyze_no_index.png"
+        srcset="/static/f9674b1a18e7d4ee6c48b1fba93b90ad/e9ff0/reminder_analyze_no_index.png 180w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/f21e7/reminder_analyze_no_index.png 360w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/37523/reminder_analyze_no_index.png 720w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/302a4/reminder_analyze_no_index.png 1080w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/07a9c/reminder_analyze_no_index.png 1440w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/95e59/reminder_analyze_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p><code class="language-text">remind_date</code>에 인덱스를 설정했다.
+정상적으로 해당 인덱스를 이용하고, 실행시간도 1/1000 이하로 줄어들었다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeklEQVQI1x2LSxKDIBQEPZAipoJBHv5QAY3J/W/TqbCYRU/PVDFfeD9y3l/2mHFOWNZAfn8Kj9PMdiTSeeNE2I5Ium7mNbDHxJGvsgvbXvqq6x7UdY11HpkWrBPMy6J1h2rb4p7GYAehaZqS/2dcAkqpwq3WDOIxfc8P8IdD7sDooZwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="리마인더 인덱스 실행계획"
+        title="리마인더 인덱스 실행계획"
+        src="/static/30330ca05bd0eabdf60e8bf01b1d468a/37523/remider_explain_index.png"
+        srcset="/static/30330ca05bd0eabdf60e8bf01b1d468a/e9ff0/remider_explain_index.png 180w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/f21e7/remider_explain_index.png 360w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/37523/remider_explain_index.png 720w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/302a4/remider_explain_index.png 1080w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/07a9c/remider_explain_index.png 1440w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/95e59/remider_explain_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 5.555555555555555%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAQUlEQVQI1yXLwRWAMAjAUFeyQKFAdf+p4lNv+Yccfd2sarI2HonNILLwVUwPzF835xCGKGqOTkfU/jb/nqFG9uYBJT8g4PFfUq0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="리마인더 인덱스 수행시간"
+        title="리마인더 인덱스 수행시간"
+        src="/static/4afb3decc1f56222258deacaf80128bc/37523/reminder_analyze_index.png"
+        srcset="/static/4afb3decc1f56222258deacaf80128bc/e9ff0/reminder_analyze_index.png 180w,
+/static/4afb3decc1f56222258deacaf80128bc/f21e7/reminder_analyze_index.png 360w,
+/static/4afb3decc1f56222258deacaf80128bc/37523/reminder_analyze_index.png 720w,
+/static/4afb3decc1f56222258deacaf80128bc/302a4/reminder_analyze_index.png 1080w,
+/static/4afb3decc1f56222258deacaf80128bc/07a9c/reminder_analyze_index.png 1440w,
+/static/4afb3decc1f56222258deacaf80128bc/95e59/reminder_analyze_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<table>
+<thead>
+<tr>
+<th>remind_date 인덱스 X</th>
+<th>remind_date 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>554ms</td>
+<td>0.139ms</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h2 id="️-querydsl을-이용한-복잡한-쿼리들" style="position:relative;"><a href="#%EF%B8%8F-querydsl%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B3%B5%EC%9E%A1%ED%95%9C-%EC%BF%BC%EB%A6%AC%EB%93%A4" aria-label="️ querydsl을 이용한 복잡한 쿼리들 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>✉️ Querydsl을 이용한 복잡한 쿼리들</h2>
+<p>이제 글 초반에 적었던 체크리스트에서 세 쿼리만 남았다!</p>
+<ul>
+<li>Message의 Querydsl을 이용한 복잡한 조회쿼리</li>
+<li>Bookmark의 Querydsl을 이용한 복잡한 조회쿼리</li>
+<li>Reminder의 Querydsl을 이용한 복잡한 조회쿼리</li>
+</ul>
+<p>메시지부터 보자면 동적으로 조건이 변화하지만, 결국 아래 네 가지로 수렴한다.</p>
+<ul>
+<li>특정 한 채널에서 최신으로부터 n개를 작성시간 내림차순 조회</li>
+<li>특정 한 채널에서 특정 시각을 기준으로 작성시간이 과거/미래인 n개를 작성시간 내림차순 조회 (페이지네이션 대체)</li>
+<li>특정 한 채널에서 특정 시각을 기준으로 작성시간이 과거/미래인 메시지가 존재하는지 조회 (페이지네이션 대체)</li>
+<li>특정 여러 채널에서 특정 키워드를 포함한 메시지를 특정 시간 기준으로 n개를 작성시간 내림차순 조회</li>
+</ul>
+<p>여기서 1,2,3번 쿼리는 <code class="language-text">특정 여러 채널</code> 조건으로 실행할 수도 있게 코드가 짜여있다.
+하지만 처음 구상과 달리 현재 서비스에서 사용하고 있지 않기에, <code class="language-text">특정 한 채널</code>로만 진행했다.
+키워드 검색은 <code class="language-text">like %keyword%</code> 방식이라 인덱스를 적용할 수 없어 제외했다.
+결국 나머지 셋의 공통점을 보자면 <code class="language-text">채널, 쟉셩시간</code> 조건으로 조회하고 있다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span> 
+    message<span class="token punctuation">.</span>id            <span class="token keyword">as</span> message_id<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>member_id     <span class="token keyword">as</span> member_id<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>username       <span class="token keyword">as</span> username<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>thumbnail_url  <span class="token keyword">as</span> thumbnail<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span><span class="token keyword">text</span>          <span class="token keyword">as</span> <span class="token keyword">text</span><span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>posted_date   <span class="token keyword">as</span> posted_date<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>modified_date <span class="token keyword">as</span> modified_date<span class="token punctuation">,</span>
+    bookmark<span class="token punctuation">.</span>id           <span class="token keyword">as</span> bookmark_id<span class="token punctuation">,</span>
+    reminder<span class="token punctuation">.</span>id           <span class="token keyword">as</span> reminder_id<span class="token punctuation">,</span>
+    reminder<span class="token punctuation">.</span>remind_date  <span class="token keyword">as</span> remind_date
+<span class="token keyword">from</span>
+    message
+    <span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+        member <span class="token keyword">on</span> message<span class="token punctuation">.</span>member_id <span class="token operator">=</span> member<span class="token punctuation">.</span>id
+    <span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+        bookmark
+        <span class="token keyword">on</span> <span class="token punctuation">(</span>bookmark<span class="token punctuation">.</span>member_id <span class="token operator">=</span> :memberId
+              <span class="token operator">and</span> bookmark<span class="token punctuation">.</span>message_id <span class="token operator">=</span> message<span class="token punctuation">.</span>id
+        <span class="token punctuation">)</span>
+    <span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+        reminder
+        <span class="token keyword">on</span> <span class="token punctuation">(</span>reminder<span class="token punctuation">.</span>member_id <span class="token operator">=</span> :memberId
+              <span class="token operator">and</span> reminder<span class="token punctuation">.</span>message_id <span class="token operator">=</span> message<span class="token punctuation">.</span>id
+              <span class="token operator">and</span> reminder<span class="token punctuation">.</span>remind_date <span class="token operator">></span> :remindDate
+        <span class="token punctuation">)</span>
+<span class="token keyword">where</span>
+    message<span class="token punctuation">.</span>channel_id <span class="token operator">in</span> <span class="token punctuation">(</span>:channelId<span class="token punctuation">)</span>
+    <span class="token operator">and</span> <span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token keyword">text</span> <span class="token operator">is</span> <span class="token operator">not</span> <span class="token boolean">null</span><span class="token punctuation">)</span>
+    <span class="token operator">and</span> length<span class="token punctuation">(</span>message<span class="token punctuation">.</span><span class="token keyword">text</span><span class="token punctuation">)</span> <span class="token operator">&lt;></span> <span class="token number">0</span>
+<span class="token keyword">order</span> <span class="token keyword">by</span>
+    message<span class="token punctuation">.</span>posted_date <span class="token keyword">desc</span>
+<span class="token keyword">limit</span> <span class="token number">20</span><span class="token punctuation">;</span></code></pre></div>
+<p>참고로 <code class="language-text">channel_id</code>는 위에서 말했듯 복수의 값이 들어올 수도 있어서, 하나라도 <code class="language-text">in()</code> 형태로 조회한다.
+여기서 결국 중요한 건 <code class="language-text">where</code>안의 <code class="language-text">channel_id</code>와 <code class="language-text">order by</code>의 <code class="language-text">posted_date</code>이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 16.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAoklEQVQI1y2La66CMBhEWY4a8Aqtpf1o6RON+1/QuaH64ySTMzNDe3/wYSe3g7BHSjuIqeCc4ES6OzchJpxsyOY7uTZ8iCil0FqjtcIYw7Cnyt9jRmnDdL+zOmHPjUVplH4yLwtmtb+sOo/561Yr6OeKsa7/zm6orw/GCmZ1jNPEFiKnC7EQUu3jkAo+ZsZx5Ha7cr1csOKJ5SDVF7m9O048/5TZZFWfVb69AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 전"
+        title="메시지 복합 인덱스 추가 전"
+        src="/static/526249afe0f3ea91e120bdd4e4dcd11e/37523/message_explain_no_index.png"
+        srcset="/static/526249afe0f3ea91e120bdd4e4dcd11e/e9ff0/message_explain_no_index.png 180w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/f21e7/message_explain_no_index.png 360w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/37523/message_explain_no_index.png 720w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/302a4/message_explain_no_index.png 1080w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/07a9c/message_explain_no_index.png 1440w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/95e59/message_explain_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>실행계획을 보면, 제일 먼저 적용되는 <code class="language-text">channel_id</code> 외래키 인덱스의 <code class="language-text">Extra</code>에 <code class="language-text">Using filesort</code>가 보인다.
+이는 <code class="language-text">channel</code> 기준으로 조회한 레코드를 엔진에서 <code class="language-text">posted_date</code>로 다시 정렬하고 있기 때문이다.
+따라서 <code class="language-text">channel_id</code>와 <code class="language-text">posted_date</code>로 복합 인덱스를 걸어준다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 16.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAnklEQVQI1yWMUQ6DIBBEPY4oKCgIywJimzb96P2vM43bj5dsZt/M0PoDuVRQzuBSEVPCeT1BmZEoIxHJXVtH65d4mYtkArP0bi+EgKE/3wiRYN0GHyK0MXh9vsilwR8RkRhOfge4NOw+wDonrNbBbTuMMVDjiHmeMRAXHIlg7V8wZgFxFe68tC6FbffgesqwUiOmaYJSSvxlXWVMa40f7fZhqEP7nI0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 후"
+        title="메시지 복합 인덱스 추가 후"
+        src="/static/5ee440445c195369d3fad1d32aa6b18a/37523/message_explain_index.png"
+        srcset="/static/5ee440445c195369d3fad1d32aa6b18a/e9ff0/message_explain_index.png 180w,
+/static/5ee440445c195369d3fad1d32aa6b18a/f21e7/message_explain_index.png 360w,
+/static/5ee440445c195369d3fad1d32aa6b18a/37523/message_explain_index.png 720w,
+/static/5ee440445c195369d3fad1d32aa6b18a/302a4/message_explain_index.png 1080w,
+/static/5ee440445c195369d3fad1d32aa6b18a/07a9c/message_explain_index.png 1440w,
+/static/5ee440445c195369d3fad1d32aa6b18a/95e59/message_explain_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>해당 복합 인덱스를 사용함과 실행시간이 줄어듬을 확인할 수 있다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXElEQVQI12WLSQqAMBRDPZBD+7V/qNWFiPe/UcQIblw8MpB0x3lhbdtH2/YfT59lJikLkgiVWV6dUiadWsCiYikKNYfXxmwe9OpBX9RQzLl7mIuy488D4zihHwbcvxdBegme1I8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 전"
+        title="메시지 복합 인덱스 추가 전"
+        src="/static/dc9141a4838919dda5d2589ded95bd44/37523/message_analyze_no_index.png"
+        srcset="/static/dc9141a4838919dda5d2589ded95bd44/e9ff0/message_analyze_no_index.png 180w,
+/static/dc9141a4838919dda5d2589ded95bd44/f21e7/message_analyze_no_index.png 360w,
+/static/dc9141a4838919dda5d2589ded95bd44/37523/message_analyze_no_index.png 720w,
+/static/dc9141a4838919dda5d2589ded95bd44/302a4/message_analyze_no_index.png 1080w,
+/static/dc9141a4838919dda5d2589ded95bd44/07a9c/message_analyze_no_index.png 1440w,
+/static/dc9141a4838919dda5d2589ded95bd44/95e59/message_analyze_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXUlEQVQI11XISQqAMBBEUe+ThRm7O51BEPH+NypJhIiLR1F/O68bpbal9gO19Z+sBdb5xfmwWP+23dr5N+IMzoqYCMQCLQ0sCpIM0Tp3SCTwIU6J+MOjBxhjEBPjAbvNQXWMYNBDAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 후"
+        title="메시지 복합 인덱스 추가 후"
+        src="/static/4a0e76d36dc54ffc27da97f7d0330a32/37523/message_analyze_index.png"
+        srcset="/static/4a0e76d36dc54ffc27da97f7d0330a32/e9ff0/message_analyze_index.png 180w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/f21e7/message_analyze_index.png 360w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/37523/message_analyze_index.png 720w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/302a4/message_analyze_index.png 1080w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/07a9c/message_analyze_index.png 1440w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/95e59/message_analyze_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>여기서 보면 거의 처음으로  <code class="language-text">actual time</code>값이 <code class="language-text">...</code>을 두고 유의미하게 서로 다른 값이 표시됐다.
+이는 <code class="language-text">첫 레코드를 읽은 시간...마지막 레코드를 읽은 시간</code>이라는 뜻이다.</p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>425…433ms</td>
+<td>4.1…24.6ms</td>
+</tr>
+</tbody>
+</table>
+<p>마지막 레코드를 읽은 시간 기준으로 거의 <strong>95%</strong> 감소했다.
+키워드 검색의 경우도 <code class="language-text">like</code> 부분을 제외하면 동일한 검색조건이라, 시간이 줄어듬을 확인할 수 있었다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAYElEQVQI13WLSwqAMBBDe59itbXzqe3oTgTvf54Io1sXIY9HEs7rxrAdfRh6H87D7OvX235grYQll9/MS8aUEkIlBktDZUFZK7R1sKg7aZszicJ32kAsviWPfqz+jTHiAbxEQWfwjW2uAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 전"
+        title="메시지 복합 인덱스 추가 전"
+        src="/static/a0f4299e7c72890c79ade4faedbdb30d/37523/message_keyword_analyze_no_index.png"
+        srcset="/static/a0f4299e7c72890c79ade4faedbdb30d/e9ff0/message_keyword_analyze_no_index.png 180w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/f21e7/message_keyword_analyze_no_index.png 360w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/37523/message_keyword_analyze_no_index.png 720w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/302a4/message_keyword_analyze_no_index.png 1080w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/07a9c/message_keyword_analyze_no_index.png 1440w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/95e59/message_keyword_analyze_no_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAa0lEQVQI112MSQ4DMQgE50OTWQzGGLBzixQp/39ORya3HEql6kNvr/cHMZ8wD/iY8BjJ6kVfewwQV1x3wVXozyV93j9vFhOiHU0NxIxuAe0OaZpnTTvUPA+5CogFhTibVlcB14bjOLHvD3wB59pB4nu3tX0AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="메시지 복합 인덱스 추가 후"
+        title="메시지 복합 인덱스 추가 후"
+        src="/static/b6d48655f45f28424856fab49b52230d/37523/message_keyword_analyze_index.png"
+        srcset="/static/b6d48655f45f28424856fab49b52230d/e9ff0/message_keyword_analyze_index.png 180w,
+/static/b6d48655f45f28424856fab49b52230d/f21e7/message_keyword_analyze_index.png 360w,
+/static/b6d48655f45f28424856fab49b52230d/37523/message_keyword_analyze_index.png 720w,
+/static/b6d48655f45f28424856fab49b52230d/302a4/message_keyword_analyze_index.png 1080w,
+/static/b6d48655f45f28424856fab49b52230d/07a9c/message_keyword_analyze_index.png 1440w,
+/static/b6d48655f45f28424856fab49b52230d/95e59/message_keyword_analyze_index.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>502…628ms</td>
+<td>19…263ms</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>북마크 조회는 메시지보다 간단하다.
+메시지는 특정 날짜로 이동해서 앞/뒤 어디든 볼 수 있게 해야했는데, 북마크는 무조건 <code class="language-text">create_date</code>를 최신 또는 특정 시간부터 역순으로 조회한다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">select</span>
+    bookmark<span class="token punctuation">.</span>id <span class="token keyword">as</span> bookmark_id<span class="token punctuation">,</span>
+    bookmark<span class="token punctuation">.</span>created_date <span class="token keyword">as</span> created_date<span class="token punctuation">,</span>
+    bookmark<span class="token punctuation">.</span>member_id <span class="token keyword">as</span> member_id<span class="token punctuation">,</span>
+    bookmark<span class="token punctuation">.</span>message_id <span class="token keyword">as</span> message_id<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>channel_id <span class="token keyword">as</span> channel_id<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>modified_date <span class="token keyword">as</span> modified_date<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>posted_date <span class="token keyword">as</span> posted_date<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span>slack_message_id <span class="token keyword">as</span> message_slack_id<span class="token punctuation">,</span>
+    message<span class="token punctuation">.</span><span class="token keyword">text</span> <span class="token keyword">as</span> message_text<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>first_login <span class="token keyword">as</span> member_first_login<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>slack_id <span class="token keyword">as</span> member_slack_id<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>thumbnail_url <span class="token keyword">as</span> member_thumbnail_url<span class="token punctuation">,</span>
+    member<span class="token punctuation">.</span>username <span class="token keyword">as</span> member_username
+<span class="token keyword">from</span>
+    bookmark
+        <span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+    message <span class="token keyword">on</span> bookmark<span class="token punctuation">.</span>message_id<span class="token operator">=</span>message<span class="token punctuation">.</span>id
+        <span class="token keyword">left</span> <span class="token keyword">outer</span> <span class="token keyword">join</span>
+    member <span class="token keyword">on</span> bookmark<span class="token punctuation">.</span>member_id<span class="token operator">=</span>member<span class="token punctuation">.</span>id
+<span class="token keyword">where</span>
+        bookmark<span class="token punctuation">.</span>member_id<span class="token operator">=</span>:memberId
+        <span class="token operator">and</span> bookmark<span class="token punctuation">.</span>created_date <span class="token operator">&lt;</span> :createdDate
+<span class="token keyword">order</span> <span class="token keyword">by</span>
+    bookmark<span class="token punctuation">.</span>created_date <span class="token keyword">desc</span> 
+<span class="token keyword">limit</span> <span class="token number">20</span><span class="token punctuation">;</span></code></pre></div>
+<p>차이점이 있다면 메시지와 달리 북마크는 개인이 소유한 북마크만 보여주기에, <code class="language-text">member_id</code> 일치 조건이 항상 걸려있다는 것이다.
+이쯤 되니 <code class="language-text">member_id</code> FK 인덱스를 사용하고 있을 것이며, <code class="language-text">Using filesort</code>가 표기될 것이 짐작간다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 13.333333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAApUlEQVQI1yWN25KDIBBE/R1QsIIXEJQQb2uy+/+/c1LOPnRN9Zyu7uq4PqR5Yf95s+Qn5bWxnZf8Yprl5lJYj5N1P3mWF+f7j7JuxJhIaZbckjN3V1XWA2tb/JSw1tKPnv36JcRE1w/4KWKMQWvFw3XMucjI6AP9MIoGH3BdL6waQ6Su6//CtsW5jlw2mqZBKYVWSvitxhgZcM6Jv5nWWnK3D1PiC/lxYtcvmOgZAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 적용 전"
+        title="북마크 복합 인덱스 적용 전"
+        src="/static/ee57f7956bae015ec87cbe43f1351057/37523/bookmark_explain_no_index2.png"
+        srcset="/static/ee57f7956bae015ec87cbe43f1351057/e9ff0/bookmark_explain_no_index2.png 180w,
+/static/ee57f7956bae015ec87cbe43f1351057/f21e7/bookmark_explain_no_index2.png 360w,
+/static/ee57f7956bae015ec87cbe43f1351057/37523/bookmark_explain_no_index2.png 720w,
+/static/ee57f7956bae015ec87cbe43f1351057/302a4/bookmark_explain_no_index2.png 1080w,
+/static/ee57f7956bae015ec87cbe43f1351057/07a9c/bookmark_explain_no_index2.png 1440w,
+/static/ee57f7956bae015ec87cbe43f1351057/95e59/bookmark_explain_no_index2.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>예상이 맞았다.
+추가 정렬과 읽었지만 버려지는 레코드를 없앨 수 있도록 복합 인덱스를 걸어주자.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">index</span> bookmark_member_and_created_date <span class="token keyword">on</span> bookmark <span class="token punctuation">(</span>member_id<span class="token punctuation">,</span> created_date<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 13.333333333333334%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAmElEQVQI1z2MaxKDIBCDvQ44WLXycgFR1Gq9/3nSEbU/MpvNfEmxbF8QOaz7AR8GxCkhrRvIOZDz6Mn9vfMB0/LBmGbEMWH+7Pl/mPMWcVogqgouRLzqBkobzNsBbQlSG3RSQSoNZSzqpkVZluCcg/wA8gHa2Iu52UJpmyFt+jzcvjv4mHLGGMtlzln2Z/YoD3QSQoibu9gf3upiem4ynaoAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 적용 후"
+        title="북마크 복합 인덱스 적용 후"
+        src="/static/3c203afa6cca2fb45105ffd697f66327/37523/bookmark_explain_index2.png"
+        srcset="/static/3c203afa6cca2fb45105ffd697f66327/e9ff0/bookmark_explain_index2.png 180w,
+/static/3c203afa6cca2fb45105ffd697f66327/f21e7/bookmark_explain_index2.png 360w,
+/static/3c203afa6cca2fb45105ffd697f66327/37523/bookmark_explain_index2.png 720w,
+/static/3c203afa6cca2fb45105ffd697f66327/302a4/bookmark_explain_index2.png 1080w,
+/static/3c203afa6cca2fb45105ffd697f66327/07a9c/bookmark_explain_index2.png 1440w,
+/static/3c203afa6cca2fb45105ffd697f66327/95e59/bookmark_explain_index2.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAT0lEQVQI12WJSQ6AMAwD+yF6gTaLE/j/q4ygohJwGGk8Lg7wAYgf4/tuvHziYHEk161RDfTYKeY0j+lXvxuS6mAXo+johmBXI/Jg68KlVp4d70L2vv6A8wAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 적용 전"
+        title="북마크 복합 인덱스 적용 전"
+        src="/static/c9e220c3f8257d251cc32bbe969cc6fa/37523/bookmark_analyze_no_index2.png"
+        srcset="/static/c9e220c3f8257d251cc32bbe969cc6fa/e9ff0/bookmark_analyze_no_index2.png 180w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/f21e7/bookmark_analyze_no_index2.png 360w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/37523/bookmark_analyze_no_index2.png 720w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/302a4/bookmark_analyze_no_index2.png 1080w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/07a9c/bookmark_analyze_no_index2.png 1440w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/95e59/bookmark_analyze_no_index2.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAVElEQVQI13WKSw7AIBBCPZErPzMw2t7/UjTV1F0XLwQeyQGBFMCVZOy+iLOfTv4DKhlCjlApVYghZ8hAxbz1uW4ujmv/alMzlznEMdf2utq6cs56ABinQv+A/1mlAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="북마크 복합 인덱스 적용 후"
+        title="북마크 복합 인덱스 적용 후"
+        src="/static/43b3bf753be7018e44d6d744454c6ef3/37523/bookmark_analyze_index2.png"
+        srcset="/static/43b3bf753be7018e44d6d744454c6ef3/e9ff0/bookmark_analyze_index2.png 180w,
+/static/43b3bf753be7018e44d6d744454c6ef3/f21e7/bookmark_analyze_index2.png 360w,
+/static/43b3bf753be7018e44d6d744454c6ef3/37523/bookmark_analyze_index2.png 720w,
+/static/43b3bf753be7018e44d6d744454c6ef3/302a4/bookmark_analyze_index2.png 1080w,
+/static/43b3bf753be7018e44d6d744454c6ef3/07a9c/bookmark_analyze_index2.png 1440w,
+/static/43b3bf753be7018e44d6d744454c6ef3/95e59/bookmark_analyze_index2.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>의도한 인덱스를 타고, 실행시간이 줄어들었다.</p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11.9…12.2ms</td>
+<td>6.7…7.2ms</td>
+</tr>
+</tbody>
+</table>
+<p>더미데이터는 한 멤버당 300개의 북마크 데이터를 넣었다.
+북마크 데이터 수가 늘어난다면, 실행시간의 차이도 더 커질 것이다.</p>
+<br>
+<p>마지막으로 리마인더는!
+북마크와 조건이 똑같다.
+멤버와 <code class="language-text">remind_date</code>라는 알람 지정 시각을 기준으로 조회한다.</p>
+<div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">where</span>
+    reminder<span class="token punctuation">.</span>member_id<span class="token operator">=</span>:memberId
+    <span class="token operator">and</span> reminder<span class="token punctuation">.</span>remind_date <span class="token operator">&lt;</span> :remindDate
+<span class="token keyword">order</span> <span class="token keyword">by</span>
+    reminder<span class="token punctuation">.</span>remind_date <span class="token keyword">desc</span> </code></pre></div>
+<p><code class="language-text">member_id</code> FK 인덱스를 사용하고 <code class="language-text">Using filesort</code> 표기까지 다~ 똑같았다.
+그래서 <code class="language-text">member_id, remind_date</code>로 걸어줬고, 실행시간 차이만 적고 마치겠다.</p>
+<table>
+<thead>
+<tr>
+<th>복합 인덱스 X</th>
+<th>복합 인덱스 O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15.8…19.2ms</td>
+<td>3.4…8.0ms</td>
+</tr>
+</tbody>
+</table>
+<p>차이점이 있다면 리마인더는 알람을 발송하면 바로바로 데이터를 지우기 때문에, 실상황에서 효율은 더 낮지 않을까 싶은 점이다.</p>
+<br>
+<h2 id="finally" style="position:relative;"><a href="#finally" aria-label="finally permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>finally</h2>
+<p>그래서 줍줍에는 추가로 이런 인덱스가 걸리게 되었다!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACM0lEQVQoz1WSS2/aQBSFvU6FZ8YvsDGYVwghGEMDtgMhpgpppbyQmiitFCmt+pBStYtuuuiv/6pxmkpdzOKee8/RPeeOYVkW+gkhqFQqSCl5xqRUKKVI4pg8y6hWq//1lbIwTbPkPmOGJphC0O12ybKMKIpKksYD38PzXDqtFuM4xvf9f4KmMPFqHmmeEidjpPXEMVzXwXMdWs0m02RcCuqGEJK93TZ5nlEPQ+ZpymKxwPM8pJI0/IBABYx6I+J+TGAFOJaD4ddcloucWs1nPB5TFAVBEJQ2vGqVs7MzBoNBKbZarbBtG6EkrxZbLt5+Y1bccXr1mf78mn5jiuHYNs1moxx0XZcwDP/mo0pM19qm3kzXSkqkUvRmK4q7j+xvrphd3DLcXOO2+hjamt5OZ6jtttttAj8oBfVRdOhR1KTT6eA4TolbykIoQUWaSMdC2hbCVkhLYTiuTdRq0O31KNYFySTBq3oIKQn8KqYp2B8MKYo1juOV2ZYOhIldqXCcpsyTBPViB0sKjNDxeT/bsu4tOY83nLSPiM09atLjcBrx7uaYZd5le5mSz5sMB0+i04OMg/iU0WRDvtxSb2fU/V0MW9qsx8csRzlH+ynZ3oyu3cK1bGYv6/z8fsGH+xWfHtY8fjklPQzZqQjO31zz4/cvrh7uuX/8yvr2hng4w1CWwpRmeTn9HXQOyraoaKt7EcVJRqcdcrLKuLx8TSuqYQpJqxcwmXQ5iNskSY9R0qEWevwB3V8ZV7EnE74AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="줍줍 추가 인덱스"
+        title="줍줍 추가 인덱스"
+        src="/static/1d3da01279e1099504af950bde40a98a/37523/final.png"
+        srcset="/static/1d3da01279e1099504af950bde40a98a/e9ff0/final.png 180w,
+/static/1d3da01279e1099504af950bde40a98a/f21e7/final.png 360w,
+/static/1d3da01279e1099504af950bde40a98a/37523/final.png 720w,
+/static/1d3da01279e1099504af950bde40a98a/302a4/final.png 1080w,
+/static/1d3da01279e1099504af950bde40a98a/07a9c/final.png 1440w,
+/static/1d3da01279e1099504af950bde40a98a/95e59/final.png 1460w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<h2 id="짧은-회고" style="position:relative;"><a href="#%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0" aria-label="짧은 회고 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>짧은 회고</h2>
+<p>5차 스프린트 발표에 아쉬움이 많다.
+발표를 마치고부터 해당 포스팅을 적기 시작했는데… 하면 할 수록 발표 때 잘못 얘기한 부분만 보여서 유튜브에 올라올 것이 두려울 정도다 🥲
+그래도 깃허브 위키에 올려, 다른 백엔드 팀원들에게 공유해주려고 더 꼼꼼히 글을 쓰게 되었던건데…
+팀원들에게 잘못된 지식을 전하지 않아서 다행이다 😇</p>
+<p>별개로 인덱스 테스트에도 아쉬움이 있다.
+더미데이터를 적당히 넣으면 된다고 생각했는데, 실행계획을 분석할수록 <strong>실제 데이터가 어떻게 쌓이는가</strong>에 따라 결과가 많이 달라질 것 같아서였다.
+실사용 데이터가 좀 쌓인다면, 이번에 인덱스 과제를 하지 않은 다른 백엔드 팀원들이랑 함께, 한단계 더 최적화를 시도해보고 싶다🔥</p>
+<br>
+<div class="table-of-contents">
+<ul>
+<li><a href="#-%EC%A4%8D%EC%A4%8D-mysql-%EC%9D%B8%EB%8D%B1%EC%8A%A4-%ED%83%90%ED%97%98">🧳 줍줍 MySQL 인덱스 탐험</a></li>
+<li><a href="#%EC%BF%BC%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94-by%EB%B4%84">쿼리 최적화 by.봄🌱</a></li>
+<li><a href="#-%EC%8B%A4%ED%97%98-%ED%99%98%EA%B2%BD">🧪 실험 환경</a></li>
+<li><a href="#%EF%B8%8F-mysql%EC%9D%98-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1-%EC%9D%B8%EB%8D%B1%EC%8A%A4">⚙️ MySQL의 자동 생성 인덱스</a></li>
+<li><a href="#-channel">📺 Channel</a></li>
+<li><a href="#-channelsubscription">🔖 ChannelSubscription</a></li>
+<li><a href="#%EF%B8%8Fbookmark--reminder">⭐️Bookmark &#x26; ⏰Reminder</a></li>
+<li><a href="#%EF%B8%8F-querydsl%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B3%B5%EC%9E%A1%ED%95%9C-%EC%BF%BC%EB%A6%AC%EB%93%A4">✉️ Querydsl을 이용한 복잡한 쿼리들</a></li>
+<li><a href="#finally">finally</a></li>
+<li><a href="#%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0">짧은 회고</a></li>
+</ul>
+</div></div></div><div class="post-navigator"><div class="post-navigator-card-wrapper"><a class="post-card prev" href="/journey-to-cool-test-1/"><div class="direction">이전 글</div><div class="title">메시지 조회 테스트 개선기</div></a></div><div class="post-navigator-card-wrapper"></div></div><div class="utterances"></div></main><footer class="page-footer-wrapper"><p class="page-footer">© <!-- -->2022<!-- --> <a href="https://github.com/hyewoncc">최혜원</a> powered by<a href="https://github.com/zoomKoding/zoomkoding-gatsby-blog"> zoomkoding-gatsby-blog</a></p></footer><div class="dark-mode-button-wrapper"><button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium dark-mode-button css-1yxmbwk" tabindex="0" type="button"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge dark-mode-icon css-6flbmm" focusable="false" viewBox="0 0 24 24" aria-hidden="true" data-testid="DarkModeIcon"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"></path></svg></button></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/db_index/";window.___webpackCompilationHash="9043e7a2d5e942a4893b";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-29b51f959b53d5ab826b.js"],"app":["/app-4f4731c133ff93aaaddd.js"],"component---cache-caches-gatsby-plugin-offline-app-shell-js":["/component---cache-caches-gatsby-plugin-offline-app-shell-js-ffdb1e83dd2925d16ce3.js"],"component---src-pages-404-js":["/component---src-pages-404-js-f5e8223a8133b383efc3.js"],"component---src-pages-about-js":["/component---src-pages-about-js-7224aac63cfe0e2bee8e.js"],"component---src-pages-index-js":["/component---src-pages-index-js-4d1c8f78371884118381.js"],"component---src-templates-blog-template-js":["/component---src-templates-blog-template-js-4d55108510d54e3f1a34.js"],"component---src-templates-category-template-js":["/component---src-templates-category-template-js-20f7d9dccdb2972f93d5.js"]};/*]]>*/</script><script src="/polyfill-29b51f959b53d5ab826b.js" nomodule=""></script><script src="/app-4f4731c133ff93aaaddd.js" async=""></script><script src="/framework-624450fa60bf625678af.js" async=""></script><script src="/webpack-runtime-5a5b14eb10ea0145fc83.js" async=""></script></body></html>

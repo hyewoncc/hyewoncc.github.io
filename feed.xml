@@ -1,4 +1,1358 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 28 Sep 2022 13:23:48 GMT</lastBuildDate><item><title><![CDATA[메시지 조회 테스트 개선기]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/journey-to-cool-test-1/</link><guid isPermaLink="false">https://hyewoncc.github.io/journey-to-cool-test-1/</guid><pubDate>Wed, 28 Sep 2022 13:20:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-메시지-조회-테스트-개선기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%A1%B0%ED%9A%8C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%9C%EC%84%A0%EA%B8%B0&quot; aria-label=&quot; 메시지 조회 테스트 개선기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🛠 메시지 조회 테스트 개선기&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 04 Oct 2022 12:02:24 GMT</lastBuildDate><item><title><![CDATA[줍줍 MySQL 인덱스 탐험]]></title><description><![CDATA[🧳 줍줍 MySQL 인덱스 탐험 ❗️ 해당 포스팅에서 지칭하는 책은 모두 Real MySQL 8.0 1권을 뜻합니다. 우테코 팀 프로젝트 5차 스프린트에서 성능 테스트로 톰캣 설정 최적화 / 모든 쿼리 수집 후 DB…]]></description><link>https://hyewoncc.github.io/db_index/</link><guid isPermaLink="false">https://hyewoncc.github.io/db_index/</guid><pubDate>Tue, 04 Oct 2022 12:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-줍줍-mysql-인덱스-탐험&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%A4%8D%EC%A4%8D-mysql-%EC%9D%B8%EB%8D%B1%EC%8A%A4-%ED%83%90%ED%97%98&quot; aria-label=&quot; 줍줍 mysql 인덱스 탐험 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧳 줍줍 MySQL 인덱스 탐험&lt;/h2&gt;
+&lt;p&gt;❗️ 해당 포스팅에서 지칭하는 &lt;strong&gt;책&lt;/strong&gt;은 모두 &lt;a href=&quot;https://search.shopping.naver.com/book/catalog/32443973624?cat_id=50010586&amp;#x26;frm=PBOKPRO&amp;#x26;query=realmysql&amp;#x26;NaPm=ct%3Dl8u5bsc0%7Cci%3D283e817c3ef615da4bb3c94f9385d94070cbbc93%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3D702ada6411525c62218b0df3e900c84c33c4cdd2&quot;&gt;Real MySQL 8.0 1권&lt;/a&gt;을 뜻합니다.&lt;/p&gt;
+&lt;p&gt;우테코 팀 프로젝트 5차 스프린트에서 성능 테스트로 톰캣 설정 최적화 / 모든 쿼리 수집 후 DB 인덱스 설정 이라는 두 개의 백엔드 과제가 있었다.
+나는 이 중 &lt;strong&gt;DB 인덱스 설정&lt;/strong&gt;을 맡게 되었다.
+줍줍의 전체 테이블 구조는 정석 ERD보다 간략하게 표현하자면 이렇다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB9ElEQVQozz2S23KbQBBE9QPiDiuW5bJACVlIJjJGFyzZqSR+cN78/x9zUrty/DBQw7Dd0729CIIAU47rsnQcPM+zvR8EuK5n+/Fw4DhNRFGE5/l2Zv/xfRzHwXXd735hHubDQ9cxX84opSx4FHrsu4KyrGhrzfXlhTwvSGOPJApZLh2klMzzzG63+15kIVOByiSFUoxPT7RtQxQKZByy60p+/f5D0zTcbldeX39SyJgsdml0bgG3260F/L/lQknBcXomEYJhGLjMZ5TUFCtDkjAdT+iq4vl5ZN1tyIRPXcUcxoHr9cZms2EcR9I0vQPGUWSZTBPHMUIkxNGKMpWkiYcfhF8+OTiuhxQBstUUTcvhcKCqKvq+tyqM7IUxPs9zu7oZdN2aXFUUaYqI7iB9v2W/31tw42FWKUsSBD5lWdqFviWnqwSlMrTWnM9n6+FK5OQric4TC7J92DBNE2EYkeUrsnWL47iEYWjPGLI7gQUUzPOF9XptD9V1jc5K+kozDz3zy9XKMR6mqUTlEv1QM/Qtdd1YyUadATe18P2AYfhhzTXSDKCIA5LQYdMWfH5+cjqdeH9/t2Uik8iEp/ORvx8fPD4+crvdyLLsvqEN9Vc4TRljDcnScdG6ssabG7xcLry9vdk0mJwa+UIIe5Fmbt4m2P8Av94QAZ/CxekAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;erd&quot;
+        title=&quot;erd&quot;
+        src=&quot;/static/04f240438cca4d0a360f7e62c155feaa/37523/jupjup_tables.png&quot;
+        srcset=&quot;/static/04f240438cca4d0a360f7e62c155feaa/e9ff0/jupjup_tables.png 180w,
+/static/04f240438cca4d0a360f7e62c155feaa/f21e7/jupjup_tables.png 360w,
+/static/04f240438cca4d0a360f7e62c155feaa/37523/jupjup_tables.png 720w,
+/static/04f240438cca4d0a360f7e62c155feaa/302a4/jupjup_tables.png 1080w,
+/static/04f240438cca4d0a360f7e62c155feaa/07a9c/jupjup_tables.png 1440w,
+/static/04f240438cca4d0a360f7e62c155feaa/95e59/jupjup_tables.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;쿼리 수집은 쉬웠다.
+줍줍의 모든 &lt;code class=&quot;language-text&quot;&gt;Repository&lt;/code&gt; 클래스들은 &lt;code class=&quot;language-text&quot;&gt;Repository&amp;lt;Domain, ID&gt;&lt;/code&gt;를 상속했다.
+&lt;code class=&quot;language-text&quot;&gt;JpaRepository&lt;/code&gt;는 선언하지 않은 메서드도 사용 가능한 반면, &lt;code class=&quot;language-text&quot;&gt;Repository&lt;/code&gt;를 상속하면 선언한 메서드만 사용 가능하다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABpUlEQVQoz32S2Y7aQBBF+ZpkcC/esCcoGBizGe8bmCUj5f9/4kRu0Ix4ycPRvV1S3ypV98RVPxFvP5DWG1paKKVRWj9UCrSYopRCa42U0nj1VCkshPXKZHUoWO0Lfsd7vCDEmwV4QYAfhPjh+4Pg/fscfNdm4StjfTJfbtjGMfkxoTqs2K3n+GGAbTsPnP9gO2jbNozecT0mSgksYeEqF9f28GyfJMnYJ0eWqzXRckW0Wj/8k0d9zUe8YbPdEW+2rD9i02Qy7sLTUxwtULZm5vtcz3+4fv6l7QeKuqOoW9KiJiubF8qmoztfOF/uxjuuy0Qqxcy2iHyLefiLONoytFdO1ztt11O3PWXdUNYtSZqx2R3Y7RO2+4R9klJUNW13Is0LHGcMlJKpEEynFkIqlosFt9Od4f5JfzrT9icT1vVniqox5GXNMSs4HDN2hyNNdyIvq2egUgglzJOP3yVaRFy6mwkcLjeatqduOuq2M8FV05IVlZnsoY0JHBuYHUolzaMIM+UUR2mG9kI3XE3YOE2Wl+ZCkuZfmualaWCoGnZJitI2/wC8hzdG9GmzpQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;JpaRepository&quot;
+        title=&quot;JpaRepository&quot;
+        src=&quot;/static/610e8798201278004b7fd531bea1d86f/37523/jpa_repository.png&quot;
+        srcset=&quot;/static/610e8798201278004b7fd531bea1d86f/e9ff0/jpa_repository.png 180w,
+/static/610e8798201278004b7fd531bea1d86f/f21e7/jpa_repository.png 360w,
+/static/610e8798201278004b7fd531bea1d86f/37523/jpa_repository.png 720w,
+/static/610e8798201278004b7fd531bea1d86f/302a4/jpa_repository.png 1080w,
+/static/610e8798201278004b7fd531bea1d86f/07a9c/jpa_repository.png 1440w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  JpaRepository를 상속했을 때
+&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABiElEQVQoz32S247aMBRF8zUVkKsdOwnkSiiXMAQCYRhGpdNW6v//wqoSYAoP7cPS2Tq29tk+siFchyTNSdOEoixJJpp65rMqNXk2ZhxIpK/QgcZxbGz7jsVoNMI0zScM23HIsoJZEVHNE9K84OssZz7tzDx0GCGkRAgP0xz1Jv/DcGybsXIp0pB0IplmEWms8ZVGCInWGs+x+ul/0/0bY5LEBHFGMElwpUIr0eOJG15X5TWllL32HqqQz2dGuW5ZbvYsXmrKIiZJIoQOkErj6+AT+aAfe929O34QYjiOgxIWZZGymudMi5isyAnDCCklvu/fUA/6hlIEQYDSul+N67oY3buHlslgaPJlMMS2bF7bd96//2CzbVis1j3zZfWp76zWG7bNgX372tduPb1h5A1IlUkUhuRxzre3Dy6/fnP5+MnxdGa3b6mbA9umZV3veqrNjt3hyOF4oj2daQ7H6w4ty8KyTKQ9RHiCWbHgcnyjPV96k+qlfmK53rCsrnQJV7d+l7D7FX8A4/ctw+64JMEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Repository&quot;
+        title=&quot;Repository&quot;
+        src=&quot;/static/07fa46015009235d0a4b55a84bc7d699/37523/repository.png&quot;
+        srcset=&quot;/static/07fa46015009235d0a4b55a84bc7d699/e9ff0/repository.png 180w,
+/static/07fa46015009235d0a4b55a84bc7d699/f21e7/repository.png 360w,
+/static/07fa46015009235d0a4b55a84bc7d699/37523/repository.png 720w,
+/static/07fa46015009235d0a4b55a84bc7d699/302a4/repository.png 1080w,
+/static/07fa46015009235d0a4b55a84bc7d699/07a9c/repository.png 1440w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  Repository를 상속했을 때
+&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;뒤집어 말하면 &lt;code class=&quot;language-text&quot;&gt;QueryDsl&lt;/code&gt;사용을 제외하면, &lt;code class=&quot;language-text&quot;&gt;Repository&lt;/code&gt; 코드의 모든 메서드가 곧 프로젝트에 사용 중인 모든 쿼리였다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;쿼리-최적화-by봄&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%BF%BC%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94-by%EB%B4%84&quot; aria-label=&quot;쿼리 최적화 by봄 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;쿼리 최적화 by.봄🌱&lt;/h2&gt;
+&lt;p&gt;인덱스 최적화를 시작하기 전에 고맙게도 같은 팀 크루인 봄이 &lt;a href=&quot;https://github.com/woowacourse-teams/2022-pickpick/pull/531&quot;&gt;불필요햔 left outer join을 제거하는 쿼리 최적화&lt;/a&gt;를 해주었다!
+&lt;code class=&quot;language-text&quot;&gt;Repository&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;B&lt;/code&gt;의 PK를 FK로 가진 &lt;code class=&quot;language-text&quot;&gt;A&lt;/code&gt;가 해당 FK를 조건으로 조회할 때, &lt;code class=&quot;language-text&quot;&gt;findByBId&lt;/code&gt;로 하면 불필요한 &lt;code class=&quot;language-text&quot;&gt;left outer join&lt;/code&gt;이 발생하고 있었다.
+이를 이미 &lt;code class=&quot;language-text&quot;&gt;B&lt;/code&gt;를 조회한 곳에서는 &lt;code class=&quot;language-text&quot;&gt;findByB&lt;/code&gt;를 사용하도록 바꾸고, &lt;code class=&quot;language-text&quot;&gt;B&lt;/code&gt;를 조회하지 않는 곳에서는 &lt;code class=&quot;language-text&quot;&gt;@Query&lt;/code&gt;로 직접 쿼리문을 작성해 개선해주었다.
+고마워요 최고 봄!&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// 멤버의 채널 구독을 화면 순서대로 가져오는 메서드&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Before&lt;/span&gt;
+&lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ChannelSubscription&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findFirstByMemberIdOrderByViewOrderDesc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; memberId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// After&lt;/span&gt;
+&lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ChannelSubscription&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findFirstByMemberOrderByViewOrderDesc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Member&lt;/span&gt; member&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// 멤버와 메시지로 일치하는 북마크를 찾는 메서드&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// Before&lt;/span&gt;
+&lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Bookmark&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findByMessageIdAndMemberId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; messageId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; memberId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// After&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Query&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;select b from Bookmark b WHERE b.message.id = :messageId and b.member.id = :memberId&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Bookmark&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findByMessageIdAndMemberId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; messageId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; memberId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-실험-환경&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%8B%A4%ED%97%98-%ED%99%98%EA%B2%BD&quot; aria-label=&quot; 실험 환경 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧪 실험 환경&lt;/h2&gt;
+&lt;p&gt;모든 테스트는 로컬 &lt;code class=&quot;language-text&quot;&gt;docker&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;mysql&lt;/code&gt;을 띄워, 프로젝트와 동일하게 DB를 설정해 진행했다.&lt;br&gt;
+그리고 &lt;code class=&quot;language-text&quot;&gt;프로시저&lt;/code&gt;로 10만건의 &lt;code class=&quot;language-text&quot;&gt;Member&lt;/code&gt; 더미데이터를 넣으려고 했는데…
+느려도 &lt;strong&gt;너무&lt;/strong&gt; 느렸다.
+찾아보니 유니크한 &lt;code class=&quot;language-text&quot;&gt;slackId&lt;/code&gt;를 부여하기 위해 &lt;code class=&quot;language-text&quot;&gt;UUID&lt;/code&gt; 값 생성 후 적당히 잘라서 쓰고 있었는데, 여기가 문제였다.
+그래서 &lt;code class=&quot;language-text&quot;&gt;JdbcTemplate&lt;/code&gt;의 &lt;code class=&quot;language-text&quot;&gt;batchUpdate&lt;/code&gt;로 데이터를 넣도록 간단한 코드를 짰다.
+10만건 삽입에 프로시저는 &lt;strong&gt;4분&lt;/strong&gt; 전후, 자바 코드로는 16초가 걸렸다…
+&lt;code class=&quot;language-text&quot;&gt;JdbcTemplate&lt;/code&gt;으로 하는 게 훨씬 빠르다고 알려준 매트에게 고맙다.😭&lt;/p&gt;
+&lt;br&gt;  
+&lt;h2 id=&quot;️-mysql의-자동-생성-인덱스&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-mysql%EC%9D%98-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1-%EC%9D%B8%EB%8D%B1%EC%8A%A4&quot; aria-label=&quot;️ mysql의 자동 생성 인덱스 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;⚙️ MySQL의 자동 생성 인덱스&lt;/h2&gt;
+&lt;p&gt;사실 내가 모르는 새에 우리 DB에는 필요한 대부분의 인덱스가 설정되어 있었다.
+컬럼이 1.유니크하면서 2.null을 허용하지 않을 때, MySQL에서 자동으로 해당 컬럼으로 인덱스를 만들기 때문이다.
+마침 프로젝트에서 슬랙 정보를 이용하는 &lt;code class=&quot;language-text&quot;&gt;member, channel, message&lt;/code&gt; 테이블에는 해당 조건을 충족하는 &lt;code class=&quot;language-text&quot;&gt;slack_id&lt;/code&gt; 컬럼이 있었다.
+아래 그림에서 하이라이트 된 컬럼은 모두 자동 인덱스가 이미 설정 된 컬럼이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACnElEQVQozyWSzWscZQDGB2qx6e687zvvfM/u7OxmM5NM9qu7TbLZtHHTlMQmbtLQptVYba1EYiqCYrRa6KFV8ANPASmix/4lIoo3BS/FqyBePHn/SdbDc3g+Dg8Pj6G1RmsbKRVCSCxljfmJLqSgIE7R6tTpns+R+nmELIw9+yRj2UihUMrC1s5YNyzLwhRnybIai4tzRCUPU5rYusD8bJdR55jd3ne8eeV7Ru0nNErL2E6RglnADQQLgw4zjUkK4jksrTBKUUivfp2lbJ+NwT2GrbdJw1V8p0gv73B3+5i1zgP21j/j9uYxzaSP75xmfvol1vLP2el/zc7gCxbjT/CdCkYclbmx8piV9BHXLnzJ7RefsFC/SzlwqZRdunNNSonNuV5OLSsTeYKkItge3ufhzWccDH/ig9Gv3Dn/M5GbYbiOS7U8S9ltEvuzJFGDkpdTCQMiz8K2A5S0UVKjlEvJdwinqlRqM3TbC9SrszTzOaanzmFZGkNKSVBS1GcC0jymlnqEkUcSRnhOkQnzFFkekzcnKarT+E6BcjXGNAtIq0hcCfFDB1NMoLWFEQYB7ckr9GdusfnCWwyae6Tl4bhJltRplV5lrfcuW8vv0YlvkVa7hGmCkh6Bm3BxaZVuu49W3vgdRhzV+Ojqb3x46R8ebP3J0fBfbrSeMlURbMzt8PD6X7xz8Q+ONp9xb/5vBtP7RJngav9jDpZ+542FHzlc+YVXGj8QuSmG1g793mV6zVXm22u0s1WqQYZrn6WZ5uy//Jjt4fvsje7z2tYjEr+BHUouLb/O4e63XLvwFXc2vuFy/imeHWNY+v8fnmwwhjyDtARFYZJONlgfHNCt3WS0csju+hFJ1MIURbQtsT0TZU/g+ALlnMGyFP8BViM3exuWJ9oAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;indexes&quot;
+        title=&quot;indexes&quot;
+        src=&quot;/static/d2fabf195ae1c7d0be2a4c9faeca315e/37523/db_indexes.png&quot;
+        srcset=&quot;/static/d2fabf195ae1c7d0be2a4c9faeca315e/e9ff0/db_indexes.png 180w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/f21e7/db_indexes.png 360w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/37523/db_indexes.png 720w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/302a4/db_indexes.png 1080w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/07a9c/db_indexes.png 1440w,
+/static/d2fabf195ae1c7d0be2a4c9faeca315e/95e59/db_indexes.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그래도 궁금하니 한번 자동 생성된 인덱스를 삭제하고 &lt;code class=&quot;language-text&quot;&gt;explain analyze&lt;/code&gt; 쿼리를 통해 실행 시간을 재어 보았다.
+&lt;code class=&quot;language-text&quot;&gt;member&lt;/code&gt;에 10만개의 데이터를 넣고 99,998번째 row의 &lt;code class=&quot;language-text&quot;&gt;slack_id&lt;/code&gt;로 검색했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;explain&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;analyze&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; first_login&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; slack_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; thumbnail_url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; username
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; member
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; slack_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :slackId&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAW0lEQVQI11WLSw6AIAxEuRO05VdYaox6/9uMoRCji+Z13mTcft7YjgvaOqq294oqStWfM7/c6Gvrk5/OEUdIymBJYIkgFmMghvcBHJN1gcT+4cdmUGJeeW58IDxruEMlyKijswAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;인덱스 있을 떄&quot;
+        title=&quot;인덱스 있을 떄&quot;
+        src=&quot;/static/1a39f7c934454940377514a42a306e62/37523/time_auto_index_member.png&quot;
+        srcset=&quot;/static/1a39f7c934454940377514a42a306e62/e9ff0/time_auto_index_member.png 180w,
+/static/1a39f7c934454940377514a42a306e62/f21e7/time_auto_index_member.png 360w,
+/static/1a39f7c934454940377514a42a306e62/37523/time_auto_index_member.png 720w,
+/static/1a39f7c934454940377514a42a306e62/302a4/time_auto_index_member.png 1080w,
+/static/1a39f7c934454940377514a42a306e62/2cefc/time_auto_index_member.png 1400w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWklEQVQI102LURKFIAwDvZJAW2gL97/VvhF9o1/ZzCZHZOKRRE48YnPORa6FexBPv/3L/9+3X3nYcGoTRDul1M0jJp6T8yw0Ua6N9nE7z70VNWp7nHWaGmKdHxmTQqRt4VJdAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;인덱스 없을 때&quot;
+        title=&quot;인덱스 없을 때&quot;
+        src=&quot;/static/33cb14290223f0b53720a3ba42a4f52e/37523/time_no_index_member.png&quot;
+        srcset=&quot;/static/33cb14290223f0b53720a3ba42a4f52e/e9ff0/time_no_index_member.png 180w,
+/static/33cb14290223f0b53720a3ba42a4f52e/f21e7/time_no_index_member.png 360w,
+/static/33cb14290223f0b53720a3ba42a4f52e/37523/time_no_index_member.png 720w,
+/static/33cb14290223f0b53720a3ba42a4f52e/302a4/time_no_index_member.png 1080w,
+/static/33cb14290223f0b53720a3ba42a4f52e/2cefc/time_no_index_member.png 1400w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;자동 생성된 인덱스를 두고 조회했을 때 &lt;strong&gt;0.017~0.025ms&lt;/strong&gt;가,
+해당 인덱스를 삭제하고 조회했을 때 &lt;strong&gt;1857ms&lt;/strong&gt;가 소요되었다.
+1.8초도 느리긴 하지만, &lt;strong&gt;10000배&lt;/strong&gt; 차이난다고 생각하니 정말 많~이 느려졌다.&lt;/p&gt;
+&lt;p&gt;그럼 프로젝트의 쿼리가 최적의 인덱스를 타고 있는지 일단 &lt;strong&gt;모두&lt;/strong&gt; 확인해보자.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Member
+&lt;ul&gt;
+&lt;li&gt;✅ findById(Long id)&lt;/li&gt;
+&lt;li&gt;✅ findBySlackId(String slackId)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Channel
+&lt;ul&gt;
+&lt;li&gt;✅ findById(Long id)&lt;/li&gt;
+&lt;li&gt;✅ findBySlackId(String slackId)&lt;/li&gt;
+&lt;li&gt;⬜️ findAllByOrderByName()&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ChannelSubscription
+&lt;ul&gt;
+&lt;li&gt;✅ findAllByMemberId(Long memberId)&lt;/li&gt;
+&lt;li&gt;⬜️ findAllByMemberIdOrderByViewOrder(Long memberId)&lt;/li&gt;
+&lt;li&gt;⬜️ findFirstByMemberOrderByViewOrderDesc(Member member)&lt;/li&gt;
+&lt;li&gt;⬜️ findFirstByMemberIdOrderByViewOrderAsc(Long memberId)&lt;/li&gt;
+&lt;li&gt;⬜️ existsByChannelAndMember(Channel channel, Member member)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Message
+&lt;ul&gt;
+&lt;li&gt;✅ findById(long id)&lt;/li&gt;
+&lt;li&gt;✅ findBySlackId(String slackMessageId)&lt;/li&gt;
+&lt;li&gt;⬜️ Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Bookmark
+&lt;ul&gt;
+&lt;li&gt;✅ findById(Long id)&lt;/li&gt;
+&lt;li&gt;⬜️ findByMessageIdAndMemberId(Long messageId, Long memberId)&lt;/li&gt;
+&lt;li&gt;⬜️ Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Reminder
+&lt;ul&gt;
+&lt;li&gt;✅ findById(Long id)&lt;/li&gt;
+&lt;li&gt;⬜️ findByMessageIdAndMemberId(Long messageId, Long memberId)&lt;/li&gt;
+&lt;li&gt;⬜️ findAllByRemindDate(LocalDateTime remindDate)&lt;/li&gt;
+&lt;li&gt;⬜️ Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이미 최적의 인덱스를 사용하고 있을 쿼리는 체크해줬다.
+위에서부터 하나씩 제거해보자.&lt;/p&gt;
+&lt;h2 id=&quot;-channel&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-channel&quot; aria-label=&quot; channel permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;📺 Channel&lt;/h2&gt;
+&lt;p&gt;채널의 &lt;code class=&quot;language-text&quot;&gt;findAllByOderByName()&lt;/code&gt;은 워크스페이스의 모든 채널 목록을 반환한다.
+현재 1.한 워크스페이스만 지원하고있고 2.공개 채널만 저장되기 떄문에, 별다른 조건을 주지 않고 모두 조회중이다.
+그래서 넉넉하게 500개의 데이터를 넣고 조회했는데, &lt;code class=&quot;language-text&quot;&gt;name&lt;/code&gt; 컬럼에 인덱스를 설정 한 것과 안 한 것의 차이가 없었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; channel
+&lt;span class=&quot;token keyword&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;by&lt;/span&gt; name &lt;span class=&quot;token keyword&quot;&gt;asc&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXElEQVQI11WKRwqAMBQFPZIpv8Q0d4qS+x/niQlBXAwzvyzn3XBcDaXuSLkgptQ9yaX+5knMeXT5dltMWJwnsASQaLe1DsQCFu3WEEGs/e5JRvPbPP40DCRgNQYPa0VDHytJ0mgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;인덱스 없음&quot;
+        title=&quot;인덱스 없음&quot;
+        src=&quot;/static/d31fb8ed49d623f761fac015c0265def/37523/channel_name_no_index.png&quot;
+        srcset=&quot;/static/d31fb8ed49d623f761fac015c0265def/e9ff0/channel_name_no_index.png 180w,
+/static/d31fb8ed49d623f761fac015c0265def/f21e7/channel_name_no_index.png 360w,
+/static/d31fb8ed49d623f761fac015c0265def/37523/channel_name_no_index.png 720w,
+/static/d31fb8ed49d623f761fac015c0265def/302a4/channel_name_no_index.png 1080w,
+/static/d31fb8ed49d623f761fac015c0265def/2cefc/channel_name_no_index.png 1400w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWUlEQVQI133KNw6AMBBEUR8Jhw3GiQ4E8v2PM0g2FDQUX0+rWXNcHfvZUduGXCpSzsO3Utvn/mtNGcYHAksEiQ6d8yAWsOhQYwKxjj2QTFmefwVrnEnEYi1ubElDJ21QWRcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;인덱스 있음&quot;
+        title=&quot;인덱스 있음&quot;
+        src=&quot;/static/e54bad9215158cf816ce4b318c933763/37523/channel_name_index.png&quot;
+        srcset=&quot;/static/e54bad9215158cf816ce4b318c933763/e9ff0/channel_name_index.png 180w,
+/static/e54bad9215158cf816ce4b318c933763/f21e7/channel_name_index.png 360w,
+/static/e54bad9215158cf816ce4b318c933763/37523/channel_name_index.png 720w,
+/static/e54bad9215158cf816ce4b318c933763/302a4/channel_name_index.png 1080w,
+/static/e54bad9215158cf816ce4b318c933763/2cefc/channel_name_index.png 1400w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;name 인덱스 X&lt;/th&gt;
+&lt;th&gt;name 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;15~34ms&lt;/td&gt;
+&lt;td&gt;15~33ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;order by&lt;/code&gt;는 원래 인덱스를 이용하지 않나 싶어서 책이랑 구글도 찾아봤는데 이유를 잘 모르겠다.
+데이터가 너무 적어서 그럴 수도 있겠다.
+어쨌든 추가로 인덱스를 설정하지 않았다.&lt;/p&gt;
+&lt;h2 id=&quot;-channelsubscription&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-channelsubscription&quot; aria-label=&quot; channelsubscription permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🔖 ChannelSubscription&lt;/h2&gt;
+&lt;p&gt;채널 구독은 2000명의 멤버가 500개의 채널을 각각 구독하는 상황을 가정해 &lt;strong&gt;10만개&lt;/strong&gt;의 더미데이터를 삽입했다.
+우선 쿼리가 비슷한 아래 세 메서드를 보자.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;findAllByMemberIdOrderByViewOrder(Long memberId)&lt;/li&gt;
+&lt;li&gt;findFirstByMemberOrderByViewOrderDesc(Member member)&lt;/li&gt;
+&lt;li&gt;findFirstByMemberIdOrderByViewOrderAsc(Long memberId)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; channel_subscription
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId
+&lt;span class=&quot;token keyword&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;by&lt;/span&gt; view_order&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;#desc;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;#limit 1; &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;구독은 멤버에 종속적인 개념이기에, 항상 &lt;code class=&quot;language-text&quot;&gt;memberId&lt;/code&gt;를 기준으로 조회된다.
+그리고 &lt;code class=&quot;language-text&quot;&gt;view_order&lt;/code&gt; 순서대로 모두 조회하기 또는 첫번째 값을 가져오기기에,
+&lt;code class=&quot;language-text&quot;&gt;memberId&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;view_order&lt;/code&gt;로 복합 인덱스를 설정해봤다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt; member_view_order &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; channel_subscription &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;member_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; view_order&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;복합 인덱스를 설정했을 떄, 실제로 해당 인덱스를 이용해 쿼리가 실행된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdElEQVQI1x2LWRKCMBBEOVISKqBmMhMUKZaS0vsf5lnMVy+vu7M2UYogVZFaKSKuqsay7SzbwfScPR/nj/e6O79++/lFraFmrMeH6TXTVW08pCJqSDXuRbg60UbOAzEmYoyklHxTRJ0N48193/fOQwjkYeQP4UJEkmuOp8wAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 전&quot;
+        title=&quot;복합 인덱스 설정 전&quot;
+        src=&quot;/static/08f9887cb6960baf9eda7bd0ac3b125d/37523/subs_explain_no_index.png&quot;
+        srcset=&quot;/static/08f9887cb6960baf9eda7bd0ac3b125d/e9ff0/subs_explain_no_index.png 180w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/f21e7/subs_explain_no_index.png 360w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/37523/subs_explain_no_index.png 720w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/302a4/subs_explain_no_index.png 1080w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/07a9c/subs_explain_no_index.png 1440w,
+/static/08f9887cb6960baf9eda7bd0ac3b125d/95e59/subs_explain_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdklEQVQI1z3KWw6CMBRFUQbUiyJtAWkLlVeFaJz/ZLahMX6d7JVThDHSe48PA/P2ZFo2nA/s7w9hGOmdz7umnce8/n6JOC0MMZKOV7bzc3phbIttO4xtqLWhLC+IlNydz2abDm0s16pCRFBK5a5udW6t9d+VCF+wN0MXUyQZPgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 후&quot;
+        title=&quot;복합 인덱스 설정 후&quot;
+        src=&quot;/static/378940d78a6f24c78f34d64c660e2bc8/37523/subs_explain_index.png&quot;
+        srcset=&quot;/static/378940d78a6f24c78f34d64c660e2bc8/e9ff0/subs_explain_index.png 180w,
+/static/378940d78a6f24c78f34d64c660e2bc8/f21e7/subs_explain_index.png 360w,
+/static/378940d78a6f24c78f34d64c660e2bc8/37523/subs_explain_index.png 720w,
+/static/378940d78a6f24c78f34d64c660e2bc8/302a4/subs_explain_index.png 1080w,
+/static/378940d78a6f24c78f34d64c660e2bc8/07a9c/subs_explain_index.png 1440w,
+/static/378940d78a6f24c78f34d64c660e2bc8/95e59/subs_explain_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  복합 인덱스 설정하기 전과 후
+&lt;/div&gt;
+&lt;br&gt; 
+&lt;p&gt;하지만 실행시간에서 유의미한 차이를 볼 수 없었다.
+의문인 점은 복합 인덱스 설정 전에는 &lt;code class=&quot;language-text&quot;&gt;Extra&lt;/code&gt; 필드에 &lt;code class=&quot;language-text&quot;&gt;Using filesort&lt;/code&gt;가 표기된다는 점이다.
+이건 &lt;code class=&quot;language-text&quot;&gt;order by&lt;/code&gt; 처리 시, 적합한 인덱스를 사용하지 못해 MySQL 서버가 조회된 레코드를 다시 정렬한다는 뜻이다.
+복합 인덱스 설정 시 해당 인덱스를 사용하기에 &lt;code class=&quot;language-text&quot;&gt;Extra&lt;/code&gt;는 &lt;code class=&quot;language-text&quot;&gt;null&lt;/code&gt;이 된다.
+그럼에도 실행시간이 뚜렷하게 개선되지 않았다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAU0lEQVQI112Lxw3AMAwDvZGRZksitf9YDFw+yeMA1sJMAVQAAvkF3N3yZC6N34brPygelAV03Y/Moe6h1l0OqpnPrnWbPphTz3xvB47UcZyqteoFJcxC5vOdpXkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 전&quot;
+        title=&quot;복합 인덱스 설정 전&quot;
+        src=&quot;/static/cf3cfd9d769e010b40df197d8f90b2a5/37523/subs_analyze_no_index.png&quot;
+        srcset=&quot;/static/cf3cfd9d769e010b40df197d8f90b2a5/e9ff0/subs_analyze_no_index.png 180w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/f21e7/subs_analyze_no_index.png 360w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/37523/subs_analyze_no_index.png 720w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/302a4/subs_analyze_no_index.png 1080w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/07a9c/subs_analyze_no_index.png 1440w,
+/static/cf3cfd9d769e010b40df197d8f90b2a5/95e59/subs_analyze_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI11WLXQ6AMAyCd6IlTl1/aO9/LMyaLOoDAfJBi0wCQQfKEUlEvCq2e37yf7v+S808qA6e10010BCcauWiXmyKVi8mVrstqU/yGIO9dz4pjkL2PzM53AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 후&quot;
+        title=&quot;복합 인덱스 설정 후&quot;
+        src=&quot;/static/219b4b8a0c225664a54f99441075114e/37523/subs_analyze_index.png&quot;
+        srcset=&quot;/static/219b4b8a0c225664a54f99441075114e/e9ff0/subs_analyze_index.png 180w,
+/static/219b4b8a0c225664a54f99441075114e/f21e7/subs_analyze_index.png 360w,
+/static/219b4b8a0c225664a54f99441075114e/37523/subs_analyze_index.png 720w,
+/static/219b4b8a0c225664a54f99441075114e/302a4/subs_analyze_index.png 1080w,
+/static/219b4b8a0c225664a54f99441075114e/07a9c/subs_analyze_index.png 1440w,
+/static/219b4b8a0c225664a54f99441075114e/95e59/subs_analyze_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;캡쳐는 시간 차이가 조굼 나는 걸로 찍혔지만, 여러번 수행했을 때 평균치는 차이가 없었다.
+채널이 500개나 있는 과장된 상황에서도 차이가 없는 것이라 적용하지 않기로 정했다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;나머지 한 메서드는 처음에는 추가 인덱스 설정이 필요하지 않을 것이라 생각했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;existsByChannelAndMember(Channel channel, Member member)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; channel_subscription&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; channel_subscription
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; channel_subscription&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;channel_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :channelId
+  &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; channel_subscription&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId
+&lt;span class=&quot;token keyword&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;FK&lt;/code&gt;인 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt;에 이미 각각 인덱스가 걸려있었기 때문이다.
+그래서 실행 계획을 보면, &lt;code class=&quot;language-text&quot;&gt;type&lt;/code&gt;이 &lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt;로 나온다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAcklEQVQI1y2LWw7CMBADe6HyBelmH0kpJdAC4v6nmUqBj5Eljz3U+cr2+TIvN1QN88DcMfOeHoGa4VEopbKsjbbtrO3Jst557G/a9iJK7Z/hnCYkG+qFJJmsjqiTJvn1Ubkk6X6SzDiOf06IGtmi7zpqHKpbQ/8zpZW5AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 전 실행계획&quot;
+        title=&quot;복합 인덱스 설정 전 실행계획&quot;
+        src=&quot;/static/0c50a3ac4e02025aa7ca1e5fee8b190b/37523/subs_channel_member_no_index.png&quot;
+        srcset=&quot;/static/0c50a3ac4e02025aa7ca1e5fee8b190b/e9ff0/subs_channel_member_no_index.png 180w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/f21e7/subs_channel_member_no_index.png 360w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/37523/subs_channel_member_no_index.png 720w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/302a4/subs_channel_member_no_index.png 1080w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/07a9c/subs_channel_member_no_index.png 1440w,
+/static/0c50a3ac4e02025aa7ca1e5fee8b190b/95e59/subs_channel_member_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그런데 &lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt;를 책에서 찾아보니 개선이 필요했다.
+아래는 해당 책의 설명이다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt;는 2개 이상의 인덱스를 이용해 각각의 검색 결과를 만들어낸 후, 그 결과를 병합하는 처리 방식이며 다음과 같은 특징이 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;여러 인덱스를 읽어야 하므로 일반적으로 &lt;code class=&quot;language-text&quot;&gt;range&lt;/code&gt; 접근 방식보다 효율성이 떨어진다&lt;/li&gt;
+&lt;li&gt;AND와 OR 연산이 복잡하게 연결된 쿼리에서는 제대로 최적화되지 못할 때가 많다&lt;/li&gt;
+&lt;li&gt;전문 검색 인덱스를 사용하는 쿼리에서는 &lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt;가 적용되지 않는다&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt; 접근 방식으로 처리된 결과는 항상 2개 이상의 집합이 되기 떄문에 그 두 집합의 교집합이나 합집합 또는 중복 제거와 같은 부가적인 작업이 더 필요하다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;현재 &lt;code class=&quot;language-text&quot;&gt;Extra&lt;/code&gt;에 표시된 &lt;code class=&quot;language-text&quot;&gt;Using intersect...&lt;/code&gt;는 각 처리 결과에서 교집합을 추출해내는 작업을 수행했다는 의미다.
+더 효율적인 수행을 위해 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt;로 복합 인덱스를 생성했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt; subscription_channel_and_member &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; channel_subscription &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;member_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; channel_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeUlEQVQI1yXLSxKCMBBFURYEhcU3pDskGj6aAnX/m7mWYfBG577Ch0A6P/hwx4og6hBRRBV1jr+/jjdx3XHeE5eVPR3ZwiOSzi9x2XK/PRNFXd+wOmOsMk7CJC7PTILMgX4Yabueqqooy5Kmaa/WWLphxNjr0/VD9h/G1kQHdvqeGgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 후 실행계획&quot;
+        title=&quot;복합 인덱스 설정 후 실행계획&quot;
+        src=&quot;/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/37523/subs_channel_member_index.png&quot;
+        srcset=&quot;/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/e9ff0/subs_channel_member_index.png 180w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/f21e7/subs_channel_member_index.png 360w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/37523/subs_channel_member_index.png 720w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/302a4/subs_channel_member_index.png 1080w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/07a9c/subs_channel_member_index.png 1440w,
+/static/353aa567f1b2dcfa8e9ab1d4fc86f37c/95e59/subs_channel_member_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;실행 계획에서 해당 인덱스를 사용함을 볼 수 있다.
+사진 상 실수로 이름을 잘못 설정했는데, &lt;code class=&quot;language-text&quot;&gt;subscription_channel_and_member&lt;/code&gt;가 맞다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAT0lEQVQI112LSwoAIQxDvZELdbRp69z/VBEVQVw8EvIJ3n8KlNCDXf7Nb54eexO+2gh15lIIc1YBG3QjoKhRYFTrazf90dmpd6aUGWNcnwEeM0MNkavd8QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 전 실행시간&quot;
+        title=&quot;복합 인덱스 설정 전 실행시간&quot;
+        src=&quot;/static/470210ea686d16f132bd85ea92134ab6/37523/subs_analyze_channel_member_no_index.png&quot;
+        srcset=&quot;/static/470210ea686d16f132bd85ea92134ab6/e9ff0/subs_analyze_channel_member_no_index.png 180w,
+/static/470210ea686d16f132bd85ea92134ab6/f21e7/subs_analyze_channel_member_no_index.png 360w,
+/static/470210ea686d16f132bd85ea92134ab6/37523/subs_analyze_channel_member_no_index.png 720w,
+/static/470210ea686d16f132bd85ea92134ab6/302a4/subs_analyze_channel_member_no_index.png 1080w,
+/static/470210ea686d16f132bd85ea92134ab6/07a9c/subs_analyze_channel_member_no_index.png 1440w,
+/static/470210ea686d16f132bd85ea92134ab6/95e59/subs_analyze_channel_member_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI11WMUQqAMAxDd6EJKq5d2nn/W0VqHcyPR8hLaYEZzTzxxH38uvlIt/Q1ATD+xE1ROK8mvEQpHRQFwzXRN2fvNnL/iH26Wjfux0n4zQcmpkLwP/+25gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;복합 인덱스 설정 후 실행시간&quot;
+        title=&quot;복합 인덱스 설정 후 실행시간&quot;
+        src=&quot;/static/ec8b2dacd32c44f9da0581dfb211fe0e/37523/subs_anaylze_channel_member_index.png&quot;
+        srcset=&quot;/static/ec8b2dacd32c44f9da0581dfb211fe0e/e9ff0/subs_anaylze_channel_member_index.png 180w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/f21e7/subs_anaylze_channel_member_index.png 360w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/37523/subs_anaylze_channel_member_index.png 720w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/302a4/subs_anaylze_channel_member_index.png 1080w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/07a9c/subs_anaylze_channel_member_index.png 1440w,
+/static/ec8b2dacd32c44f9da0581dfb211fe0e/95e59/subs_anaylze_channel_member_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0.386ms&lt;/td&gt;
+&lt;td&gt;0.015ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;실행 시간은 약 0.386ms에서 0.015ms로 &lt;strong&gt;95%&lt;/strong&gt; 가량 감소했다.&lt;/p&gt;
+&lt;h2 id=&quot;️bookmark--reminder&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8Fbookmark--reminder&quot; aria-label=&quot;️bookmark  reminder permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;⭐️Bookmark &amp;#x26; ⏰Reminder&lt;/h2&gt;
+&lt;p&gt;바로 위 사례와 비슷한 쿼리가 북마크와 리마인더에도 각각 존재한다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Optional&lt;Bookmark&gt; findByMessageIdAndMemberId(Long messageId, Long memberId)&lt;/li&gt;
+&lt;li&gt;Optional&lt;Reminder&gt; findByMessageIdAndMemberId(Long messageId, Long memberId)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;북마크와 리마인더는 100만개의 메시지를 바탕으로 2000명의 멤버가 각각을 300개씩 등록한 것을 가정해, 각 60만개 더미데이터를 넣었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; bookmark
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; message_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :messageId &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeElEQVQI1zXKSwqDMAAAUc+jwU+tmsT8MMZatELvf5gpBrp4MIspfAgc15ewRPQ8MxuDtQ6lNVJKnPfs50VcN4x1xLSxHx+U0hhjSa93tqyJuCaKpmmZlEYbxzjJ7O627SjLkrpuuJ+qqrLu0TOMMrcQIvt3/xz4AY2zQqCZAk/yAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 실행계획&quot;
+        title=&quot;북마크 실행계획&quot;
+        src=&quot;/static/9828735c2d4adf1e8827d01c7d1e57ac/37523/bookmark_explain_no_index.png&quot;
+        srcset=&quot;/static/9828735c2d4adf1e8827d01c7d1e57ac/e9ff0/bookmark_explain_no_index.png 180w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/f21e7/bookmark_explain_no_index.png 360w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/37523/bookmark_explain_no_index.png 720w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/302a4/bookmark_explain_no_index.png 1080w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/07a9c/bookmark_explain_no_index.png 1440w,
+/static/9828735c2d4adf1e8827d01c7d1e57ac/95e59/bookmark_explain_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;아까와 달리 &lt;code class=&quot;language-text&quot;&gt;Extra&lt;/code&gt; 필드에 &lt;code class=&quot;language-text&quot;&gt;Using where&lt;/code&gt;가 표기된다.
+&lt;code class=&quot;language-text&quot;&gt;Using where&lt;/code&gt;은 스토리지 엔진으로부터 받은 레코드를 MySQL 엔진 레이어에서 별도의 가공을 통해 필터링 작업을 거쳤음을 나타낸다.
+또, &lt;code class=&quot;language-text&quot;&gt;filtered&lt;/code&gt; 필드에 &lt;code class=&quot;language-text&quot;&gt;5&lt;/code&gt;가 적혀있다.
+이는 스토리지 엔진으로부터 100건의 레코드를 받아 95건을 걸러내고 5건만 남았다는 의미다.
+결국 조회된 데이터 중 &lt;strong&gt;95%&lt;/strong&gt; 를 버린 것이다.&lt;br&gt;
+이번에는 &lt;code class=&quot;language-text&quot;&gt;index_merge&lt;/code&gt;를 쓰지 않았는데, 데이터 양의 차이로 추측된다.
+현재 더미데이터는 계산 시 각 메시지에 평균 1건 이하의 북마크가 등록되어 있다.
+보통 중요한 메시지에 북마크 생성이 치중될 것을 생각하면, 실제 상황과 조금 괴리가 있는 데이터 셋업이다.
+운영 데이터가 더 쌓이면 이를 분석해서 더 적절한 실험 상황으로 개선해야 할 것 같다.&lt;/p&gt;
+&lt;p&gt;어쨌든 &lt;code class=&quot;language-text&quot;&gt;message_id&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt;로 복합 인덱스 설정 시, 해당 인덱스를 이용하며 속도도 개선된다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt; bookmark_message_and_member &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; bookmark &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;message_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; member_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeElEQVQI1x2MWw6DIBQF3Y9iTVpb4F6oVST46v53M035OJmcTDKNqFKOi7XseBFEAyJaqSGQy07eDqZ5IcTIdn6ZPgsiwpxy9SkX5rRS9pOmbVusVzROvJxHwrvSa8R64f4YuQ0DXWcwxmCdVD8+bf3/9X1fG04CP8kFQ+ag0cbwAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 실행계획&quot;
+        title=&quot;북마크 복합 인덱스 실행계획&quot;
+        src=&quot;/static/ff564d0002316fb7eedcfe35d3c91f38/37523/bookmark_explain_index.png&quot;
+        srcset=&quot;/static/ff564d0002316fb7eedcfe35d3c91f38/e9ff0/bookmark_explain_index.png 180w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/f21e7/bookmark_explain_index.png 360w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/37523/bookmark_explain_index.png 720w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/302a4/bookmark_explain_index.png 1080w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/07a9c/bookmark_explain_index.png 1440w,
+/static/ff564d0002316fb7eedcfe35d3c91f38/95e59/bookmark_explain_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;br&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUklEQVQI10WL2w3AMAjEslOT8Dq6/1ZXQVTlw0IYMwIg8m0CSY8gMln+3PKC6/+/u59mmIPqoEVSLfjMSTHnXMK1pZ2ot6u51Q6itEA31Zar9gM1akMSQztJnwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 기본 수행시간&quot;
+        title=&quot;북마크 기본 수행시간&quot;
+        src=&quot;/static/8cfef3b0b61fbad1d50c84620e2e806f/37523/bookmark_analyze_no_index.png&quot;
+        srcset=&quot;/static/8cfef3b0b61fbad1d50c84620e2e806f/e9ff0/bookmark_analyze_no_index.png 180w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/f21e7/bookmark_analyze_no_index.png 360w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/37523/bookmark_analyze_no_index.png 720w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/302a4/bookmark_analyze_no_index.png 1080w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/07a9c/bookmark_analyze_no_index.png 1440w,
+/static/8cfef3b0b61fbad1d50c84620e2e806f/95e59/bookmark_analyze_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXUlEQVQI102LSQ6AMAwDeRFJoUmbluX/rxoEiOVgWR7bg2hiFEVEGUUQVTRNN9OPnf7Xs3+znvvE0JYN80JtCyU6JRp93cnmRF/vLjqz+cXMK9kKXoM5O17bxZ/vAcReP/hJx9DSAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 수행시간&quot;
+        title=&quot;북마크 복합 인덱스 수행시간&quot;
+        src=&quot;/static/c051125079ad15a29c01454795e6bc41/37523/bookmark_analyze_index.png&quot;
+        srcset=&quot;/static/c051125079ad15a29c01454795e6bc41/e9ff0/bookmark_analyze_index.png 180w,
+/static/c051125079ad15a29c01454795e6bc41/f21e7/bookmark_analyze_index.png 360w,
+/static/c051125079ad15a29c01454795e6bc41/37523/bookmark_analyze_index.png 720w,
+/static/c051125079ad15a29c01454795e6bc41/302a4/bookmark_analyze_index.png 1080w,
+/static/c051125079ad15a29c01454795e6bc41/07a9c/bookmark_analyze_index.png 1440w,
+/static/c051125079ad15a29c01454795e6bc41/95e59/bookmark_analyze_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0.161ms&lt;/td&gt;
+&lt;td&gt;0.041ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;더미데이터와 달리 한 메시지에 북마크가 몰리는 상황을 생각하면, 복합 인덱스 설정 시 조금 더 큰폭으로 효율이 개선될 것 같다.&lt;/p&gt;
+&lt;p&gt;리마인더도 완전히 동일한 포맷의 sql문을 사용중이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; reminder
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; message_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :messageId &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;복합 인덱스 설정 전/후에 북마크와 동일한 설정의 실행계획이 나오는 것을 확인했고, 실행시간을 비교해보았다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;북마크&lt;/th&gt;
+&lt;th&gt;리마인더&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;복합 인덱스 설정 전&lt;/td&gt;
+&lt;td&gt;0.161ms&lt;/td&gt;
+&lt;td&gt;0.023ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;복합 인덱스 설정 후&lt;/td&gt;
+&lt;td&gt;0.041ms&lt;/td&gt;
+&lt;td&gt;0.017ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;북마크 수행 시간이 더 극적으로 차이나는 것은…
+북마크를 테스트하고 맥북이 좀 느려졌길래 재부팅을 한번 해서 그런 것 같다 🙃&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Querydsl&lt;/code&gt;을 제외하고 남은 마지막 쿼리는 리마인더 발송을 위해 10분마다 실행되는 쿼리다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;findAllByRemindDate(LocalDateTime remindDate)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; reminder
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt; remind_date &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;2022-10-03 00:10:30&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;#이해를 돕기 위해 아무 시각이나 넣었다 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;예상 가능한 부분이지만 사용할 수 있는 인덱스가 없어서 &lt;strong&gt;풀 테이블 스캔&lt;/strong&gt;이 일어나고 있다.
+시간도 앞선 쿼리들에 비하면 아주 길다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAd0lEQVQI1x2KXQ6DIBjAvBCfDzpgAwTnD+Kcu/9pusBD06RpF8LEXk6c98SUKNePLZ+subDlgnOeZds5Pl9imlnz0fq6H8zvhXLd7Q1TJJ8XnYig7ZNqpRRaa4ZhQInQ931rFWNf+CkhUpu0XxuLC7HxMJZxHPkD4T5D4W1pOxUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;리마인더 실행계획&quot;
+        title=&quot;리마인더 실행계획&quot;
+        src=&quot;/static/33afadc187330a6b1211d0e9f8621881/37523/reminder_no_index.png&quot;
+        srcset=&quot;/static/33afadc187330a6b1211d0e9f8621881/e9ff0/reminder_no_index.png 180w,
+/static/33afadc187330a6b1211d0e9f8621881/f21e7/reminder_no_index.png 360w,
+/static/33afadc187330a6b1211d0e9f8621881/37523/reminder_no_index.png 720w,
+/static/33afadc187330a6b1211d0e9f8621881/302a4/reminder_no_index.png 1080w,
+/static/33afadc187330a6b1211d0e9f8621881/07a9c/reminder_no_index.png 1440w,
+/static/33afadc187330a6b1211d0e9f8621881/95e59/reminder_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAWUlEQVQI102LWQrAIBBDPVKVOlvG3v9WKQ4V+vFIyNKQSffg1lxPASQzVxFAdSc7vvTH7jyCTS149UExp2Mx8uFUowVokbyncm+mKM1B+fzORK1+ol7b3gdfIk9C1zN7twgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;리마인더 수행시간&quot;
+        title=&quot;리마인더 수행시간&quot;
+        src=&quot;/static/f9674b1a18e7d4ee6c48b1fba93b90ad/37523/reminder_analyze_no_index.png&quot;
+        srcset=&quot;/static/f9674b1a18e7d4ee6c48b1fba93b90ad/e9ff0/reminder_analyze_no_index.png 180w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/f21e7/reminder_analyze_no_index.png 360w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/37523/reminder_analyze_no_index.png 720w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/302a4/reminder_analyze_no_index.png 1080w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/07a9c/reminder_analyze_no_index.png 1440w,
+/static/f9674b1a18e7d4ee6c48b1fba93b90ad/95e59/reminder_analyze_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;remind_date&lt;/code&gt;에 인덱스를 설정했다.
+정상적으로 해당 인덱스를 이용하고, 실행시간도 1/1000 이하로 줄어들었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAeklEQVQI1x2LSxKDIBQEPZAipoJBHv5QAY3J/W/TqbCYRU/PVDFfeD9y3l/2mHFOWNZAfn8Kj9PMdiTSeeNE2I5Ium7mNbDHxJGvsgvbXvqq6x7UdY11HpkWrBPMy6J1h2rb4p7GYAehaZqS/2dcAkqpwq3WDOIxfc8P8IdD7sDooZwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;리마인더 인덱스 실행계획&quot;
+        title=&quot;리마인더 인덱스 실행계획&quot;
+        src=&quot;/static/30330ca05bd0eabdf60e8bf01b1d468a/37523/remider_explain_index.png&quot;
+        srcset=&quot;/static/30330ca05bd0eabdf60e8bf01b1d468a/e9ff0/remider_explain_index.png 180w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/f21e7/remider_explain_index.png 360w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/37523/remider_explain_index.png 720w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/302a4/remider_explain_index.png 1080w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/07a9c/remider_explain_index.png 1440w,
+/static/30330ca05bd0eabdf60e8bf01b1d468a/95e59/remider_explain_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 5.555555555555555%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAQUlEQVQI1yXLwRWAMAjAUFeyQKFAdf+p4lNv+Yccfd2sarI2HonNILLwVUwPzF835xCGKGqOTkfU/jb/nqFG9uYBJT8g4PFfUq0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;리마인더 인덱스 수행시간&quot;
+        title=&quot;리마인더 인덱스 수행시간&quot;
+        src=&quot;/static/4afb3decc1f56222258deacaf80128bc/37523/reminder_analyze_index.png&quot;
+        srcset=&quot;/static/4afb3decc1f56222258deacaf80128bc/e9ff0/reminder_analyze_index.png 180w,
+/static/4afb3decc1f56222258deacaf80128bc/f21e7/reminder_analyze_index.png 360w,
+/static/4afb3decc1f56222258deacaf80128bc/37523/reminder_analyze_index.png 720w,
+/static/4afb3decc1f56222258deacaf80128bc/302a4/reminder_analyze_index.png 1080w,
+/static/4afb3decc1f56222258deacaf80128bc/07a9c/reminder_analyze_index.png 1440w,
+/static/4afb3decc1f56222258deacaf80128bc/95e59/reminder_analyze_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;remind_date 인덱스 X&lt;/th&gt;
+&lt;th&gt;remind_date 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;554ms&lt;/td&gt;
+&lt;td&gt;0.139ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;️-querydsl을-이용한-복잡한-쿼리들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-querydsl%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B3%B5%EC%9E%A1%ED%95%9C-%EC%BF%BC%EB%A6%AC%EB%93%A4&quot; aria-label=&quot;️ querydsl을 이용한 복잡한 쿼리들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;✉️ Querydsl을 이용한 복잡한 쿼리들&lt;/h2&gt;
+&lt;p&gt;이제 글 초반에 적었던 체크리스트에서 세 쿼리만 남았다!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Message의 Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;li&gt;Bookmark의 Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;li&gt;Reminder의 Querydsl을 이용한 복잡한 조회쿼리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;메시지부터 보자면 동적으로 조건이 변화하지만, 결국 아래 네 가지로 수렴한다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;특정 한 채널에서 최신으로부터 n개를 작성시간 내림차순 조회&lt;/li&gt;
+&lt;li&gt;특정 한 채널에서 특정 시각을 기준으로 작성시간이 과거/미래인 n개를 작성시간 내림차순 조회 (페이지네이션 대체)&lt;/li&gt;
+&lt;li&gt;특정 한 채널에서 특정 시각을 기준으로 작성시간이 과거/미래인 메시지가 존재하는지 조회 (페이지네이션 대체)&lt;/li&gt;
+&lt;li&gt;특정 여러 채널에서 특정 키워드를 포함한 메시지를 특정 시간 기준으로 n개를 작성시간 내림차순 조회&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;여기서 1,2,3번 쿼리는 &lt;code class=&quot;language-text&quot;&gt;특정 여러 채널&lt;/code&gt; 조건으로 실행할 수도 있게 코드가 짜여있다.
+하지만 처음 구상과 달리 현재 서비스에서 사용하고 있지 않기에, &lt;code class=&quot;language-text&quot;&gt;특정 한 채널&lt;/code&gt;로만 진행했다.
+키워드 검색은 &lt;code class=&quot;language-text&quot;&gt;like %keyword%&lt;/code&gt; 방식이라 인덱스를 적용할 수 없어 제외했다.
+결국 나머지 셋의 공통점을 보자면 &lt;code class=&quot;language-text&quot;&gt;채널, 쟉셩시간&lt;/code&gt; 조건으로 조회하고 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt; 
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id            &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; message_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id     &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;username       &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; username&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;thumbnail_url  &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; thumbnail&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt;          &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;posted_date   &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; posted_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;modified_date &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; modified_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id           &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; bookmark_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id           &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; reminder_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;remind_date  &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; remind_date
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt;
+    message
+    &lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+        member &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+    &lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+        bookmark
+        &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId
+              &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;message_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+        reminder
+        &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; :memberId
+              &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;message_id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+              &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;remind_date &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; :remindDate
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;channel_id &lt;span class=&quot;token operator&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;:channelId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; length&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;by&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;posted_date &lt;span class=&quot;token keyword&quot;&gt;desc&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;참고로 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt;는 위에서 말했듯 복수의 값이 들어올 수도 있어서, 하나라도 &lt;code class=&quot;language-text&quot;&gt;in()&lt;/code&gt; 형태로 조회한다.
+여기서 결국 중요한 건 &lt;code class=&quot;language-text&quot;&gt;where&lt;/code&gt;안의 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;order by&lt;/code&gt;의 &lt;code class=&quot;language-text&quot;&gt;posted_date&lt;/code&gt;이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 16.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAoklEQVQI1y2La66CMBhEWY4a8Aqtpf1o6RON+1/QuaH64ySTMzNDe3/wYSe3g7BHSjuIqeCc4ES6OzchJpxsyOY7uTZ8iCil0FqjtcIYw7Cnyt9jRmnDdL+zOmHPjUVplH4yLwtmtb+sOo/561Yr6OeKsa7/zm6orw/GCmZ1jNPEFiKnC7EQUu3jkAo+ZsZx5Ha7cr1csOKJ5SDVF7m9O048/5TZZFWfVb69AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 전&quot;
+        title=&quot;메시지 복합 인덱스 추가 전&quot;
+        src=&quot;/static/526249afe0f3ea91e120bdd4e4dcd11e/37523/message_explain_no_index.png&quot;
+        srcset=&quot;/static/526249afe0f3ea91e120bdd4e4dcd11e/e9ff0/message_explain_no_index.png 180w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/f21e7/message_explain_no_index.png 360w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/37523/message_explain_no_index.png 720w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/302a4/message_explain_no_index.png 1080w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/07a9c/message_explain_no_index.png 1440w,
+/static/526249afe0f3ea91e120bdd4e4dcd11e/95e59/message_explain_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;실행계획을 보면, 제일 먼저 적용되는 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt; 외래키 인덱스의 &lt;code class=&quot;language-text&quot;&gt;Extra&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;Using filesort&lt;/code&gt;가 보인다.
+이는 &lt;code class=&quot;language-text&quot;&gt;channel&lt;/code&gt; 기준으로 조회한 레코드를 엔진에서 &lt;code class=&quot;language-text&quot;&gt;posted_date&lt;/code&gt;로 다시 정렬하고 있기 때문이다.
+따라서 &lt;code class=&quot;language-text&quot;&gt;channel_id&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;posted_date&lt;/code&gt;로 복합 인덱스를 걸어준다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 16.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAnklEQVQI1yWMUQ6DIBBEPY4oKCgIywJimzb96P2vM43bj5dsZt/M0PoDuVRQzuBSEVPCeT1BmZEoIxHJXVtH65d4mYtkArP0bi+EgKE/3wiRYN0GHyK0MXh9vsilwR8RkRhOfge4NOw+wDonrNbBbTuMMVDjiHmeMRAXHIlg7V8wZgFxFe68tC6FbffgesqwUiOmaYJSSvxlXWVMa40f7fZhqEP7nI0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 후&quot;
+        title=&quot;메시지 복합 인덱스 추가 후&quot;
+        src=&quot;/static/5ee440445c195369d3fad1d32aa6b18a/37523/message_explain_index.png&quot;
+        srcset=&quot;/static/5ee440445c195369d3fad1d32aa6b18a/e9ff0/message_explain_index.png 180w,
+/static/5ee440445c195369d3fad1d32aa6b18a/f21e7/message_explain_index.png 360w,
+/static/5ee440445c195369d3fad1d32aa6b18a/37523/message_explain_index.png 720w,
+/static/5ee440445c195369d3fad1d32aa6b18a/302a4/message_explain_index.png 1080w,
+/static/5ee440445c195369d3fad1d32aa6b18a/07a9c/message_explain_index.png 1440w,
+/static/5ee440445c195369d3fad1d32aa6b18a/95e59/message_explain_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;해당 복합 인덱스를 사용함과 실행시간이 줄어듬을 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXElEQVQI12WLSQqAMBRDPZBD+7V/qNWFiPe/UcQIblw8MpB0x3lhbdtH2/YfT59lJikLkgiVWV6dUiadWsCiYikKNYfXxmwe9OpBX9RQzLl7mIuy488D4zihHwbcvxdBegme1I8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 전&quot;
+        title=&quot;메시지 복합 인덱스 추가 전&quot;
+        src=&quot;/static/dc9141a4838919dda5d2589ded95bd44/37523/message_analyze_no_index.png&quot;
+        srcset=&quot;/static/dc9141a4838919dda5d2589ded95bd44/e9ff0/message_analyze_no_index.png 180w,
+/static/dc9141a4838919dda5d2589ded95bd44/f21e7/message_analyze_no_index.png 360w,
+/static/dc9141a4838919dda5d2589ded95bd44/37523/message_analyze_no_index.png 720w,
+/static/dc9141a4838919dda5d2589ded95bd44/302a4/message_analyze_no_index.png 1080w,
+/static/dc9141a4838919dda5d2589ded95bd44/07a9c/message_analyze_no_index.png 1440w,
+/static/dc9141a4838919dda5d2589ded95bd44/95e59/message_analyze_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAXUlEQVQI11XISQqAMBBEUe+ThRm7O51BEPH+NypJhIiLR1F/O68bpbal9gO19Z+sBdb5xfmwWP+23dr5N+IMzoqYCMQCLQ0sCpIM0Tp3SCTwIU6J+MOjBxhjEBPjAbvNQXWMYNBDAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 후&quot;
+        title=&quot;메시지 복합 인덱스 추가 후&quot;
+        src=&quot;/static/4a0e76d36dc54ffc27da97f7d0330a32/37523/message_analyze_index.png&quot;
+        srcset=&quot;/static/4a0e76d36dc54ffc27da97f7d0330a32/e9ff0/message_analyze_index.png 180w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/f21e7/message_analyze_index.png 360w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/37523/message_analyze_index.png 720w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/302a4/message_analyze_index.png 1080w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/07a9c/message_analyze_index.png 1440w,
+/static/4a0e76d36dc54ffc27da97f7d0330a32/95e59/message_analyze_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;여기서 보면 거의 처음으로  &lt;code class=&quot;language-text&quot;&gt;actual time&lt;/code&gt;값이 &lt;code class=&quot;language-text&quot;&gt;...&lt;/code&gt;을 두고 유의미하게 서로 다른 값이 표시됐다.
+이는 &lt;code class=&quot;language-text&quot;&gt;첫 레코드를 읽은 시간...마지막 레코드를 읽은 시간&lt;/code&gt;이라는 뜻이다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;425…433ms&lt;/td&gt;
+&lt;td&gt;4.1…24.6ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;마지막 레코드를 읽은 시간 기준으로 거의 &lt;strong&gt;95%&lt;/strong&gt; 감소했다.
+키워드 검색의 경우도 &lt;code class=&quot;language-text&quot;&gt;like&lt;/code&gt; 부분을 제외하면 동일한 검색조건이라, 시간이 줄어듬을 확인할 수 있었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAYElEQVQI13WLSwqAMBBDe59itbXzqe3oTgTvf54Io1sXIY9HEs7rxrAdfRh6H87D7OvX235grYQll9/MS8aUEkIlBktDZUFZK7R1sKg7aZszicJ32kAsviWPfqz+jTHiAbxEQWfwjW2uAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 전&quot;
+        title=&quot;메시지 복합 인덱스 추가 전&quot;
+        src=&quot;/static/a0f4299e7c72890c79ade4faedbdb30d/37523/message_keyword_analyze_no_index.png&quot;
+        srcset=&quot;/static/a0f4299e7c72890c79ade4faedbdb30d/e9ff0/message_keyword_analyze_no_index.png 180w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/f21e7/message_keyword_analyze_no_index.png 360w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/37523/message_keyword_analyze_no_index.png 720w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/302a4/message_keyword_analyze_no_index.png 1080w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/07a9c/message_keyword_analyze_no_index.png 1440w,
+/static/a0f4299e7c72890c79ade4faedbdb30d/95e59/message_keyword_analyze_no_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 8.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAa0lEQVQI112MSQ4DMQgE50OTWQzGGLBzixQp/39ORya3HEql6kNvr/cHMZ8wD/iY8BjJ6kVfewwQV1x3wVXozyV93j9vFhOiHU0NxIxuAe0OaZpnTTvUPA+5CogFhTibVlcB14bjOLHvD3wB59pB4nu3tX0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;메시지 복합 인덱스 추가 후&quot;
+        title=&quot;메시지 복합 인덱스 추가 후&quot;
+        src=&quot;/static/b6d48655f45f28424856fab49b52230d/37523/message_keyword_analyze_index.png&quot;
+        srcset=&quot;/static/b6d48655f45f28424856fab49b52230d/e9ff0/message_keyword_analyze_index.png 180w,
+/static/b6d48655f45f28424856fab49b52230d/f21e7/message_keyword_analyze_index.png 360w,
+/static/b6d48655f45f28424856fab49b52230d/37523/message_keyword_analyze_index.png 720w,
+/static/b6d48655f45f28424856fab49b52230d/302a4/message_keyword_analyze_index.png 1080w,
+/static/b6d48655f45f28424856fab49b52230d/07a9c/message_keyword_analyze_index.png 1440w,
+/static/b6d48655f45f28424856fab49b52230d/95e59/message_keyword_analyze_index.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;502…628ms&lt;/td&gt;
+&lt;td&gt;19…263ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;북마크 조회는 메시지보다 간단하다.
+메시지는 특정 날짜로 이동해서 앞/뒤 어디든 볼 수 있게 해야했는데, 북마크는 무조건 &lt;code class=&quot;language-text&quot;&gt;create_date&lt;/code&gt;를 최신 또는 특정 시간부터 역순으로 조회한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; bookmark_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;created_date &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; created_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;message_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; message_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;channel_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; channel_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;modified_date &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; modified_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;posted_date &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; posted_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;slack_message_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; message_slack_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; message_text&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;first_login &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_first_login&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;slack_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_slack_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;thumbnail_url &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_thumbnail_url&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;username &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; member_username
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt;
+    bookmark
+        &lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+    message &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;message_id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;message&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+        &lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+    member &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;member&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt;
+        bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:memberId
+        &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;created_date &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; :createdDate
+&lt;span class=&quot;token keyword&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;by&lt;/span&gt;
+    bookmark&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;created_date &lt;span class=&quot;token keyword&quot;&gt;desc&lt;/span&gt; 
+&lt;span class=&quot;token keyword&quot;&gt;limit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;차이점이 있다면 메시지와 달리 북마크는 개인이 소유한 북마크만 보여주기에, &lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt; 일치 조건이 항상 걸려있다는 것이다.
+이쯤 되니 &lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt; FK 인덱스를 사용하고 있을 것이며, &lt;code class=&quot;language-text&quot;&gt;Using filesort&lt;/code&gt;가 표기될 것이 짐작간다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 13.333333333333334%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAApUlEQVQI1yWN25KDIBBE/R1QsIIXEJQQb2uy+/+/c1LOPnRN9Zyu7uq4PqR5Yf95s+Qn5bWxnZf8Yprl5lJYj5N1P3mWF+f7j7JuxJhIaZbckjN3V1XWA2tb/JSw1tKPnv36JcRE1w/4KWKMQWvFw3XMucjI6AP9MIoGH3BdL6waQ6Su6//CtsW5jlw2mqZBKYVWSvitxhgZcM6Jv5nWWnK3D1PiC/lxYtcvmOgZAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 적용 전&quot;
+        title=&quot;북마크 복합 인덱스 적용 전&quot;
+        src=&quot;/static/ee57f7956bae015ec87cbe43f1351057/37523/bookmark_explain_no_index2.png&quot;
+        srcset=&quot;/static/ee57f7956bae015ec87cbe43f1351057/e9ff0/bookmark_explain_no_index2.png 180w,
+/static/ee57f7956bae015ec87cbe43f1351057/f21e7/bookmark_explain_no_index2.png 360w,
+/static/ee57f7956bae015ec87cbe43f1351057/37523/bookmark_explain_no_index2.png 720w,
+/static/ee57f7956bae015ec87cbe43f1351057/302a4/bookmark_explain_no_index2.png 1080w,
+/static/ee57f7956bae015ec87cbe43f1351057/07a9c/bookmark_explain_no_index2.png 1440w,
+/static/ee57f7956bae015ec87cbe43f1351057/95e59/bookmark_explain_no_index2.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;예상이 맞았다.
+추가 정렬과 읽었지만 버려지는 레코드를 없앨 수 있도록 복합 인덱스를 걸어주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt; bookmark_member_and_created_date &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; bookmark &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;member_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; created_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 13.333333333333334%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAmElEQVQI1z2MaxKDIBCDvQ44WLXycgFR1Gq9/3nSEbU/MpvNfEmxbF8QOaz7AR8GxCkhrRvIOZDz6Mn9vfMB0/LBmGbEMWH+7Pl/mPMWcVogqgouRLzqBkobzNsBbQlSG3RSQSoNZSzqpkVZluCcg/wA8gHa2Iu52UJpmyFt+jzcvjv4mHLGGMtlzln2Z/YoD3QSQoibu9gf3upiem4ynaoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 적용 후&quot;
+        title=&quot;북마크 복합 인덱스 적용 후&quot;
+        src=&quot;/static/3c203afa6cca2fb45105ffd697f66327/37523/bookmark_explain_index2.png&quot;
+        srcset=&quot;/static/3c203afa6cca2fb45105ffd697f66327/e9ff0/bookmark_explain_index2.png 180w,
+/static/3c203afa6cca2fb45105ffd697f66327/f21e7/bookmark_explain_index2.png 360w,
+/static/3c203afa6cca2fb45105ffd697f66327/37523/bookmark_explain_index2.png 720w,
+/static/3c203afa6cca2fb45105ffd697f66327/302a4/bookmark_explain_index2.png 1080w,
+/static/3c203afa6cca2fb45105ffd697f66327/07a9c/bookmark_explain_index2.png 1440w,
+/static/3c203afa6cca2fb45105ffd697f66327/95e59/bookmark_explain_index2.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAT0lEQVQI12WJSQ6AMAwD+yF6gTaLE/j/q4ygohJwGGk8Lg7wAYgf4/tuvHziYHEk161RDfTYKeY0j+lXvxuS6mAXo+johmBXI/Jg68KlVp4d70L2vv6A8wAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 적용 전&quot;
+        title=&quot;북마크 복합 인덱스 적용 전&quot;
+        src=&quot;/static/c9e220c3f8257d251cc32bbe969cc6fa/37523/bookmark_analyze_no_index2.png&quot;
+        srcset=&quot;/static/c9e220c3f8257d251cc32bbe969cc6fa/e9ff0/bookmark_analyze_no_index2.png 180w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/f21e7/bookmark_analyze_no_index2.png 360w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/37523/bookmark_analyze_no_index2.png 720w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/302a4/bookmark_analyze_no_index2.png 1080w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/07a9c/bookmark_analyze_no_index2.png 1440w,
+/static/c9e220c3f8257d251cc32bbe969cc6fa/95e59/bookmark_analyze_no_index2.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAVElEQVQI13WKSw7AIBBCPZErPzMw2t7/UjTV1F0XLwQeyQGBFMCVZOy+iLOfTv4DKhlCjlApVYghZ8hAxbz1uW4ujmv/alMzlznEMdf2utq6cs56ABinQv+A/1mlAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;북마크 복합 인덱스 적용 후&quot;
+        title=&quot;북마크 복합 인덱스 적용 후&quot;
+        src=&quot;/static/43b3bf753be7018e44d6d744454c6ef3/37523/bookmark_analyze_index2.png&quot;
+        srcset=&quot;/static/43b3bf753be7018e44d6d744454c6ef3/e9ff0/bookmark_analyze_index2.png 180w,
+/static/43b3bf753be7018e44d6d744454c6ef3/f21e7/bookmark_analyze_index2.png 360w,
+/static/43b3bf753be7018e44d6d744454c6ef3/37523/bookmark_analyze_index2.png 720w,
+/static/43b3bf753be7018e44d6d744454c6ef3/302a4/bookmark_analyze_index2.png 1080w,
+/static/43b3bf753be7018e44d6d744454c6ef3/07a9c/bookmark_analyze_index2.png 1440w,
+/static/43b3bf753be7018e44d6d744454c6ef3/95e59/bookmark_analyze_index2.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;의도한 인덱스를 타고, 실행시간이 줄어들었다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;11.9…12.2ms&lt;/td&gt;
+&lt;td&gt;6.7…7.2ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;더미데이터는 한 멤버당 300개의 북마크 데이터를 넣었다.
+북마크 데이터 수가 늘어난다면, 실행시간의 차이도 더 커질 것이다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;마지막으로 리마인더는!
+북마크와 조건이 똑같다.
+멤버와 &lt;code class=&quot;language-text&quot;&gt;remind_date&lt;/code&gt;라는 알람 지정 시각을 기준으로 조회한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt;
+    reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;member_id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;:memberId
+    &lt;span class=&quot;token operator&quot;&gt;and&lt;/span&gt; reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;remind_date &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; :remindDate
+&lt;span class=&quot;token keyword&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;by&lt;/span&gt;
+    reminder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;remind_date &lt;span class=&quot;token keyword&quot;&gt;desc&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;member_id&lt;/code&gt; FK 인덱스를 사용하고 &lt;code class=&quot;language-text&quot;&gt;Using filesort&lt;/code&gt; 표기까지 다~ 똑같았다.
+그래서 &lt;code class=&quot;language-text&quot;&gt;member_id, remind_date&lt;/code&gt;로 걸어줬고, 실행시간 차이만 적고 마치겠다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;복합 인덱스 X&lt;/th&gt;
+&lt;th&gt;복합 인덱스 O&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;15.8…19.2ms&lt;/td&gt;
+&lt;td&gt;3.4…8.0ms&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;차이점이 있다면 리마인더는 알람을 발송하면 바로바로 데이터를 지우기 때문에, 실상황에서 효율은 더 낮지 않을까 싶은 점이다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;finally&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#finally&quot; aria-label=&quot;finally permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;finally&lt;/h2&gt;
+&lt;p&gt;그래서 줍줍에는 추가로 이런 인덱스가 걸리게 되었다!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACM0lEQVQoz1WSS2/aQBSFvU6FZ8YvsDGYVwghGEMDtgMhpgpppbyQmiitFCmt+pBStYtuuuiv/6pxmkpdzOKee8/RPeeOYVkW+gkhqFQqSCl5xqRUKKVI4pg8y6hWq//1lbIwTbPkPmOGJphC0O12ybKMKIpKksYD38PzXDqtFuM4xvf9f4KmMPFqHmmeEidjpPXEMVzXwXMdWs0m02RcCuqGEJK93TZ5nlEPQ+ZpymKxwPM8pJI0/IBABYx6I+J+TGAFOJaD4ddcloucWs1nPB5TFAVBEJQ2vGqVs7MzBoNBKbZarbBtG6EkrxZbLt5+Y1bccXr1mf78mn5jiuHYNs1moxx0XZcwDP/mo0pM19qm3kzXSkqkUvRmK4q7j+xvrphd3DLcXOO2+hjamt5OZ6jtttttAj8oBfVRdOhR1KTT6eA4TolbykIoQUWaSMdC2hbCVkhLYTiuTdRq0O31KNYFySTBq3oIKQn8KqYp2B8MKYo1juOV2ZYOhIldqXCcpsyTBPViB0sKjNDxeT/bsu4tOY83nLSPiM09atLjcBrx7uaYZd5le5mSz5sMB0+i04OMg/iU0WRDvtxSb2fU/V0MW9qsx8csRzlH+ynZ3oyu3cK1bGYv6/z8fsGH+xWfHtY8fjklPQzZqQjO31zz4/cvrh7uuX/8yvr2hng4w1CWwpRmeTn9HXQOyraoaKt7EcVJRqcdcrLKuLx8TSuqYQpJqxcwmXQ5iNskSY9R0qEWevwB3V8ZV7EnE74AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;줍줍 추가 인덱스&quot;
+        title=&quot;줍줍 추가 인덱스&quot;
+        src=&quot;/static/1d3da01279e1099504af950bde40a98a/37523/final.png&quot;
+        srcset=&quot;/static/1d3da01279e1099504af950bde40a98a/e9ff0/final.png 180w,
+/static/1d3da01279e1099504af950bde40a98a/f21e7/final.png 360w,
+/static/1d3da01279e1099504af950bde40a98a/37523/final.png 720w,
+/static/1d3da01279e1099504af950bde40a98a/302a4/final.png 1080w,
+/static/1d3da01279e1099504af950bde40a98a/07a9c/final.png 1440w,
+/static/1d3da01279e1099504af950bde40a98a/95e59/final.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;짧은-회고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0&quot; aria-label=&quot;짧은 회고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;짧은 회고&lt;/h2&gt;
+&lt;p&gt;5차 스프린트 발표에 아쉬움이 많다.
+발표를 마치고부터 해당 포스팅을 적기 시작했는데… 하면 할 수록 발표 때 잘못 얘기한 부분만 보여서 유튜브에 올라올 것이 두려울 정도다 🥲
+그래도 깃허브 위키에 올려, 다른 백엔드 팀원들에게 공유해주려고 더 꼼꼼히 글을 쓰게 되었던건데…
+팀원들에게 잘못된 지식을 전하지 않아서 다행이다 😇&lt;/p&gt;
+&lt;p&gt;별개로 인덱스 테스트에도 아쉬움이 있다.
+더미데이터를 적당히 넣으면 된다고 생각했는데, 실행계획을 분석할수록 &lt;strong&gt;실제 데이터가 어떻게 쌓이는가&lt;/strong&gt;에 따라 결과가 많이 달라질 것 같아서였다.
+실사용 데이터가 좀 쌓인다면, 이번에 인덱스 과제를 하지 않은 다른 백엔드 팀원들이랑 함께, 한단계 더 최적화를 시도해보고 싶다🔥&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%A4%8D%EC%A4%8D-mysql-%EC%9D%B8%EB%8D%B1%EC%8A%A4-%ED%83%90%ED%97%98&quot;&gt;🧳 줍줍 MySQL 인덱스 탐험&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%BF%BC%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94-by%EB%B4%84&quot;&gt;쿼리 최적화 by.봄🌱&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%8B%A4%ED%97%98-%ED%99%98%EA%B2%BD&quot;&gt;🧪 실험 환경&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EF%B8%8F-mysql%EC%9D%98-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1-%EC%9D%B8%EB%8D%B1%EC%8A%A4&quot;&gt;⚙️ MySQL의 자동 생성 인덱스&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-channel&quot;&gt;📺 Channel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-channelsubscription&quot;&gt;🔖 ChannelSubscription&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EF%B8%8Fbookmark--reminder&quot;&gt;⭐️Bookmark &amp;#x26; ⏰Reminder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EF%B8%8F-querydsl%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%B3%B5%EC%9E%A1%ED%95%9C-%EC%BF%BC%EB%A6%AC%EB%93%A4&quot;&gt;✉️ Querydsl을 이용한 복잡한 쿼리들&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#finally&quot;&gt;finally&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0&quot;&gt;짧은 회고&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[메시지 조회 테스트 개선기]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/journey-to-cool-test-1/</link><guid isPermaLink="false">https://hyewoncc.github.io/journey-to-cool-test-1/</guid><pubDate>Wed, 28 Sep 2022 13:20:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-메시지-조회-테스트-개선기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%A1%B0%ED%9A%8C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%9C%EC%84%A0%EA%B8%B0&quot; aria-label=&quot; 메시지 조회 테스트 개선기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🛠 메시지 조회 테스트 개선기&lt;/h2&gt;
 &lt;h2 id=&quot;초난감-메시지-조회&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B4%88%EB%82%9C%EA%B0%90-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%A1%B0%ED%9A%8C&quot; aria-label=&quot;초난감 메시지 조회 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;초난감 메시지 조회&lt;/h2&gt;
 &lt;p&gt;줍줍은 슬랙 메시지를 날짜이동, 윗방향 스크롤, 아래방향 스크롤, 단어검색, 특정 채널만 보기 등 여러 조건으로 조회할 수 있다.
 사용자 편의를 위해 이렇게 다양한 조회 조건을 지원하다 보니 동적 쿼리 생성이 필요해 &lt;code class=&quot;language-text&quot;&gt;Querydsl&lt;/code&gt;도 도입했다.&lt;/p&gt;
