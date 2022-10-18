@@ -3,8 +3,8 @@ emoji: headers/left-join-inner-join.png
 title: '[SQL] left join vs (inner) join'
 date: '2022-04-30 23:50:00'
 author: 써머
-tags: ETC
-categories: ETC
+tags: etc
+categories: etc
 ---
 
 ## left join / (inner) join  

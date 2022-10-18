@@ -3,8 +3,8 @@ emoji: headers/git-submodule.png
 title: '[git] 슬랙한테 봇 강퇴당하고 서브모듈 도입한 이야기'
 date: '2022-07-25 22:00:00'
 author: 써머
-tags: ETC 트러블슈팅
-categories: ETC 트러블슈팅
+tags: etc 트러블슈팅
+categories: etc 트러블슈팅
 ---
 
 ## 슬랙이 봇을 강퇴시켰어요  

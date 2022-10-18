@@ -3,8 +3,8 @@ emoji: headers/sql-no-wildcard.png
 title: '[SQL] SELECT * 쓰지 말자'
 date: '2022-05-25 17:30:00'
 author: 써머
-tags: ETC
-categories: ETC
+tags: etc
+categories: etc
 ---
 
 지금까지 DB를 사용하는 미션에서 컬럼 수가 적기에 `select * from table` 문을 자주 썼다. 그런데 `*`로 모든 컬럼을 가져오는 것 보다 컬럼을 명시해 가져오는 게 낫다는 영문 포스팅을 제이슨이 공유해주셔서 읽었다.  
