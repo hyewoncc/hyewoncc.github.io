@@ -478,6 +478,8 @@ limit 20;
 create index bookmark_member_and_created_date on bookmark (member_id, created_date);
 ```
 
+create index message_channel_and_posted_date on message (channel_id, posted_date);
+
 ![북마크 복합 인덱스 적용 후](bookmark_explain_index2.png)
 
 ![북마크 복합 인덱스 적용 전](bookmark_analyze_no_index2.png)
