@@ -1259,6 +1259,7 @@
 <p>예상이 맞았다.
 추가 정렬과 읽었지만 버려지는 레코드를 없앨 수 있도록 복합 인덱스를 걸어주자.</p>
 <div class="gatsby-highlight" data-language="sql"><pre class="language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">index</span> bookmark_member_and_created_date <span class="token keyword">on</span> bookmark <span class="token punctuation">(</span>member_id<span class="token punctuation">,</span> created_date<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<p>create index message_channel_and_posted_date on message (channel_id, posted_date);</p>
 <p><span
       class="gatsby-resp-image-wrapper"
       style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
