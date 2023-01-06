@@ -1,4 +1,336 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Jan 2023 05:24:39 GMT</lastBuildDate><item><title><![CDATA[Querydsl만의 아늑한 🏡 지어주기]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/querydsl-refactoring/</link><guid isPermaLink="false">https://hyewoncc.github.io/querydsl-refactoring/</guid><pubDate>Wed, 26 Oct 2022 12:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-문제상황&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9&quot; aria-label=&quot; 문제상황 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧶 문제상황&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Jan 2023 07:15:05 GMT</lastBuildDate><item><title><![CDATA[우아한테크코스를 떠나며]]></title><description><![CDATA[유난히 길고 힘들었던 2022년이 지났다.
+와 이라는 두가지로 축약되는 해였다.
+글을 쓰기 시작한 건 작년 3…]]></description><link>https://hyewoncc.github.io/goodbye-2022/</link><guid isPermaLink="false">https://hyewoncc.github.io/goodbye-2022/</guid><pubDate>Fri, 06 Jan 2023 07:12:00 GMT</pubDate><content:encoded>&lt;p&gt;유난히 길고 힘들었던 2022년이 지났다.
+&lt;code class=&quot;language-text&quot;&gt;우아한테크코스&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;취업&lt;/code&gt;이라는 두가지로 축약되는 해였다.
+글을 쓰기 시작한 건 작년 30일인데, 이제야 올리려니 머쓱하지만😓 그래도 회고 완성했다!&lt;/p&gt;
+&lt;h2 id=&quot;-취업-회고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%B7%A8%EC%97%85-%ED%9A%8C%EA%B3%A0&quot; aria-label=&quot; 취업 회고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🔥 취업 회고&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABWklEQVQoz42Su04CURCGj2aFgsTO+DQisVd4EyvfQFsrE1oTEwsLbWzQaLIFndGIhsQLuBhRlIsCguyuO5/hnFWReJtkkrn9c+Y/M4pQRISfRCTgl+QXV70302Evj3RtpJtFXrLG7uUMzs8hro24WcTLahs/r3GDw4QNfQOqJMFRULKQogUXCsoJ89hjHBoK6mNGawqaKZML8R8N+wGdqM5RP1Q0cxEojuHlFZ6T0CVBI87tiaLlRHkuRemUFPKUZHCgzwmDV+20Cik2VkZYXJgkvTTB+vIonfMZnevdJ1iYH2c1Pcnm2gRbaxa0UiFl/3vK7nUSx1bkd2Icb8co7Cq4mf6g7N0qeuUor5UIbrlPOfkH5btZuFRwNWr0TCHOlCnp/+GDgpoFVUvbP1MOtyS9Y4J2hqC9b7SVgZcDQ8s/Qty9cNO2tvFPwwmHtjx8h4OXZQAB8s87fAMf/IN2kh164QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;logos&quot;
+        title=&quot;logos&quot;
+        src=&quot;/static/7d1128fd3c29b3008abc10749a50d554/37523/logos.png&quot;
+        srcset=&quot;/static/7d1128fd3c29b3008abc10749a50d554/e9ff0/logos.png 180w,
+/static/7d1128fd3c29b3008abc10749a50d554/f21e7/logos.png 360w,
+/static/7d1128fd3c29b3008abc10749a50d554/37523/logos.png 720w,
+/static/7d1128fd3c29b3008abc10749a50d554/302a4/logos.png 1080w,
+/static/7d1128fd3c29b3008abc10749a50d554/07a9c/logos.png 1440w,
+/static/7d1128fd3c29b3008abc10749a50d554/efb68/logos.png 2032w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;감사하게도 &lt;code class=&quot;language-text&quot;&gt;디어&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;카카오페이&lt;/code&gt;, 그리고 다른 두 곳에 최종 합격했다.
+카카오페이 합격 통보 시점에 나머지 진행 중이었던 곳들은 중단한다는 연락을 드렸다.
+모두 진지하게 고려중인 회사였으나, 현실적으로 두 회사의 입사일 전에 결과가 나오기 어려운 상황이었다.&lt;/p&gt;
+&lt;p&gt;22년도 안에, 그러니까 해가 바뀌기 전에 취업하기가 목표였는데 기대보다 좋은 결과로 무사히 달성했다.
+&lt;code class=&quot;language-text&quot;&gt;비전공자 10개월 교육으로 네카라쿠배 취업?!&lt;/code&gt; 같은 어그로 업적을 달성한 스스로가 자랑스럽기도 하고(ㅋㅋ)
+취업연계를 제외한 곳에서도 예상 외의 좋은 기회를 많이 받았기에 어떤 점이 좋았고 아쉬웠는지 정리해봤다.&lt;/p&gt;
+&lt;h3 id=&quot;-이건-정말-잘했다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B1%B4-%EC%A0%95%EB%A7%90-%EC%9E%98%ED%96%88%EB%8B%A4&quot; aria-label=&quot; 이건 정말 잘했다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💯 이건 정말 잘했다&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&quot;블로그를-썼다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC-%EC%8D%BC%EB%8B%A4&quot; aria-label=&quot;블로그를 썼다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;블로그를 썼다!!!&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 21.111111111111114%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAc0lEQVQY041O0Q7DIAj0/7/M7/DZB0oraIpeYxM7tmzJSMjBcQeEMQZmTPS1xxgjcs5vus9cs+CNPhbXe0dKCcyMX1rPh5fx+1UzAxFBRP77cDXbxiBiHEeBiIJ5h6qitYbztJufWWtFKRPbPVOtMOvPwgurCzsdJYbuKwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;posts&quot;
+        title=&quot;posts&quot;
+        src=&quot;/static/e4810d65da543b12f6c88f15b70a2e4e/37523/posts.png&quot;
+        srcset=&quot;/static/e4810d65da543b12f6c88f15b70a2e4e/e9ff0/posts.png 180w,
+/static/e4810d65da543b12f6c88f15b70a2e4e/f21e7/posts.png 360w,
+/static/e4810d65da543b12f6c88f15b70a2e4e/37523/posts.png 720w,
+/static/e4810d65da543b12f6c88f15b70a2e4e/302a4/posts.png 1080w,
+/static/e4810d65da543b12f6c88f15b70a2e4e/07a9c/posts.png 1440w,
+/static/e4810d65da543b12f6c88f15b70a2e4e/31d79/posts.png 1954w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;우테코 기간 동안 블로그를 성실히 쓴 다른 크루들에 비하면 글 수는 적다.
+면접 보던 시점에 포스팅이 20개 정도 있었으니, 2주에 하나쯤 쓴 셈이다.
+그럼에도 면접에서 블로그에 대한 긍정적인 피드백을 많이 들었다.
+면접관 중에는 우테코를 모르는 분들도 계셔서 간략하게 부트캠프라고만 소개했는데,
+부트캠프 과정과 별개로 스스로 공부하고 생각한 내용을 꾸준히 정리했다는 점이 좋았다 짚어주신 적이 있다.
+블로그를 안했으면 취업이 어려웠을 거라는 생각이 든다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&quot;연차-신경쓰지-않고-지원했고-실제로-서류-통과한-곳이-꽤-있었다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%B0%EC%B0%A8-%EC%8B%A0%EA%B2%BD%EC%93%B0%EC%A7%80-%EC%95%8A%EA%B3%A0-%EC%A7%80%EC%9B%90%ED%96%88%EA%B3%A0-%EC%8B%A4%EC%A0%9C%EB%A1%9C-%EC%84%9C%EB%A5%98-%ED%86%B5%EA%B3%BC%ED%95%9C-%EA%B3%B3%EC%9D%B4-%EA%BD%A4-%EC%9E%88%EC%97%88%EB%8B%A4&quot; aria-label=&quot;연차 신경쓰지 않고 지원했고 실제로 서류 통과한 곳이 꽤 있었다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;연차 신경쓰지 않고 지원했고, 실제로 서류 통과한 곳이 꽤 있었다&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABvElEQVQoz22SXWsTQRSG9weJv8H/4B/oraCUXlmpV1rBS5WCeCFeKFKskgaVprYqhTbrthGjdmtR080mm02ym02azQfJfswjE5PtFj0wzAznnWfecziKEIJZdLtdGo06TcehVjXxWi7NZpMwDImiCNd1J0tqXKmp1QiCYPJ2xlHkwfM8HMeh3W7TG4T4XpUvW/dIh4TW63Vs28b1Opz6fU5Kpf8DWy0Xx21hW2W+f8rwOXeXnbUFjK9Zhj2H6YsErm08Zj/3LLmnq1TSQsfYZfflPHvrN1Az1/nw/Aql4qtJLo7jyd4f9Hn6YJ77cxfRte1pLjrvcCbW8084eHub/ewi6ouraOuL/DxYTVwI8Vf363CL1aVLrCxc/selkhaW9RzFjysUXi9ReHOTwsYy5tG7xIWM0WjI5totlucu8OjOtSksnn4oUNJ0EQc0zAKVo02qx9tUjt8TBYNzJXuugV7IspN5iH74jROjjGVZiUslgQnBeDwmCAXDQY9gNCAIY4LwrD8SattyrFyM3z8Io4hUzWclz4DyJ9M0qVYtOp1TKqY5mUMJkmMjR0bTNFQ1z15epVgs4vt+qseCP2BVmLpnHdUEAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;dogo meme&quot;
+        title=&quot;dogo meme&quot;
+        src=&quot;/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/37523/dogo.png&quot;
+        srcset=&quot;/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/e9ff0/dogo.png 180w,
+/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/f21e7/dogo.png 360w,
+/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/37523/dogo.png 720w,
+/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/302a4/dogo.png 1080w,
+/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/07a9c/dogo.png 1440w,
+/static/d63d01a3d5cc2ec5b00d2b98ed3849f7/093ec/dogo.png 1930w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;최종 합격을 받았던 곳 중 조건이 3년차인 곳도 있었다.
+어차피 정말 신입이 갈 수 없는 자리면 서류에서 거를 거란 생각으로 많은 지원을 했다.
+그렇게 넣지 않으면 넣을 곳이 없었다…ㅎㅎ
+어떤 곳에서는 면접 때 신입이라 면접에 못 올 줄 알았다 했더니 도전하는 마음가짐이 좋다는 얘기를 해주셨다.😄
+좋게 봐주셔서 정말 감사했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&quot;이력서와-면접을-위해-여러-노력을-했다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9D%B4%EB%A0%A5%EC%84%9C%EC%99%80-%EB%A9%B4%EC%A0%91%EC%9D%84-%EC%9C%84%ED%95%B4-%EC%97%AC%EB%9F%AC-%EB%85%B8%EB%A0%A5%EC%9D%84-%ED%96%88%EB%8B%A4&quot; aria-label=&quot;이력서와 면접을 위해 여러 노력을 했다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;이력서와 면접을 위해 여러 노력을 했다&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이력서 속의 자신이 가증스러워서🙃 누구 보여주기가 참 부끄러웠는데…
+나름 용기내서 씨유께 피드백 부탁드린 걸 시작으로 주위에 개선을 위한 도움을 요청했다.
+그래서 구직을 종료하는 순간까지도, 계속 더 나은 버전을 만들 수 있었다.
+흔쾌히 도와주신 모든 분들께 감사드린다.&lt;br&gt;
+면접은 스터디가 큰 도움이 됐다.
+내가 모르는 것이 무엇인지 확실히 알게되었을 뿐 더러, 다른 크루들이 우테코 기간동안 어떤 걸 집중해서 공부했는지 보고 배움을 보충할 수 있었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h3 id=&quot;-이것까지-신경썼다면-더-좋았을-걸&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B2%83%EA%B9%8C%EC%A7%80-%EC%8B%A0%EA%B2%BD%EC%8D%BC%EB%8B%A4%EB%A9%B4-%EB%8D%94-%EC%A2%8B%EC%95%98%EC%9D%84-%EA%B1%B8&quot; aria-label=&quot; 이것까지 신경썼다면 더 좋았을 걸 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;👀 이것까지 신경썼다면 더 좋았을 걸&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&quot;정작-아껴뒀던-기업-중에-지원을-못-한-곳이-많다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%95%EC%9E%91-%EC%95%84%EA%BB%B4%EB%92%80%EB%8D%98-%EA%B8%B0%EC%97%85-%EC%A4%91%EC%97%90-%EC%A7%80%EC%9B%90%EC%9D%84-%EB%AA%BB-%ED%95%9C-%EA%B3%B3%EC%9D%B4-%EB%A7%8E%EB%8B%A4&quot; aria-label=&quot;정작 아껴뒀던 기업 중에 지원을 못 한 곳이 많다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;정작 아껴뒀던 기업 중에 지원을 못 한 곳이 많다&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 부분은 정말 크게 후회중이다!😭
+카카오페이 합격 후 취소했던 곳들도 합격했더라면 정말 진지하게 고려할 곳들이었고,
+공고를 정리한 노션을 보니 가고싶었는데 지원하지 않은 곳들이 많았다.
+확률이 크진 않았을 거라 생각하지만 어쨌든 복권을 긁어서 꽝이 나온 것과 안 긁어본 것은 다르니까…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h4 id=&quot;지원을-많이-해서-일정-분배가-어려웠다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A7%80%EC%9B%90%EC%9D%84-%EB%A7%8E%EC%9D%B4-%ED%95%B4%EC%84%9C-%EC%9D%BC%EC%A0%95-%EB%B6%84%EB%B0%B0%EA%B0%80-%EC%96%B4%EB%A0%A4%EC%9B%A0%EB%8B%A4&quot; aria-label=&quot;지원을 많이 해서 일정 분배가 어려웠다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;지원을 많이 해서 일정 분배가 어려웠다&lt;/h4&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;사실 서류 통과를 많이 성공한 건 아닌데, 이상하게 면접 일정이 몰려서 잡힌 때가 많았다.
+과제나 코딩 테스트까지 겹치면 우선순위를 정하기 쉽지 않았다.
+왜이렇게 무식하게 지원을 많이 했나 추억하는 의미로 쓰던 노션 캡쳐를 올려본다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB5ElEQVQ4y21Ujc7aMBDj/R9v0rZvDCjwoVHa5j9tkobg6Q6oKDQSlUhcx/bddTUMA8aUQGscE1JK6EOEcQ63UuCcg1IK1+uVcXnM0EohDAPa+ozjdoMYI79H5yshBKy1TEgHtGphcZHufknO8N7jdZGIXAqi7OBOB4QYeY/Wih63243/hBCQrxleWdTbE0q5wmgNrTVecd45xHFEfzlDbdbo+x7WmjshgSagdxhCRDIt1P4n39p1LYyZE5LdlDMr9KcjhhAmdzPCvveIlKEWOG++HrmOnOOSQt/U6DZrzjfnzOczyyQ9pohea1yqHYOklFPGTxwXMmcY0eHyfZjOPgidtehDQJIC6s+vB6H4IKRoSGFsaqi/X6DdUsqCQu8RqPxGw+53bMUY80FIThIVRQq2zcXM47JCKorXDf7tfnB+BCZFS4SDVvDthS+m3wchZcNFMRr1oZp607lly4HaZv2bydNjOFbvQFJkdIdqe8+wbdsFy56nSmsDIyXvlVtZVvjM0FTbF4Vzy9YYng7fNND7aq7wvbFZoRQ4bNYMogl4jt5r8YjEiw7toWInyxlyHyY4rXCudkyuKfg3wqdC1bZojkce14nwfVLIctISZnf/itT1mZv7vcrUAVYq+K5jJ89J+Q+7TY7wYJF2NQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;applies&quot;
+        title=&quot;applies&quot;
+        src=&quot;/static/37262b7dc8e7e76675083acb1555bf32/37523/list.png&quot;
+        srcset=&quot;/static/37262b7dc8e7e76675083acb1555bf32/e9ff0/list.png 180w,
+/static/37262b7dc8e7e76675083acb1555bf32/f21e7/list.png 360w,
+/static/37262b7dc8e7e76675083acb1555bf32/37523/list.png 720w,
+/static/37262b7dc8e7e76675083acb1555bf32/302a4/list.png 1080w,
+/static/37262b7dc8e7e76675083acb1555bf32/07a9c/list.png 1440w,
+/static/37262b7dc8e7e76675083acb1555bf32/17009/list.png 1932w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;심지어 다 캡쳐한 것도 아니다 😓&lt;/p&gt;
+&lt;br&gt;  
+&lt;h3 id=&quot;-취업-후에-남은-생각들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%B7%A8%EC%97%85-%ED%9B%84%EC%97%90-%EB%82%A8%EC%9D%80-%EC%83%9D%EA%B0%81%EB%93%A4&quot; aria-label=&quot; 취업 후에 남은 생각들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧶 취업 후에 남은 생각들&lt;/h3&gt;
+&lt;p&gt;처음 면접을 보러 갈 때만 해도 취업을 못할까봐 무서웠다.
+대학생 때 스타트업을 하겠답시고 휴학하고 뛰쳐나간 나는 성적도 좋지 않았고,
+전공도 개발과 관련이 없었으며,
+프리랜서로 일해 증명하기 어려운 공백기가 있는,
+그러니까 취업에 불리한 점만 종합선물세트로 모아놓은 상황이었다.
+하지만 면접을 통해 내 경험과 생각을 다른 사람에게 말로 전하면서,
+취업 성공 여부와는 별개로 내면을 다질 수 있었다.&lt;/p&gt;
+&lt;p&gt;레벨2 때 브라운과 면담 중 나는 바보인데 잘하는 사람 너무 많다는 얘기를 했다.
+그때 브라운이 &lt;code class=&quot;language-text&quot;&gt;잘하는 사람의 잘하는 면을 따라하기보다, 써머만의 장점을 돋보이게 하면 어때요?&lt;/code&gt;라는 조언을 해주셨다.
+물론 위로되는 말이었지만 한편으로는 저는 장점이 없어욧😭 하는 생각이 들었는데…
+면접을 거치며 브라운이 했던 &lt;code class=&quot;language-text&quot;&gt;내 장점을 돋보이게 해라&lt;/code&gt;의 진짜 의미를 알게 되었다.&lt;/p&gt;
+&lt;p&gt;흔히 컴공, 소프트웨어 전공을 제외한 개발자를 &lt;code class=&quot;language-text&quot;&gt;비전공자&lt;/code&gt;라고 부른다.
+난 비전공자라 잘 못한다는 틀에 스스로를 가두지 말라는 말을 들으면서도, 가끔은 모르는게 당연하다는 변명으로 써먹었던 것 같다.
+하지만 요즘은 &lt;code class=&quot;language-text&quot;&gt;나는 비전공자 아니지. 디자인 전공자잖아!&lt;/code&gt; 가 되었다.&lt;/p&gt;
+&lt;p&gt;평범한 사람인 나는, 대학 4년 교육의 차이를 어찌해도 단숨에 따라갈 수 없다.
+따라갈 수 있다고 말하면 오만이라 생각한다.
+하지만 내가 디자인을 전공했기에, 다른 사람들보다 잘 할 수 있는 점이 분명히 있다.
+디자인 전공인 나는 남들보다 프론트엔드와 잘 얘기할 수 있고, 기술을 모르는 사람들의 입장에서 소통할 줄 안다.
+또, 전공이 아님에도 노력해서 단기간에 이만큼 쌓았으니 앞으로 더 잘할 수 있다는 강점을 어필할 수 있었다.
+물론 기술면접에서 나쁘지 않은 결과를 보여줬기에 가능한 얘기다.😅&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-우아한테크코스를-떠나며&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9A%B0%EC%95%84%ED%95%9C%ED%85%8C%ED%81%AC%EC%BD%94%EC%8A%A4%EB%A5%BC-%EB%96%A0%EB%82%98%EB%A9%B0&quot; aria-label=&quot; 우아한테크코스를 떠나며 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌈 우아한테크코스를 떠나며&lt;/h2&gt;
+&lt;p&gt;우테코를 떠난지가 벌써 한달하고도 몇 주가 되었지만, 아직 마음은 내일 등교해도 어색하지 않을 정도로 남아있다.
+얼마전에 포비와 밥을 먹기로 해서 캠퍼스에 들렀다.
+시간이 늦어 코치들도 다 퇴근하시고 왼손만 계셨는데, 적막한 캠퍼스가 참 어색하고 낯설었다.&lt;/p&gt;
+&lt;p&gt;취업하기 전에는 놀고싶다 쉬고싶다는 마음이 한가득이었다.
+그런데 막상 거처가 정해지고 나니 하루빨리 출근해서 일하고 공부하고 싶다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABRUlEQVQoz32SX0vCYBTG/SZ9wC676BNEl95F99WtYERZGAaByaAJS9x0jm01t9ym0R/FP3v3iw20ObUHDu/LOYeH5znnFADiOGb55v9CRGkske/Jo7CtuK3RdV1s217VhRBbhRSyBMPhkFarRa/XY+AHfH/46PI9ptbEsqw0EuIs8ooL2YSu6yiKwqttYfd9nkpF2sd7PJ/tMxNwW7nhoVbj3fNS8jAMN1ytLCcWVFXFcRxGoxGe51GtVumUDrk4PeKxLlG+LFO+qqB2DGRZRpIkfN9nsVj8KcyyJ0SapmEYBt1uBz8IUZQX6o0GclPGHYzQ74pI5wd8fv0wn88Zj8epmDXL+UVMJpO0aTadpiPoOw6O6/LW95CvT7CaFRYi3pjlyvJ/ZxBFEaZp0lZVgsBHbFnI2lJ23V82l2A5J2KR3uUuEb/TK62uMyDB5gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;햄깅짤&quot;
+        title=&quot;햄깅짤&quot;
+        src=&quot;/static/06fb59ebec1fa6aaea54d26c2d74e308/37523/ham.png&quot;
+        srcset=&quot;/static/06fb59ebec1fa6aaea54d26c2d74e308/e9ff0/ham.png 180w,
+/static/06fb59ebec1fa6aaea54d26c2d74e308/f21e7/ham.png 360w,
+/static/06fb59ebec1fa6aaea54d26c2d74e308/37523/ham.png 720w,
+/static/06fb59ebec1fa6aaea54d26c2d74e308/302a4/ham.png 1080w,
+/static/06fb59ebec1fa6aaea54d26c2d74e308/07a9c/ham.png 1440w,
+/static/06fb59ebec1fa6aaea54d26c2d74e308/8bb81/ham.png 1602w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;아마 출근하고 나면 이렇게 변할 것 같지만…&lt;/p&gt;
+&lt;p&gt;지난 1월의 스스로에 비해 지금의 나는, 긍정적인 쪽으로 성향이 많이 바뀌었다.
+여기에 굳이 성장이라는 이름을 붙이고 싶진 않다.
+우테코는 나에게 변화의 &lt;code class=&quot;language-text&quot;&gt;계기&lt;/code&gt;를 주었고, 이걸 앞으로 삶에서 어떻게 풀어나갈 지는 나에게 달렸다고 생각하기 때문이다.
+나태해지지 않기 위해 &lt;code class=&quot;language-text&quot;&gt;나는 성장했다&lt;/code&gt;라는 긍정적인 종결어미 대신, 중립적아고 열린 &lt;code class=&quot;language-text&quot;&gt;나는 바뀌었다&lt;/code&gt;를 써보았다.
+물론 키워주신 은혜는 잊지 않고 있습니다…🙇&lt;/p&gt;
+&lt;h3 id=&quot;-개발자-써머로서&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%8D%A8%EB%A8%B8%EB%A1%9C%EC%84%9C&quot; aria-label=&quot; 개발자 써머로서 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;👾 개발자 써머로서&lt;/h3&gt;
+&lt;p&gt;우테코에 들어오기 전의 나는 &lt;code class=&quot;language-text&quot;&gt;이만하면 됐지&lt;/code&gt;를 자주 생각하는 사람이었다.
+좋게 말하면 안분지족, 나쁘게 말하면 향상심이 없었다.
+코드를 공부하는 것 보다 좋은 회사에 들어가는 것, 돈을 버는 것이 급했다.
+다른 사람들과 얘기할 시간에 강의 하나를 더 보는 게 낫다고 생각했다.&lt;/p&gt;
+&lt;p&gt;우테코에 와서는 개발도 게임처럼, 다른 사람들과 함께 즐기며 성장할 수 있구나를 배웠다.
+지루할 정도로 이상적인 &lt;code class=&quot;language-text&quot;&gt;함께 자란다&lt;/code&gt;는 선언을 우테코에서는 정말 지키고 있었다.
+교육의 유토피아에 가까웠다.
+나는 항상 우테코가 야생을 꾸며둔 온실이라 생각했는데,
+먹을 것 하나 얻기 위해서 뛰고 구르면서도, 제일 중요하게 여겨야 할 그렇게 얻은 콩 한쪽도 나눠먹는 마음을 항상 잊지 않도록 해줬기 때문이다.
+이런 환경을 만들기 위해 얼마나 많은 신경을 기울이셨을까 싶다.&lt;/p&gt;
+&lt;p&gt;그리고 개발에 &lt;code class=&quot;language-text&quot;&gt;재미&lt;/code&gt;를 붙였다.
+면접 중 우테코를 잘 모르는 분이 선생님이나 멘토가 있는거냐 물으셔서 코치의 역할에 대해 짧게 설명한 적이 있다.
+정확한 맥락은 기억나지 않지만, 그 분이 “그러면 모르는 걸 물어보면 알려주고 그런 일을 하시는 건가요?”라고 되물었었다.
+나는 아주 솔직하게, 물어보긴 하는데 보통 왜 그렇게 생각하셨나요? 어디까지 찾아보셨나요? 어떻게 해결하면 좋을까요? 그렇게 했을 때 왜 실패했을까요? 하고 질문 반사를 당하기 떄문에 잘 안물어보고 친구들이랑 논의한다고 답을 했다.
+그랬더니 웃으시면서, 아 그쵸 그게 답이긴 하죠. 그렇게 배우는 거죠. 하셨었다.&lt;/p&gt;
+&lt;p&gt;처음에는 이런 방식이 답답했다.
+돌아보면 공부할 거리가 목록으로 주어지고, 질문을 했을 때 자판기처럼 나오는 답을 줍고 다음 공부 거리를 찾아갔다면, 절대 개발에 재미를 붙이지 못했을 것 같다.
+그게 바로 우테코에 오기 전 내가 했던 방식이었으니까.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 46.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABmElEQVQoz42S7UtTcRTH/RsNxQTJibHwwqic7LZ73S6CrqiQ8I1POPGNvqrwhWLBZsquT2WktnS7TrfadJu7bopgbvf3kd0JEsT0HM7h++rD+Z5zGrgJUU1hVQV/WeNj3E3Pe4nuWSc9YQlp4QmesIS65OLd9lMiuSHAQggQ1XYTDf8CK7Y+Mb8gr3fyMPiIzrE2WmYdNI620jrdTvN0Bw90B8G9ARto1Qdati5e6swfeggsS2gzDqZCToJzjwl8cuJb7eJt3EXiYux2Qu4CnkfYGPDwY1DDNLxganaVDC+b4xrGcD+5nXFEFWjVBdYsm4UQi7JMtE+BnI/9kMTR12eQ8/P9uUq4ycfx2mgNWLnHDrNni+i//BgpjXJaIaO7ON12Uz5WiUb97PwMkDQngMpdR6lZLpVX+fDZTTbm5SLxAk40u8opL8UDBcN8SfZq8hZYd4cCzsQKe7/9JKO9XKVVyKiQVsjvKyRTGrubMoXLSdsy9znKudBJlgLE/7wmtiWTz2hkDnrZ+iYTK7zBOH1FojDy3z+8Bm5EfKev39NqAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;최고심&quot;
+        title=&quot;최고심&quot;
+        src=&quot;/static/22cd6282f09d70855b74783ceee7a22e/37523/bingo.png&quot;
+        srcset=&quot;/static/22cd6282f09d70855b74783ceee7a22e/e9ff0/bingo.png 180w,
+/static/22cd6282f09d70855b74783ceee7a22e/f21e7/bingo.png 360w,
+/static/22cd6282f09d70855b74783ceee7a22e/37523/bingo.png 720w,
+/static/22cd6282f09d70855b74783ceee7a22e/302a4/bingo.png 1080w,
+/static/22cd6282f09d70855b74783ceee7a22e/07a9c/bingo.png 1440w,
+/static/22cd6282f09d70855b74783ceee7a22e/f349c/bingo.png 2002w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;치트키 쓰는 게임이 시덥잖아 지는 것 처럼, 원래 목표는 쉽게 달성하면 재미없는 법이다.
+생각하고 되묻고 찾고 갈아엎고 논의하고 다시 생각하는 과정에서 이제야 진짜 재미를 느끼고 있다.&lt;/p&gt;
+&lt;h3 id=&quot;-인간-써머로서&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9D%B8%EA%B0%84-%EC%8D%A8%EB%A8%B8%EB%A1%9C%EC%84%9C&quot; aria-label=&quot; 인간 써머로서 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌱 인간 써머로서&lt;/h3&gt;
+&lt;p&gt;작년 한 해, 정말 많이 힘들었다.
+하굣길에 엉엉 운 날도 있고, 막바지엔 개인적인 사정으로 진지하게 우테코를 그만둘까도 고려했다.
+내 성취가 힘들었던 시간이나 어떤 사건에 대한 교환물이라고 생각하지 않음에도…
+지금도 가끔 이럴만한 가치가 있었을까? 하는 생각이 든다.&lt;/p&gt;
+&lt;p&gt;그런데도 작년을 행복하고 즐거웠다고 말할 수 있는 건, 우테코에서 만난 사람들이 있어서다.
+친한 크루에게 짓궂은 농담으로 &lt;code class=&quot;language-text&quot;&gt;퇴사하고 브라운조랑 알고 지내기&lt;/code&gt; vs &lt;code class=&quot;language-text&quot;&gt;회사다니고 브라운조랑 연락 끊기&lt;/code&gt;를 물어본 적이 있다.
+(솔직히 전환된 게 부러워서 그랬다ㅎㅎ 미안합니다)
+그 크루는 전자를 골랐고, 나도 같은 마음이다.&lt;/p&gt;
+&lt;p&gt;늘 의지했던 브라운과 브라운조 가족들, 믿음직한 선배같았던 공원, 매번 귀찮게 굴어도 잘 알려주신 제이슨,
+우테코 무사히 마칠 수 있도록 배려해주신 포비와 모든 코치분들,
+그리고 너무 멋진 줍줍 팀원들까지,
+모두 우테코에서 만난 소중한 인연이다.🤧&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 39.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABbklEQVQoz42R2UsCcRSF+3cjqERM1IxoiqKifXkoS4pspUVJkmjPgrZJS8Rx0la0aCGiGkfn90VKUETLfTkP596Pe+4t4lMJIQqaukHbCfGyd4R+ECEtH0JcJaMqxFaXUNdXIZ1G6PqXufcq+gzEEOStkMKD18dWVxNrdbVs9HUTbG0m7B4g5Brgbt6PLu8hMlq+/0egMIy8nm1tEveNo6X2meluoNdaSru5hJ6KUoZtJuL+aR5Duwg98z/g63GU89FRAv3t9NtMeBxmPJKdKcmOr6maSGASkmFEtgDkx8iiEFnEE7CyzmZHG2NVFiYkO5P1ToacFnrKi/G11JK7kCH314YfQFUlM+9nSnIyZDfhkWwMOsy4rGW4nBZuDxcxUjK69vz7Uz4MI6Zw6/US7O1kxGFhtrGGubpK3OYSogsjPCWCXIWXQeh/b5gHXl+TjcXg9JSsosBVkudEFDng5TK8Te4+gXZzAkbu2w3fALQ7O6rcI98XAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;안아줘요&quot;
+        title=&quot;안아줘요&quot;
+        src=&quot;/static/e65bc647bb68d7422a775d4c7f74e970/37523/hug.png&quot;
+        srcset=&quot;/static/e65bc647bb68d7422a775d4c7f74e970/e9ff0/hug.png 180w,
+/static/e65bc647bb68d7422a775d4c7f74e970/f21e7/hug.png 360w,
+/static/e65bc647bb68d7422a775d4c7f74e970/37523/hug.png 720w,
+/static/e65bc647bb68d7422a775d4c7f74e970/302a4/hug.png 1080w,
+/static/e65bc647bb68d7422a775d4c7f74e970/07a9c/hug.png 1440w,
+/static/e65bc647bb68d7422a775d4c7f74e970/24def/hug.png 1812w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;우테코에서 말로 다 못할 만큼 많은 배려와 애정을 받았고,
+앞으로 개발자로 걷는 길에서 만나는 사람들에게 받은 감정만큼 베풀면서 살아가고 싶다.
+우테코를 떠나는 것이 내 인생이라는 이야기 속 한 장의 멋진 마무리자, 다음 장으로 넘어가는 설레는 순간으로 느껴진다.
+함께 떠나는 모든 사람들의 앞날에 행복하고 즐거운 일이 가득하길 바란다.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%B7%A8%EC%97%85-%ED%9A%8C%EA%B3%A0&quot;&gt;🔥 취업 회고&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B1%B4-%EC%A0%95%EB%A7%90-%EC%9E%98%ED%96%88%EB%8B%A4&quot;&gt;💯 이건 정말 잘했다&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B2%83%EA%B9%8C%EC%A7%80-%EC%8B%A0%EA%B2%BD%EC%8D%BC%EB%8B%A4%EB%A9%B4-%EB%8D%94-%EC%A2%8B%EC%95%98%EC%9D%84-%EA%B1%B8&quot;&gt;👀 이것까지 신경썼다면 더 좋았을 걸&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%B7%A8%EC%97%85-%ED%9B%84%EC%97%90-%EB%82%A8%EC%9D%80-%EC%83%9D%EA%B0%81%EB%93%A4&quot;&gt;🧶 취업 후에 남은 생각들&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%9A%B0%EC%95%84%ED%95%9C%ED%85%8C%ED%81%AC%EC%BD%94%EC%8A%A4%EB%A5%BC-%EB%96%A0%EB%82%98%EB%A9%B0&quot;&gt;🌈 우아한테크코스를 떠나며&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B0%9C%EB%B0%9C%EC%9E%90-%EC%8D%A8%EB%A8%B8%EB%A1%9C%EC%84%9C&quot;&gt;👾 개발자 써머로서&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%9D%B8%EA%B0%84-%EC%8D%A8%EB%A8%B8%EB%A1%9C%EC%84%9C&quot;&gt;🌱 인간 써머로서&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[Querydsl만의 아늑한 🏡 지어주기]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/querydsl-refactoring/</link><guid isPermaLink="false">https://hyewoncc.github.io/querydsl-refactoring/</guid><pubDate>Wed, 26 Oct 2022 12:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-문제상황&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9&quot; aria-label=&quot; 문제상황 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧶 문제상황&lt;/h2&gt;
 &lt;h3 id=&quot;-비대해진-서비스-코드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%B9%84%EB%8C%80%ED%95%B4%EC%A7%84-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%BD%94%EB%93%9C&quot; aria-label=&quot; 비대해진 서비스 코드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🪐 비대해진 서비스 코드&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/woowacourse-teams/2022-pickpick&quot;&gt;줍줍&lt;/a&gt;은 요청에 따라 동적으로 변화해야 하는 복잡한 조회 조건을 걸기 위해 &lt;code class=&quot;language-text&quot;&gt;Querydsl&lt;/code&gt;을 도입했다.
 예전에 공부하며 가볍게 사용해 본 적은 있지만, 줍줍 요구사항만큼 복잡한 코드를 짜 본 적은 없었다.
