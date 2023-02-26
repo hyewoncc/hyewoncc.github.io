@@ -1,4 +1,269 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 06 Jan 2023 07:15:05 GMT</lastBuildDate><item><title><![CDATA[우아한테크코스를 떠나며]]></title><description><![CDATA[유난히 길고 힘들었던 2022년이 지났다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 26 Feb 2023 16:47:07 GMT</lastBuildDate><item><title><![CDATA[열 번 들어 안 기억하는 나를 위한 친절한 오브젝트]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/%20book-objects/</link><guid isPermaLink="false">https://hyewoncc.github.io/ book-objects/</guid><pubDate>Sun, 26 Feb 2023 16:45:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 49.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACsUlEQVQozx2Sa09SARiAz0/oaz+gWmvWamurtmq17F7L2VaztbnW1cqCEBEI9MgBlEsIAuoBwiOIghiCIijelhWZ6bqs+tCq1Zf6FU/jfHj2fnv2Pu9eQW/toUP0YLb76OwNYns2iNMfwR0aJhBLM5AqIGdmiecqJKaXSRSW1ZmaXSUzt0a2sk52YZ0Xi++ZXNhAaLP2YBA9mOw+LM4AXe4Qkm8IR18EVzhOufqZ0pvPLGx8p7D6kVL1K9nKGkp+kVRxlbHZKulylczcWybKawi6pw4MXW46ur2Y7X1YewKI7jBtVidas8Tmj3/Mb/5k5cNvVj7+ofrtL4WXH4hmSiTzSyTzK4wWXjI284r0zGsEndlOu8WJocuFSfKp0m7vIKcuNNJ47QbvP33lprGbZqOEx+1mZGSI3OI68tgMSnYe5UWFRG6R0allRvMrCJoOGzqThN7qxNDtwWjzYu0NcvTEGRqbmhmfnkMOhGmqv8zZ8w2EQyFylXcMJPJEx4vE0rPEM3MMT1RQJisIrQYRrVGilq7vdGEQ3eo9Dx45zqUr10hOVZDsZg7t2MqWwydoMrqYKK7SH88ymMgzlCwQSRWJjZeIpcsILToLD9tFNCYJ7VMHbZ29qnjf/gM0XLlOppDlya16HOIT7hjus/v6I5SpJfoiY/THJwkpOQZGppBHp1WEu4+N3K9J9V08ruVbHGjNdur27ONcw1VK5RQBv0hkJEM4KBNMThDNzuMOK/RFxvFH0vijGfqfZwkP52pCE/c0Zlq0Zh62WdX8mnznrt2cPHuR6pc/vPvyi5QsE5MVym++EU0Vsftqv6qoeMIJng2mVLlw84Ge260d3NOYaNGYeNQucrvVoG64bft2jtWfxqhpQXrQzN66OnSWHmxeGZt3CLsvirOGP4YrOIx3IMl/eR4ZyZLWmNkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;book&quot;
+        title=&quot;book&quot;
+        src=&quot;/static/b9bd507c2c6e68cf6dc43d174ee1440a/37523/book.png&quot;
+        srcset=&quot;/static/b9bd507c2c6e68cf6dc43d174ee1440a/e9ff0/book.png 180w,
+/static/b9bd507c2c6e68cf6dc43d174ee1440a/f21e7/book.png 360w,
+/static/b9bd507c2c6e68cf6dc43d174ee1440a/37523/book.png 720w,
+/static/b9bd507c2c6e68cf6dc43d174ee1440a/302a4/book.png 1080w,
+/static/b9bd507c2c6e68cf6dc43d174ee1440a/07a9c/book.png 1440w,
+/static/b9bd507c2c6e68cf6dc43d174ee1440a/ec5f6/book.png 1852w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이 책은 객체지향의 바이블일 것이다.
+책을 읽기 전부터 그런 생각을 했다.
+추상적인 표지와 무지막지한 두께에서 느껴지는 포스가 흡사 수학의 정석 같았기 때문이다.
+그래서 그렇게 어려운 책이 아니라는 주변의 말에도 쉽게 읽을 엄두를 못 냈다.&lt;/p&gt;
+&lt;p&gt;그러다 회사에서 페어 프로그래밍을 할 때였다.
+클라이언트 입장에서 &lt;code class=&quot;language-text&quot;&gt;PUT&lt;/code&gt; 요청으로 엔티티 값을 변경 시키고, 다시 &lt;code class=&quot;language-text&quot;&gt;GET&lt;/code&gt; 요청으로 엔티티를 조회하도록 코드를 짜고 있었다.
+그래서 서비스의 엔티티 값을 변경 시키는 메서드가 해당 엔티티를 반환하게 만들면, 굳이 &lt;code class=&quot;language-text&quot;&gt;GET&lt;/code&gt; 요청을 다시 보낼 필요가 없지 않겠냐는 주장을 했다.
+그 때 팀원이 &lt;code class=&quot;language-text&quot;&gt;명령-쿼리 분리 원칙&lt;/code&gt; 이야기를 하면서 오브젝트 책을 추천했다.&lt;/p&gt;
+&lt;p&gt;설날 전부터 읽기 시작했으니 다 읽기까지 약 한달이 걸렸다.
+책이 어려워서는 아니고 회사를 다니니 시간내서 공부하기가 쉽지 않았다.
+블로그 포스팅 해야한다고 글또를 신청해놓고 지각하고 있는 지금을 봐도 그렇다…
+어쨌든, 책에서 인상깊었던 부분을 간략하게 정리해봤다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-처음-만난-지식들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EC%A7%80%EC%8B%9D%EB%93%A4&quot; aria-label=&quot; 처음 만난 지식들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💎 처음 만난 지식들&lt;/h2&gt;
+&lt;h3 id=&quot;명령-쿼리-분리-원칙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99&quot; aria-label=&quot;명령 쿼리 분리 원칙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;명령-쿼리 분리 원칙&lt;/h3&gt;
+&lt;p&gt;무엇보다 &lt;code class=&quot;language-text&quot;&gt;명령-쿼리 분리 원칙&lt;/code&gt; 키워드가 책을 읽게 된 계기다 보니 책에서 마주치니 참 반가웠다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;객체의 상태를 수정하는 오퍼레이션을 명령이라고 부르고 객체와 관련된 정보를 반환하는 오퍼레이션을 쿼리라고 부른다.&lt;br&gt;
+…명령-쿼리 분리 원칙의 요지는 오퍼레이션은 부수효과를 발생시키는 명령이거나 부수효과를 발생시키지 않는 쿼리 중 하나여야 한다는 것이다. …다음의 두 가지 규칙을 준수해야 한다.&lt;/p&gt;
+&lt;p&gt;객체의 상태를 변경하는 명령은 반환값을 가질 수 없다&lt;br&gt;
+객체의 정보를 반환하는 쿼리는 상태를 변경할 수 없다&lt;/p&gt;
+&lt;p&gt;pp.202~203&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;p&gt;키워드는 새롭지만 내용은 직관적으로 받아들이기 쉬웠다.
+getter()를 호출했는데 나도 모르게 값이 바뀌면 곤란하다는 것 아닐까.
+메서드가 예상하지 못한 부작용을 해선 안된다는 일반적인 개념을 객체에 더 집중시킨 원칙이라 해석했다.
+비스무리한 키워드를 봤던 것 같아서 찾아보니, &lt;a href=&quot;https://justhackem.wordpress.com/2016/09/17/what-is-cqrs/&quot;&gt;CQRS란 무엇인가?&lt;/a&gt;라는 아주 좋은 포스팅이 있어 감사하게 읽었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h3 id=&quot;추상화-패키지는-클라이언트로&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B6%94%EC%83%81%ED%99%94-%ED%8C%A8%ED%82%A4%EC%A7%80%EB%8A%94-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%EB%A1%9C&quot; aria-label=&quot;추상화 패키지는 클라이언트로 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;추상화 패키지는 클라이언트로&lt;/h3&gt;
+&lt;p&gt;멀티 모듈 프로젝트를 해 본 적이 없다 보니, 모듈 및 패키지 간의 의존성을 신경쓰지 않았다.
+의존성이 생길 것 같으면 이벤트로 끊으면 된다고 생각했다.
+그런데 그 이전의 중요한 원칙을 배울 수 있었고, 조만간 써먹을 때가 올 것 같다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;추상화를 별도의 독립적인 패키지가 아니라 클라이언트가 속한 패키지에 포함시켜야 한다. 그리고 함께 재사용될 필요가 없는 클래스들은 별도의 독립적인 패키지에 모아야 한다. 마틴 파울러는 이 기법을 가리켜 SEPARATED INTERFACE 패턴[Fowler02]이라고 부른다.&lt;/p&gt;
+&lt;p&gt;Movie와 추상 클래스인 DiscountPolicy를 하나의 패키지로 모으는 것은 Movie를 특정한 컨텍스트로부터 완벽하게 독립시킨다. Movie를 다른 컨텍스트에서 재사용하기 위해서는 단지 Movie와 DiscountPolicy가 포함된 패키지만 재사용하면 된다. 새로운 할인 정책을 위해 새로운 패키지를 추가하고 새로운 DiscountPolicy의 자식 클래스를 구현하기만 하면 상위 수준의 협력 관계를 재사용할 수 있다.&lt;/p&gt;
+&lt;p&gt;p.304&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-이걸-왜-몰랐을까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B1%B8-%EC%99%9C-%EB%AA%B0%EB%9E%90%EC%9D%84%EA%B9%8C&quot; aria-label=&quot; 이걸 왜 몰랐을까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💧 이걸 왜 몰랐을까&lt;/h2&gt;
+&lt;p&gt;이 항목은 반성을 위해 만들었다.
+사실 해당 개념을 잘 모르는데, 단순히 자주 들으니 귀에 익어버려서 잘 안다고 착각했던… 메타인지가 부족했던 것들이 있었다.&lt;/p&gt;
+&lt;h3 id=&quot;점을-어떻게-하나만-찍어&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%90%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EB%A7%8C-%EC%B0%8D%EC%96%B4&quot; aria-label=&quot;점을 어떻게 하나만 찍어 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;점을 어떻게 하나만 찍어?&lt;/h3&gt;
+&lt;p&gt;우테코 피드백에서 &lt;code class=&quot;language-text&quot;&gt;디미터의 법칙&lt;/code&gt;을 언급하며, 객체지향 생활체조에 따라 &lt;code class=&quot;language-text&quot;&gt;한 줄에 점 하나만 찍어라&lt;/code&gt;고 한 적이 있었다.
+의외로 처음에는 이 말을 제대로 알아들었었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;judgeWin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Player&lt;/span&gt; player&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;player&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;getCards&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getScore&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;judgeWin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Player&lt;/span&gt; player&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; player&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;isWin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;여러개의 점을 거쳐 객체 내부의 프로퍼티에 접근하면, 올바른 캡슐화가 되지 않았다는 신호라는 의미였다.
+그런데 이 때는 자바 스트림을 몰랐고, 점이 줄줄이 이어지는 스트림을 쓰면서 혼란이 시작됐다.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;makePlayers&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; names&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; names&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Playser&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;toList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;그래서 디미터 법칙을 지치려고 한 줄에 점 하나만 찍고 줄을 띄운다고 생각했었다…
+이런 착각이 흔한 것이지, 디미터의 법칙을 오해한 예시로 정확하게 자바 스트림이 나온다.&lt;/p&gt;
+&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;디미터 법칙은 “낯선 자에게 말하지 말라(don’t talk to strangers)[Larman04]” 또는 “오직 인접한 이웃하고만 말하라(only talk to your immediate neighbors)[Metz12]“로 요악할 수 있다. 자바나 C#과 같이 ‘도트(.)’를 이용해 메시지 전송을 표현하는 언어에서는 “오직 하나의 도트만 사용하라(use only one dot)[Metz12]“라는 말로 요약되기도 한다.&lt;/p&gt;
+&lt;p&gt;p.181&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;따라서 대부분의 사람들은 자바 8의 IntStream을 사용한 아래의 코드가 기차 충돌을 초래하기 때문에 디미터 법칙을 위반한다고 생각할 것이다. …디미터 법칙은 결합도와 관련된 것이며, 이 결합도가 문제가 되는 것은 객체의 내부 구조가 외부로 노출되는 경우로 한정된다.&lt;/p&gt;
+&lt;p&gt;스스로에게 다음과 같은 질문을 하기 바란다. 과연 여러 개의 도트를 사용한 코드가 객체의 내부 구조를 노출하고 있는가?&lt;/p&gt;
+&lt;p&gt;pp.198~199&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h3 id=&quot;프로그램의-정확성을-지켜라&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%EC%9D%98-%EC%A0%95%ED%99%95%EC%84%B1%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC&quot; aria-label=&quot;프로그램의 정확성을 지켜라 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로그램의 정확성을 지켜라&lt;/h3&gt;
+&lt;p&gt;포스팅을 쓰기 위해 접어놓은 페이지를 뒤적이다 정말 크게 뜨끔한 부분이 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;하지만 이 경우에는 flyBird 메서드에 전달되는 인자의 타입에 따라 메서드가 실패하거나 성공하게 된다. …flyBird 메서드는 fly 메시지를 전송한 결과로 UnsupportedOperationException 예외가 던져질 것이라고는 기대하지 않았을 것이다. 따라서 이 방법 역시 클라이언트의 관점에서 Bird와 Penguin의 행동이 호환되지 않는다.&lt;/p&gt;
+&lt;p&gt;p.447&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이 인용구의 예시는 펭귄이 날지 못한다고, Bird를 상속한 Penguin 클래스의 fly() 메서드의 구현을 비워두거나 예외를 던지게 하면 안된다는 맥락이었다.
+그러니까 프로그램의 정확성을 깨트리지 않으면서 하위 타입이 상위 타입을 대체할 수 있어야 한다는 리스코프 치환 원칙을 정면으로 위배하는 사례였다.
+때마침 그런 코드를 &lt;strong&gt;바로 어제&lt;/strong&gt; 코틀린 블랙잭을 하며 짰었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;sealed&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; Deck &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;card&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Card&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Deck
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;sealed&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Running&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; cards&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Cards&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Deck &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;card&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Card&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        cards&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;card&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;sealed&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Finish&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; cards&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Cards&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Deck &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;card&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Card&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;IllegalStateException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;더이상 카드를 추가할 수 없습니다&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;블랙잭에서 이미 턴이 끝난 카드덱은 카드를 더 추가할 수 없음을 구현하기 위해 예외를 던졌다.
+이렇게 하지 마세요 하는 완벽한 예시를 내가 어제 짰다니…&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-너의-이름은&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%84%88%EC%9D%98-%EC%9D%B4%EB%A6%84%EC%9D%80&quot; aria-label=&quot; 너의 이름은 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;📛 너의 이름은&lt;/h2&gt;
+&lt;p&gt;디미터 법칙을 지키기 위해 이런 식의 코드를 짤 때가 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;deck&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Deck&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; List&lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;Card&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; deck&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;이는 물론, List&amp;#x3C;Card&gt;가 필요한 외부에서 점을 두 번 찍지 못하게 하려는 목적이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token function&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;player&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;deck&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cards&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;joinToString&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;, &quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;player&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;joinToString&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-literal singleline&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&quot;, &quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;이걸 두고 단순히 호출 깊이를 줄이려고 메서드를 겹겹이 감싸는 게 무슨 의미가 있지? 하는 동시에 클라이언트에서 깔끔하니 된 건가 고민을 했었다.
+그런데 책에서 이 행위의 멋진 이름을 알게 되었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;…동일한 메서드 호출을 그대로 전달한다는 것을 알 수 있다. 이를 포워딩(forwarding)이라 부르고 동일한 메서드를 호출하기 위해 추가된 메서드를 포워딩 메서드(forwarding method)[Bloch08]라고 부른다.&lt;/p&gt;
+&lt;p&gt;포워딩은 기존 클래스의 인터페이스를 그대로 외부에 제공하면서 구현에 대한 결합 없이 일부 작동 방식을 변경하고 싶은 경우에 사용할 수 있는 유용한 기법이다.&lt;/p&gt;
+&lt;p&gt;p.352&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt; 
+&lt;p&gt;의미없다 생각한 코드가 포워딩이라는 이름을 얻고 나니 그럴싸하게 보였다.
+반면 반대의 경우도 있었는데, &lt;a href=&quot;https://kotlinlang.org/docs/extensions.html#extension-functions&quot;&gt;코틀린 확장함수&lt;/a&gt;를 처음 접하고 자바에 없는 좋은 거 코틀린에 다 있네 한탄했는데 충격적인 칭호를 알게 됐다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;몽키 패치(Monkey Patch)란 현재 실행중인 환경에만 영향을 미치도록 지역적으로 코드를 수정하거나 확장하는 것을 가리킨다.&lt;/p&gt;
+&lt;p&gt;p.352&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;확장 함수가 몽키 패치임을 알고 나니 코드는 그대로인데 전만큼 멋져보이지 않았다…&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-컴파일과-런타임을-구분해라&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EA%B3%BC-%EB%9F%B0%ED%83%80%EC%9E%84%EC%9D%84-%EA%B5%AC%EB%B6%84%ED%95%B4%EB%9D%BC&quot; aria-label=&quot; 컴파일과 런타임을 구분해라 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💾 컴파일과 런타임을 구분해라&lt;/h2&gt;
+&lt;p&gt;토비의 스프링을 읽으면서 컴파일 타임 의존성과 런타임 의존성을 확실히 구분하는 것의 중요성을 배웠다.
+별 생각 없이 쓰던 스프링이 객체지향을 얼마나 갈고 닦은 프레임 워크인지도 깨달았다.
+거기서 접했던 맥락이 책의 어려곳에서 반복되고 있었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;상속이 가치 있는 이유는 부모 클래스가 제공하는 모든 인터페이스를 자식 클래스가 물려받을 수 있기 때문이다. …대부분의 사람들은 상속의 목적이 메서드나 인스턴스 변수를 재사용하는 것이라고 생각하기 때문이다.&lt;/p&gt;
+&lt;p&gt;…상속을 통해 자식 클래스는 자신의 인터페이스에 부모 클래스의 인터페이스를 포함하게 된다. 결과적으로 자식 클래스는 부모 클래스가 수신할 수 있는 모든 메시지를 수신할 수 있기 때문에 외부 객체는 자식 클래스를 부모 클래스와 동일한 타입으로 간주할 수 있다.&lt;/p&gt;
+&lt;p&gt;p.61&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;개방-폐쇄 원칙은 다음과 같은 문장으로 요약할 수 있다. 소프트웨어 개체(클래스, 모듈, 함수 등등)는 확장에 대해 열려 있어야 하고, 수정에 대해서는 닫혀 있어야 한다.&lt;/p&gt;
+&lt;p&gt;…사실 개방-폐쇄 원칙은 런타임 의존성과 컴파일타임 의존성에 관한 이야기다. 런타임 의존성은 실행시에 협력에 참여하는 객체들 사이의 관계다. 컴파일타임 의존성은 코드에서 드러나는 클래스들 사이의 관계다. …유연하고 재사용 가능한 설계에서 런타임 의존성과 컴파일 타임 의존성은 서로 다른 구조를 가진다.&lt;/p&gt;
+&lt;p&gt;pp.282~283&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;상속 관계는 클래스 사이의 정적인 관계인 데 비해 합성 관계는 객체 사이의 동적인 관계다. 이 차이점은 생각보다 중요한데, 코드 작성 시점에 결정한 상속 관계는 변경이 불가능하지만 합성 관계는 실행 시점에 동적으로 변경할 수 있기 때문이다.&lt;/p&gt;
+&lt;p&gt;… 상속은 부모 클래스 안에 구현된 코드 자체를 재사용하지만 합성은 포함되는 객체의 퍼블릭 인터페이스를 재사용한다. 따라서 상속 대신 합성을 사용하면 구현에 대한 의존성을 인터페이스에 대한 의존성으로 변경할 수 있다.&lt;/p&gt;
+&lt;p&gt;p.347&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt; 
+&lt;p&gt;토프링에서 처음 이 개념을 접했을 때는, &lt;code class=&quot;language-text&quot;&gt;실행 시점의 의존성이 다르다는 것이 도대체 무슨 뜻이지?&lt;/code&gt;했다.
+왜냐면 인터페이스를 사용한다 쳐도 당연히 어딘가에서는 구현체를 생성해 주입해주고 있기 때문이다.
+코드를 따라가면 결국 런타임 의존성을 알 수 있는 것이 아닌가?
+토프링을 공부하며 이 관념을 배울 수 있었지만, 오브젝트에 나오는 아래의 사례를 먼저 읽었다면 더 쉽게 알게 되었을 것 같다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;전통적인 언어에서 함수를 실행하는 방법은 함수를 호출하는 것이다. 객체지향 언어에서 메서드를 실행하는 방법은 메시지를 전송하는 것이다. 함수 호출과 메시지 전송 사이의 차이는 생각보다 큰데 프로그램 안에 작성된 함수 호출 구문과 실제로 실행되는 코드를 연결하는 언어적인 메커니즘이 완전히 다르기 때문이다.&lt;/p&gt;
+&lt;p&gt;함수를 호출하는 전통적인 언어들은 호출될 함수를 컴파일타임에 결정한다. 코드 상에서 bar 함수를 호출하는 구문이 나타난다면 실제로 실행되는 코드는 바로 그 bar라는 함수다. …이를 정적 바인딩(static binding), 초기 바인딩(early binding), 또는 컴파일타임 바인딩(compile-time binding)이라고 부른다.&lt;/p&gt;
+&lt;p&gt;객체지향 언어에서는 메시지를 수신했을 때 실행될 메서드가 런타임에 결정된다. foo.bar()라는 코드를 읽는 것만으로는 실행되는 bar가 어떤 클래스의 어떤 메서드인지를 판단하기 어렵다. …이를 동적 바인딩(dynamic binding) 또는 지연 바인딩(late binding)이라고 부른다.&lt;/p&gt;
+&lt;p&gt;p.407&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-실용적인-지침&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%EC%A7%80%EC%B9%A8&quot; aria-label=&quot; 실용적인 지침 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧭 실용적인 지침&lt;/h2&gt;
+&lt;p&gt;새로운 기능을 추가하거나, 변경이 생겼거나, 아니면 나에게 제일 흔한 이유로 요구사항을 잘못 파악했다는 걸 깨달아서 코드를 수정해야 했을 때, 한 곳만 건드렸는데 여러 곳에 빨간줄이 죽죽 그이는 경험이 많다.&lt;/p&gt;
+&lt;p&gt;생성자 수정처럼 무념무상하게 수정하면 되는 경우도 있지만, 분명 설계상 허점이 있는 경우도 있었을 것이다.
+설계를 고치면 수정이 너무 커질 것 같으니 못본 척 하고 넘어가려 게 아냐? 하고 스스로를 의심하는 때가 종종 있다.
+그럴 때 고려하면 좋을 실용적인 지침들도 책에서 찾을 수 있었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;클래스가 다음과 같은 징후로 몸살을 앓고 있다면 클래스의 응집도는 낮은 것이다.
+클래스가 하나 이상의 이유로 변경돼야 한다면 응집도가 낮은 것이다. 변경의 이유를 기준으로 클래스를 분리하라.&lt;/p&gt;
+&lt;p&gt;클래스의 인스턴스를 초기화하는 시점에 경우에 따라 서로 다른 속성들을 초기화하고 있다면 응집도가 낮은 것이다. 초기화되는 속성의 그룹을 기준으로 클래스를 분리하라.&lt;br&gt;
+메서드 그룹이 속성 그룹을 사용하는지 여부로 나뉜다면 응집도가 낮은 것이다. 이들 그룹을 기준으로 클래스를 분리하라.&lt;/p&gt;
+&lt;p&gt;p.153&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;blockquote&gt;
+&lt;p&gt;응집도는 모듈에 포함된 내부 요소들이 연관돼 있는 정도를 나타낸다. … 응집도는 객체 또는 클래스에 얼마나 관련 높은 책임들을 할당했는지를 나타낸다.&lt;/p&gt;
+&lt;p&gt;결합도는 의존성의 정도를 나타내며 다른 모듈에 대해 얼마나 많은 지식을 갖고 있는지를 나타내는 척도다. …결합도는 객체 또는 클래스가 협력에 필요한 적절한 수준의 괸계만을 유지하고 있는지를 나타낸다.&lt;br&gt;
+어떤 설계를 쉽게 변경할 수 있다면 높은 응집도를 가진 요소들로 구성돼 있고 요소들 사이의 결합도가 낮을 확률이 높다.&lt;/p&gt;
+&lt;p&gt;pp.110~112&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-멋진-문구들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%A9%8B%EC%A7%84-%EB%AC%B8%EA%B5%AC%EB%93%A4&quot; aria-label=&quot; 멋진 문구들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌈 멋진 문구들&lt;/h2&gt;
+&lt;p&gt;글의 마무리로 유독 인상깊었던 두 문구를 남기겠다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;이런 측면에서 객체지향이 실세계의 모방이라는 말은 옳지 않다. 객체지향 애플리케이션은 도메인 개념뿐만 아니라 설계자들이 임의적으로 창조한 인공적인 추상화들을 포함하고 있다.&lt;/p&gt;
+&lt;p&gt;p.292&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;객체지향과 실세계를 떠나 생각하기는 동일한 저자 조영호님의 &lt;a href=&quot;http://www.yes24.com/Product/Goods/18249021&quot;&gt;객체지향의 사실과 오해&lt;/a&gt;에도 강조되었던 내용이다.
+하지만 이와 동시에 실세계의 문제를 해결하기 위해 코드가 존재하니, 어쩔 수 없이 계속 실세계와 코드를 융합하게 된다.&lt;/p&gt;
+&lt;p&gt;나머지 하나는 얼마전에 페어를 하다 리팩터링을 할 것인가 말 것이가의 고민하다 하지 말자고 결론을 내린 적이 있었다.
+그 때 팀원이 &lt;code class=&quot;language-text&quot;&gt;그래, 코드에 금칠하지 말자&lt;/code&gt;란 얘기를 해서 웃었다.&lt;/p&gt;
+&lt;p&gt;실무에 들어오니 트레이드 오프라는 말을 지겹게 반복하게 되는데, 진리라고 인정하는 한편 그래서 그 트레이드 오프의 경계는 대체 어떻게 정하나 하는 답답함이 있었다.
+그러다 이 문구를 보니 왠지 위로가 됐다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;유연한 설계라는 말의 이면에는 복잡한 설계라는 의미가 숨어 있다. …변경은 예상이 아니라 현실이어야 한다. 미래에 변경이 일어날지도 모른다는 막연한 불안감은 불필요하게 복잡한 설계를 낳는다. 아직 일어나지 않은 변경은 변경이 아니다.&lt;/p&gt;
+&lt;p&gt;p.305&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;p&gt;이미 너무 유명한 책이라 내가 뭐라고 추천한다는 말을 덧붙이겠나 싶다.
+그 대신 감상을 좀 더 남기자면, 책을 읽으면서 어… 이거 앞에서 했던 얘기 같은데? 란 생각이 종종 들었다.
+그리고 포스팅을 쓰기 위해 표시한 부분을 복기하는데 과연 같은 뜻을 전달하고자 하는 얘기가 여러 곳에서 다른 모습으로 반복되고 있었다.
+그런데 데자뷰를 느끼면서도, 나는 결국 핵심은 한 곳을 향하는 얘기를 읽을 때 마다 아 그렇구나! 이거구나! 그랬구나! 하고 똑같이 깨닫고 감탄하고 좋아했다.&lt;/p&gt;
+&lt;p&gt;추상적인 패러다임을 완전히 익힌다는 건 어려운 일 같다.
+반복적으로 같은 얘기를 듣고 또 들어도 막상 내 손에서 나오는 코드가 하지 말라는 짓을 알뜰하게 저질러 놓은 걸 보면 그렇다.
+이런 나를 위해 친절하게 쉬운 얘기와 꼼꼼한 코드로 다채로운 반복 학습을 시켜주는, 수학의 정석보다 훨씬 좋은 책이었다!&lt;/p&gt;
+&lt;p&gt;지금 회사에서 예전에 조영호님이 객체지향 세미나를 하신 적이 있다.
+책을 읽기 전에는 그냥 그랬구나~ 회사가 기술에 신경을 많이 쓰는구나~ 했는데, 책을 읽고 나니 어찌해도 내가 참석하긴 어려웠겠지만 괜히 너무너무 아쉬운 마음이 든다. 흑흑…&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%B2%98%EC%9D%8C-%EB%A7%8C%EB%82%9C-%EC%A7%80%EC%8B%9D%EB%93%A4&quot;&gt;💎 처음 만난 지식들&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%85%EB%A0%B9-%EC%BF%BC%EB%A6%AC-%EB%B6%84%EB%A6%AC-%EC%9B%90%EC%B9%99&quot;&gt;명령-쿼리 분리 원칙&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%B6%94%EC%83%81%ED%99%94-%ED%8C%A8%ED%82%A4%EC%A7%80%EB%8A%94-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8%EB%A1%9C&quot;&gt;추상화 패키지는 클라이언트로&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%9D%B4%EA%B1%B8-%EC%99%9C-%EB%AA%B0%EB%9E%90%EC%9D%84%EA%B9%8C&quot;&gt;💧 이걸 왜 몰랐을까&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A0%90%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%98%EB%82%98%EB%A7%8C-%EC%B0%8D%EC%96%B4&quot;&gt;점을 어떻게 하나만 찍어?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%EC%9D%98-%EC%A0%95%ED%99%95%EC%84%B1%EC%9D%84-%EC%A7%80%EC%BC%9C%EB%9D%BC&quot;&gt;프로그램의 정확성을 지켜라&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EB%84%88%EC%9D%98-%EC%9D%B4%EB%A6%84%EC%9D%80&quot;&gt;📛 너의 이름은&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EA%B3%BC-%EB%9F%B0%ED%83%80%EC%9E%84%EC%9D%84-%EA%B5%AC%EB%B6%84%ED%95%B4%EB%9D%BC&quot;&gt;💾 컴파일과 런타임을 구분해라&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%EC%A7%80%EC%B9%A8&quot;&gt;🧭 실용적인 지침&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EB%A9%8B%EC%A7%84-%EB%AC%B8%EA%B5%AC%EB%93%A4&quot;&gt;🌈 멋진 문구들&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[우아한테크코스를 떠나며]]></title><description><![CDATA[유난히 길고 힘들었던 2022년이 지났다.
 와 이라는 두가지로 축약되는 해였다.
 글을 쓰기 시작한 건 작년 3…]]></description><link>https://hyewoncc.github.io/goodbye-2022/</link><guid isPermaLink="false">https://hyewoncc.github.io/goodbye-2022/</guid><pubDate>Fri, 06 Jan 2023 07:12:00 GMT</pubDate><content:encoded>&lt;p&gt;유난히 길고 힘들었던 2022년이 지났다.
 &lt;code class=&quot;language-text&quot;&gt;우아한테크코스&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;취업&lt;/code&gt;이라는 두가지로 축약되는 해였다.
