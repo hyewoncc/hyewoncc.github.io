@@ -1,0 +1,731 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.7.0"/><meta data-react-helmet="true" property="og:title" content="서버 오픈 전 부하테스트로 대비하기"/><meta data-react-helmet="true" property="og:site_title" content="서버 오픈 전 부하테스트로 대비하기"/><meta data-react-helmet="true" name="description" content="💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다. 디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
+전체 사이클에서 내 생각에 한 80% 지점에 참여하게 되었다.
+현재 신규 서버는 프로덕션 환경에 올라간 채로 ‘회사 사람들이 디어 앱을 통해 하는 요청’ 이라는 티끌의 트래픽만 받고 있는데, 다음 2주 간의 스프린트에 전체 트래픽을 100% 전환하는 게 목표다.
+그래서 이번 스프린트 중에 이 서버의 성능을 테스트하고, 운영 환경에 적절한 인프라 설정값을 찾는 과제를 수행했다. 🏗 인프라 구조 모든 인프라 구조도는 극히 단순화하여 그렸다. 기존 프로덕션 인프라 구조 신규 인터널 서버는 기존 디어 서버에서 외부 API 연동이 잦은 특정 도메인을 분리한 서버다.
+기존에는 디어 앱에서 특정 요청이 들어오면, 디어 서버를 거쳐, 경우에 따라 또 다른 인터널 서버를 경유해 로직을 수행…"/><meta data-react-helmet="true" property="og:description" content="💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다. 디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
+전체 사이클에서 내 생각에 한 80% 지점에 참여하게 되었다.
+현재 신규 서버는 프로덕션 환경에 올라간 채로 ‘회사 사람들이 디어 앱을 통해 하는 요청’ 이라는 티끌의 트래픽만 받고 있는데, 다음 2주 간의 스프린트에 전체 트래픽을 100% 전환하는 게 목표다.
+그래서 이번 스프린트 중에 이 서버의 성능을 테스트하고, 운영 환경에 적절한 인프라 설정값을 찾는 과제를 수행했다. 🏗 인프라 구조 모든 인프라 구조도는 극히 단순화하여 그렸다. 기존 프로덕션 인프라 구조 신규 인터널 서버는 기존 디어 서버에서 외부 API 연동이 잦은 특정 도메인을 분리한 서버다.
+기존에는 디어 앱에서 특정 요청이 들어오면, 디어 서버를 거쳐, 경우에 따라 또 다른 인터널 서버를 경유해 로직을 수행…"/><meta data-react-helmet="true" property="og:author" content="최혜원"/><meta data-react-helmet="true" property="og:image" content="/og-image.png"/><meta data-react-helmet="true" property="og:type" content="website"/><style data-href="/styles.9aa10aa5c419d3f49a1f.css" data-identity="gatsby-global-css">@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:100;src:local("Montserrat Thin "),local("Montserrat-Thin"),url(/static/montserrat-latin-100-8d7d79679b70dbe27172b6460e7a7910.woff2) format("woff2"),url(/static/montserrat-latin-100-ec38980a9e0119a379e2a9b3dbb1901a.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:100;src:local("Montserrat Thin italic"),local("Montserrat-Thinitalic"),url(/static/montserrat-latin-100italic-e279051046ba1286706adc886cf1c96b.woff2) format("woff2"),url(/static/montserrat-latin-100italic-3b325a3173c8207435cd1b76e19bf501.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:200;src:local("Montserrat Extra Light "),local("Montserrat-Extra Light"),url(/static/montserrat-latin-200-9d266fbbfa6cab7009bd56003b1eeb67.woff2) format("woff2"),url(/static/montserrat-latin-200-2d8ba08717110d27122e54c34b8a5798.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:200;src:local("Montserrat Extra Light italic"),local("Montserrat-Extra Lightitalic"),url(/static/montserrat-latin-200italic-6e5b3756583bb2263eb062eae992735e.woff2) format("woff2"),url(/static/montserrat-latin-200italic-a0d6f343e4b536c582926255367a57da.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:300;src:local("Montserrat Light "),local("Montserrat-Light"),url(/static/montserrat-latin-300-00b3e893aab5a8fd632d6342eb72551a.woff2) format("woff2"),url(/static/montserrat-latin-300-ea303695ceab35f17e7d062f30e0173b.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:300;src:local("Montserrat Light italic"),local("Montserrat-Lightitalic"),url(/static/montserrat-latin-300italic-56f34ea368f6aedf89583d444bbcb227.woff2) format("woff2"),url(/static/montserrat-latin-300italic-54b0bf2c8c4c12ffafd803be2466a790.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat Regular "),local("Montserrat-Regular"),url(/static/montserrat-latin-400-b71748ae4f80ec8c014def4c5fa8688b.woff2) format("woff2"),url(/static/montserrat-latin-400-0659a9f4e90db5cf51b50d005bff1e41.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:400;src:local("Montserrat Regular italic"),local("Montserrat-Regularitalic"),url(/static/montserrat-latin-400italic-6eed6b4cbb809c6efc7aa7ddad6dbe3e.woff2) format("woff2"),url(/static/montserrat-latin-400italic-7583622cfde30ae49086d18447ab28e7.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:500;src:local("Montserrat Medium "),local("Montserrat-Medium"),url(/static/montserrat-latin-500-091b209546e16313fd4f4fc36090c757.woff2) format("woff2"),url(/static/montserrat-latin-500-edd311588712a96bbf435fad264fff62.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:500;src:local("Montserrat Medium italic"),local("Montserrat-Mediumitalic"),url(/static/montserrat-latin-500italic-c90ced68b46050061d1a41842d6dfb43.woff2) format("woff2"),url(/static/montserrat-latin-500italic-5146cbfe02b1deea5dffea27a5f2f998.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:600;src:local("Montserrat SemiBold "),local("Montserrat-SemiBold"),url(/static/montserrat-latin-600-0480d2f8a71f38db8633b84d8722e0c2.woff2) format("woff2"),url(/static/montserrat-latin-600-b77863a375260a05dd13f86a1cee598f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:600;src:local("Montserrat SemiBold italic"),local("Montserrat-SemiBolditalic"),url(/static/montserrat-latin-600italic-cf46ffb11f3a60d7df0567f8851a1d00.woff2) format("woff2"),url(/static/montserrat-latin-600italic-c4fcfeeb057724724097167e57bd7801.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:700;src:local("Montserrat Bold "),local("Montserrat-Bold"),url(/static/montserrat-latin-700-7dbcc8a5ea2289d83f657c25b4be6193.woff2) format("woff2"),url(/static/montserrat-latin-700-99271a835e1cae8c76ef8bba99a8cc4e.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:700;src:local("Montserrat Bold italic"),local("Montserrat-Bolditalic"),url(/static/montserrat-latin-700italic-c41ad6bdb4bd504a843d546d0a47958d.woff2) format("woff2"),url(/static/montserrat-latin-700italic-6779372f04095051c62ed36bc1dcc142.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:800;src:local("Montserrat ExtraBold "),local("Montserrat-ExtraBold"),url(/static/montserrat-latin-800-db9a3e0ba7eaea32e5f55328ace6cf23.woff2) format("woff2"),url(/static/montserrat-latin-800-4e3c615967a2360f5db87d2f0fd2456f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:800;src:local("Montserrat ExtraBold italic"),local("Montserrat-ExtraBolditalic"),url(/static/montserrat-latin-800italic-bf45bfa14805969eda318973947bc42b.woff2) format("woff2"),url(/static/montserrat-latin-800italic-fe82abb0bcede51bf724254878e0c374.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:900;src:local("Montserrat Black "),local("Montserrat-Black"),url(/static/montserrat-latin-900-e66c7edc609e24bacbb705175669d814.woff2) format("woff2"),url(/static/montserrat-latin-900-8211f418baeb8ec880b80ba3c682f957.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:900;src:local("Montserrat Black italic"),local("Montserrat-Blackitalic"),url(/static/montserrat-latin-900italic-4454c775e48152c1a72510ceed3603e2.woff2) format("woff2"),url(/static/montserrat-latin-900italic-efcaa0f6a82ee0640b83a0916e6e8d68.woff) format("woff")}.search-input-wrapper{align-items:center;display:none;margin-top:3px;width:180px}@media(min-width:768px){.search-input-wrapper{display:flex}}.search-icon{color:var(--primary-text-color);margin-right:2px}.search-input{height:100%;width:100%}.search-input .MuiAutocomplete-inputRoot{padding-right:0!important}.search-input .MuiInputBase-input{color:var(--primary-text-color)!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;padding-bottom:2px!important}.search-input .MuiInput-underline:before{border-bottom-color:var(--primary-text-color);border-bottom-width:1px}.search-input .MuiInput-underline:after{border-bottom-color:var(--primary-text-color)}.page-header-wrapper{display:flex;height:60px;justify-content:center;width:100%}.page-header-wrapper .page-header{align-items:center;display:flex;justify-content:space-between;max-width:720px;width:100%}.page-header-wrapper .page-header .link{color:var(--primary-text-color);font-size:17px;font-weight:700}@media(min-width:768px){.page-header-wrapper .page-header .link{font-size:20px;font-weight:700}}.page-header-wrapper .page-header .trailing-section{align-items:center;display:flex}.page-header-wrapper .page-header .trailing-section .link{margin-right:10px}@media(min-width:768px){.page-header-wrapper .page-header .trailing-section .link{margin-right:20px}}.page-footer-wrapper{align-items:center;display:flex;height:62px;justify-content:center;margin-top:auto;width:100%}.page-footer-wrapper .page-footer{max-width:720px;text-align:center;width:100%}.page-footer-wrapper .page-footer .link{color:var(--primary-text-color);font-size:20px;font-weight:700;margin-right:20px}.page-footer-wrapper .page-footer a{color:#3a95ff}.dark-mode-button-wrapper{align-items:center;bottom:20px;display:flex;justify-content:center;position:fixed;right:20px}.dark-mode-button{-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);background-color:#363f47!important;border-radius:50px;box-shadow:0 5px 25px rgba(0,0,0,.12);cursor:pointer;height:50px;width:50px;z-index:3}.dark-mode-icon{color:#fff}a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{border:0;font-size:100%;font:inherit;margin:0;padding:0;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{outline:none;text-decoration:none}html{--background-color:#fff;--primary-text-color:#000;--secondary-text-color:#9e9e9e;--content-text-color:#37352f;--button-background-color:#f3f3f4;--button-text-color:#363f47;--tab-text-color:#6e6d7a;--tab-hover-text-color:#0d0c22;--tab-selected-background-color:rgba(13,12,34,.05);--bio-link-icon-color:rgba(0,0,0,.54);--about-link-icon-color:#a8a8a8;--chip-background-color:#f3f3f4;--link-text-color:#ffc106;--post-card-border-color:rgba(0,0,0,.12);--markdown-table-even-cell-background-color:#f6f8fa;--markdown-table-border-color:#dfe2e5;--markdown-blockquote-border-color:#dfe2e5;--markdown-border-color:#e1e4e8}html[data-theme=dark]{--background-color:#232326;--primary-text-color:#e6e6e6;--secondary-text-color:#768390;--content-text-color:#e6e6e6;--button-background-color:#444c56;--button-text-color:#363f47;--tab-text-color:#768390;--tab-hover-text-color:#acbac7;--tab-selected-background-color:#373e47;--chip-background-color:#323a42;--bio-link-icon-color:#e6e6e6;--about-link-icon-color:#a8a8a8;--link-text-color:#6a06ff;--post-card-border-color:#363f47;--markdown-table-even-cell-background-color:#2d333b;--markdown-table-border-color:#444c56;--markdown-blockquote-border-color:#4f5864;--markdown-border-color:#e1e4e8}*{-webkit-appearance:none;appearance:none;box-sizing:border-box}html{font-size:14px;height:100%;overflow-y:scroll;width:100%}body{background-color:var(--background-color)!important}a{color:var(--content-text-color)}.page-wrapper{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:var(--primary-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;justify-content:center;min-height:100vh;padding-left:15px;padding-right:15px;word-break:keep-all}.page-wrapper,.page-wrapper .page-content{align-items:center;display:flex;flex-direction:column;width:100%}.page-wrapper .page-content{max-width:720px}.icon{color:var(--about-link-icon-color);font-size:20px}.social-links .icon{color:var(--bio-link-icon-color);font-size:30px}@keyframes blinking-cursor{0%{opacity:0}50%{opacity:1}to{opacity:0}}.bio{color:var(--primary-text-color);display:flex;flex-direction:column;justify-content:space-between;margin-bottom:120px;margin-top:120px;width:100%}@media(min-width:768px){.bio{align-items:center;flex-direction:row}}.bio .introduction{display:flex;flex-direction:column;word-break:keep-all}.bio .introduction .react-rotating-text-cursor{animation:blinking-cursor .8s cubic-bezier(.68,.01,.01,.99) 0s infinite}.bio .introduction strong{display:inline-block;font-weight:600}.bio .introduction.korean{font-size:32px;font-weight:100;line-height:1.2}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:35px;line-height:35px}@media(min-width:768px){.bio .introduction.korean{font-size:40px}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:45px;line-height:45px}}.bio .introduction.english{font-family:montserrat;font-size:25px;line-height:1.2}@media(min-width:768px){.bio .introduction.english{font-size:45px}}.bio .introduction.english .name{font-size:35px;font-weight:600}.bio .introduction.english .job{font-size:35px}.bio .introduction.english .description{font-size:20px;font-weight:200;margin-top:8px}.bio .introduction.english .social-links{display:flex;margin-top:20px}.bio .thumbnail-wrapper{display:none}@media(min-width:768px){.bio .thumbnail-wrapper{display:block}}.section-header-wrapper{display:flex;justify-content:center;margin-bottom:32px;width:100%}.section-header-wrapper .section-header{border-bottom:4px solid var(--primary-text-color);color:var(--primary-text-color);font-size:30px;font-weight:700;padding-bottom:5px}.timestamp-section{align-items:center;display:flex;flex-direction:column;justify-content:center;margin-bottom:50px;width:100%;word-break:keep-all}.timestamp-section .body{padding:0 10px;width:100%}.timestamp-section .body .timestamp{border-left:2px solid #bdbdbd;display:flex;font-size:18px;font-weight:400;justify-items:center;margin-left:5px;padding:10px 0;width:100%}.timestamp-section .body .timestamp:first-child{padding-top:7px}.timestamp-section .body .timestamp:last-child{padding-bottom:7px}.timestamp-section .body .timestamp:before{align-self:center;background-color:var(--background-color);border:2px solid #828282;border-radius:10px;content:"";height:10px;left:-1px;position:relative;transform:translatex(-50%);width:10px}.timestamp-section .body .timestamp .date{align-self:center;color:#828282;margin-left:5px;margin-right:5px;min-width:115px;width:115px}@media(min-width:768px){.timestamp-section .body .timestamp .date{min-width:200px;width:200px}}.timestamp-section .body .timestamp .activity{line-height:23px;width:100%}.project-section{align-items:center;justify-content:center}.project-section,.project-section .project{display:flex;flex-direction:column;width:100%}.project-section .project{margin-bottom:30px;padding:15px}.project-section .project .head{font-size:20px;font-weight:700;line-height:30px;margin-bottom:10px}.project-section .project .body{display:flex;flex-direction:column;width:100%}.project-section .project .body .thumbnail{margin-bottom:10px;width:100%}.project-section .project .body .tech-stack{display:flex;margin-bottom:10px}.project-section .project .body .tech-stack .tech{background-color:var(--chip-background-color);border-radius:10px;font-size:15px;font-weight:500;margin-right:5px;padding:5px 7px}.project-section .project .body .description{font-size:16px;font-weight:400;line-height:1.4}@media(min-width:768px){.project-section .project .body{flex-direction:column}.project-section .project .body .content{margin-top:0}}.post-header{border-bottom:1px solid var(--post-card-border-color);display:flex;flex-direction:column;justify-content:center;margin-bottom:40px;margin-top:20px;padding-bottom:10px;width:100%;word-break:keep-all}.post-header .emoji{font-size:78px;margin-bottom:20px}.post-header .categories{margin-bottom:5px}.post-header .categories .category{color:var(--primary-text-color);font-weight:600;margin-right:4px}.post-header .categories .category:hover{text-decoration:underline}.post-header .title{color:var(--primary-text-color);font-size:32px;font-weight:600;line-height:1.3;margin-bottom:6px}.post-header .info{color:var(--secondary-text-color);display:flex;flex-wrap:wrap;font-size:16px;font-weight:500;line-height:1.5;width:100%}.post-header .info .author{margin-right:4px}.post-header .info strong{color:var(--primary-text-color);font-weight:600}.post-navigator{column-gap:1.4%;display:grid;grid-template-columns:49.3% 49.3%;width:100%}.post-navigator .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;padding:15px;transition:transform .2s;width:100%}.post-navigator .post-card:hover .title{text-decoration:underline}.post-navigator .post-card.prev{margin-right:auto}.post-navigator .post-card.next{margin-left:auto}.post-navigator .post-card .direction{color:gray;font-size:14px;font-weight:500;margin-bottom:5px}.post-navigator .post-card .title{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:7px}.markdown .octicon{fill:currentColor;display:inline-block;vertical-align:text-bottom}.markdown .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.markdown .anchor:focus{outline:none}.markdown h1 .octicon-link,.markdown h2 .octicon-link,.markdown h3 .octicon-link,.markdown h4 .octicon-link,.markdown h5 .octicon-link,.markdown h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown h1:hover .anchor,.markdown h2:hover .anchor,.markdown h3:hover .anchor,.markdown h4:hover .anchor,.markdown h5:hover .anchor,.markdown h6:hover .anchor{text-decoration:none}.markdown h1:hover .anchor .octicon-link,.markdown h2:hover .anchor .octicon-link,.markdown h3:hover .anchor .octicon-link,.markdown h4:hover .anchor .octicon-link,.markdown h5:hover .anchor .octicon-link,.markdown h6:hover .anchor .octicon-link{visibility:visible}.markdown h1:hover .anchor .octicon-link:before,.markdown h2:hover .anchor .octicon-link:before,.markdown h3:hover .anchor .octicon-link:before,.markdown h4:hover .anchor .octicon-link:before,.markdown h5:hover .anchor .octicon-link:before,.markdown h6:hover .anchor .octicon-link:before{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' aria-hidden='true' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'/%3E%3C/svg%3E");content:" ";display:inline-block;height:16px;width:16px}.markdown{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word;color:var(--content-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;line-height:1.5}.markdown details{display:block}.markdown summary{display:list-item}.markdown a{background-color:initial}.markdown a:active,.markdown a:hover{background-color:var(--link-text-color);outline-width:0}.markdown strong{font-weight:inherit;font-weight:bolder}.markdown h1{margin:.67em 0}.markdown img{border-style:none}.markdown code,.markdown kbd,.markdown pre{font-family:monospace,monospace;font-size:10px}.markdown hr{box-sizing:initial;overflow:visible}.markdown input{font:inherit;margin:0;overflow:visible}.markdown [type=checkbox]{box-sizing:border-box;padding:0}.markdown *{box-sizing:border-box}.markdown input{font-family:inherit;font-size:inherit;line-height:inherit}.markdown a{border-bottom:.15em solid;border-color:var(--link-text-color);color:var(--content-text-color);text-decoration:none}.markdown a.anchor{border-bottom:none}.markdown strong{font-weight:700}.markdown hr{background:transparent;border-bottom:1px solid var(--markdown-blockquote-border-color);height:0;margin:15px 0;overflow:hidden}.markdown hr:after,.markdown hr:before{content:"";display:table}.markdown hr:after{clear:both}.markdown table{border-collapse:collapse;border-spacing:0}.markdown td,.markdown th{padding:0}.markdown details summary{cursor:pointer}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{margin-bottom:0;margin-top:0}.markdown h1{font-size:32px}.markdown h1,.markdown h2{font-weight:600}.markdown h2{font-size:24px}.markdown h3{font-size:20px}.markdown h3,.markdown h4{font-weight:600}.markdown h4{font-size:16px}.markdown h5{font-size:14px}.markdown h5,.markdown h6{font-weight:600}.markdown h6{font-size:12px}.markdown p{margin-bottom:10px;margin-top:0}.markdown blockquote{margin:0}.markdown ol,.markdown ul{margin-bottom:0;margin-top:0;padding-left:0}.markdown ol ol,.markdown ul ol{list-style-type:lower-roman}.markdown ol ol ol,.markdown ol ul ol,.markdown ul ol ol,.markdown ul ul ol{list-style-type:lower-alpha}.markdown dd{margin-left:0}.markdown code,.markdown pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px}.markdown code.language-text{border-radius:3px;font-size:85%;padding:.2em .4em}.markdown :not(pre)>code.language-text{background:hsla(44,6%,50%,.15);color:#eb5757;overflow-wrap:break-word}.markdown pre{margin-bottom:0;margin-top:0}.markdown input::-webkit-inner-spin-button,.markdown input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.markdown :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.markdown .border{border:1px solid var(--markdown-border-color)!important}.markdown .border-0{border:0!important}.markdown .border-bottom{border-bottom:1px solid var(--markdown-border-color)!important}.markdown .rounded-1{border-radius:3px!important}.markdown .bg-white{background-color:transparent!important}.markdown .bg-gray-light{background-color:#fafbfc!important}.markdown .text-gray-light{color:#6a737d!important}.markdown .pl-3,.markdown .px-3{padding-left:16px!important}.markdown .px-3{padding-right:16px!important}.markdown .f6{font-size:12px!important}.markdown .lh-condensed{line-height:1.25!important}.markdown .text-bold{font-weight:600!important}.markdown .pl-c{color:#6a737d}.markdown .pl-c1,.markdown .pl-s .pl-v{color:#005cc5}.markdown .pl-e,.markdown .pl-en{color:#6f42c1}.markdown .pl-s .pl-s1,.markdown .pl-smi{color:#24292e}.markdown .pl-ent{color:#22863a}.markdown .pl-k{color:#d73a49}.markdown .pl-pds,.markdown .pl-s,.markdown .pl-s .pl-pse .pl-s1,.markdown .pl-sr,.markdown .pl-sr .pl-cce,.markdown .pl-sr .pl-sra,.markdown .pl-sr .pl-sre{color:#032f62}.markdown .pl-smw,.markdown .pl-v{color:#e36209}.markdown .pl-bu{color:#b31d28}.markdown .pl-ii{background-color:#b31d28;color:#fafbfc}.markdown .pl-c2{background-color:#d73a49;color:#fafbfc}.markdown .pl-c2:before{content:"^M"}.markdown .pl-sr .pl-cce{color:#22863a;font-weight:700}.markdown .pl-ml{color:#735c0f}.markdown .pl-mh,.markdown .pl-mh .pl-en,.markdown .pl-ms{color:#005cc5;font-weight:700}.markdown .pl-mi{color:#24292e;font-style:italic}.markdown .pl-mb{color:#24292e;font-weight:700}.markdown .pl-md{background-color:#ffeef0;color:#b31d28}.markdown .pl-mi1{background-color:#f0fff4;color:#22863a}.markdown .pl-mc{background-color:#ffebda;color:#e36209}.markdown .pl-mi2{background-color:#005cc5;color:#f6f8fa}.markdown .pl-mdr{color:#6f42c1;font-weight:700}.markdown .pl-ba{color:#586069}.markdown .pl-sg{color:#959da5}.markdown .pl-corl{color:#032f62;text-decoration:underline}.markdown .mb-0{margin-bottom:0!important}.markdown .my-2{margin-bottom:8px!important;margin-top:8px!important}.markdown .pl-0{padding-left:0!important}.markdown .py-0{padding-bottom:0!important;padding-top:0!important}.markdown .pl-1{padding-left:4px!important}.markdown .pl-2{padding-left:8px!important}.markdown .py-2{padding-bottom:8px!important;padding-top:8px!important}.markdown .pl-3{padding-left:16px!important}.markdown .pl-4{padding-left:24px!important}.markdown .pl-5{padding-left:32px!important}.markdown .pl-6{padding-left:40px!important}.markdown .pl-7{padding-left:48px!important}.markdown .pl-8{padding-left:64px!important}.markdown .pl-9{padding-left:80px!important}.markdown .pl-10{padding-left:96px!important}.markdown .pl-11{padding-left:112px!important}.markdown .pl-12{padding-left:128px!important}.markdown hr{border-bottom-color:#eee}.markdown kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da;color:#444d56;display:inline-block;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown:after,.markdown:before{content:"";display:table}.markdown:after{clear:both}.markdown>:first-child{margin-top:0!important}.markdown>:last-child{margin-bottom:0!important}.markdown a:not([href]){color:inherit;text-decoration:none}.markdown blockquote,.markdown details,.markdown dl,.markdown ol,.markdown p,.markdown pre,.markdown table,.markdown ul{margin-bottom:16px;margin-top:0}.markdown hr{background-color:var(--markdown-border-color);border:0;height:.25em;margin:24px 0;padding:0}.markdown blockquote{border-left:.25em solid var(--markdown-blockquote-border-color);color:#6a737d;padding:0 1em}.markdown blockquote>:first-child{margin-top:0}.markdown blockquote>:last-child{margin-bottom:0}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.markdown h1{font-size:2em}.markdown h2{font-size:1.5em}.markdown h3{font-size:1.25em}.markdown h4{font-size:1em}.markdown h5{font-size:.875em}.markdown h6{color:#6a737d;font-size:.85em}.markdown ol,.markdown ul{padding-left:2em}.markdown ol ol,.markdown ol ul,.markdown ul ol,.markdown ul ul{margin-bottom:0;margin-top:0}.markdown ol{list-style-type:decimal}.markdown ul{list-style-type:disc}.markdown li{word-wrap:break-all;display:list-item;text-align:-webkit-match-parent}.markdown li>p{margin-top:16px}.markdown li+li{margin-top:.25em}.markdown dl{padding:0}.markdown dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.markdown dl dd{margin-bottom:16px;padding:0 16px}.markdown table{display:block;overflow:auto;width:100%}.markdown table th{font-weight:600}.markdown table td,.markdown table th{border:1px solid var(--markdown-table-border-color);padding:6px 13px}.markdown table tr{border-top:1px solid var(--markdown-table-border-color)}.markdown table tr:nth-child(2n){background-color:var(--markdown-table-even-cell-background-color)}.markdown img{background-color:transparent;box-sizing:initial;display:block;margin:0 auto;max-width:100%}.markdown img[align=right]{padding-left:20px}.markdown img[align=left]{padding-right:20px}.markdown code{background-color:rgba(27,31,35,.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.markdown pre{word-wrap:normal}.markdown pre>code{background:transparent;border:0;font-size:85%;margin:0;padding:0;white-space:pre;word-break:normal}.markdown .highlight{margin-bottom:16px}.markdown .highlight pre{margin-bottom:0;word-break:normal}.markdown .highlight pre,.markdown pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.markdown pre code{word-wrap:normal;background-color:initial;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0}.markdown .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:90%}.markdown .full-commit .btn-outline:not(:disabled):hover{border-color:#005cc5;color:#005cc5}.markdown .blob-wrapper{overflow-x:auto;overflow-y:hidden}.markdown .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.markdown .blob-num{color:rgba(27,31,35,.3);cursor:pointer;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;-webkit-user-select:none;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.markdown .blob-num:hover{color:rgba(27,31,35,.6)}.markdown .blob-num:before{content:attr(data-line-number)}.markdown .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.markdown .blob-code-inner{word-wrap:normal;color:#24292e;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;overflow:visible;white-space:pre}.markdown .pl-token.active,.markdown .pl-token:hover{background:#ffea7f;cursor:pointer}.markdown .tab-size[data-tab-size="1"]{tab-size:1}.markdown .tab-size[data-tab-size="2"]{tab-size:2}.markdown .tab-size[data-tab-size="3"]{tab-size:3}.markdown .tab-size[data-tab-size="4"]{tab-size:4}.markdown .tab-size[data-tab-size="5"]{tab-size:5}.markdown .tab-size[data-tab-size="6"]{tab-size:6}.markdown .tab-size[data-tab-size="7"]{tab-size:7}.markdown .tab-size[data-tab-size="8"]{tab-size:8}.markdown .tab-size[data-tab-size="9"]{tab-size:9}.markdown .tab-size[data-tab-size="10"]{tab-size:10}.markdown .tab-size[data-tab-size="11"]{tab-size:11}.markdown .tab-size[data-tab-size="12"]{tab-size:12}.markdown .task-list-item{list-style-type:none}.markdown .task-list-item+.task-list-item{margin-top:3px}.markdown .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown .table-of-contents{align-items:flex-start;display:flex;flex-direction:column;justify-content:center;position:fixed;right:0;top:75px;width:340px}@media(max-width:1300px){.markdown .table-of-contents{display:none}}.markdown .table-of-contents ul{cursor:pointer;list-style-type:none}.markdown .table-of-contents ul li a{border-bottom:none;color:var(--secondary-text-color);font-size:14px;height:30px;padding:6px 2px;width:100%}.markdown .table-of-contents ul p{margin:0}.markdown .gatsby-resp-image-wrapper{display:flex!important;justify-content:center!important;max-height:560px!important;width:100%!important}.markdown .gatsby-resp-image-wrapper img{height:auto!important;max-height:560px!important;max-width:100%!important;position:relative!important;width:auto!important}.markdown .gatsby-resp-image-wrapper+em{color:#6a737d;display:block;font-size:15px;font-style:italic;text-align:center}code[class*=language-],pre[class*=language-]{word-wrap:normal;background:none;color:#ccc;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}.post-content{margin-bottom:20px;width:100%}.category-page-header-wrapper,.post-content{display:flex;flex-direction:column;justify-content:center}.category-page-header-wrapper{align-items:center;margin-bottom:30px;margin-top:30px}.category-page-header-wrapper .category-page-title{border-bottom:3px solid var(--primary-text-color);font-size:40px;font-weight:700;margin-bottom:15px;padding-bottom:7px;text-align:center;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}.category-page-header-wrapper .category-page-subtitle{font-size:20px;font-weight:500;padding-bottom:10px;text-align:center}.post-card-wrapper{display:flex;justify-content:center;min-height:150px;width:100%}.post-card-wrapper .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;height:100%;margin-bottom:15px;max-width:720px;padding:15px;transition:transform .2s;width:100%}.post-card-wrapper .post-card:hover .title{text-decoration:underline}@media(min-width:768px){.post-card-wrapper .post-card{margin-bottom:0}}.post-card-wrapper .post-card .title{font-size:18px;font-weight:600;line-height:1.4;margin-bottom:7px}.post-card-wrapper .post-card .description{-webkit-line-clamp:3;-webkit-box-orient:vertical;color:var(--primary-text-color);display:-webkit-box;font-size:13px;line-height:20px;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis}.post-card-wrapper .post-card .info{color:var(--about-link-icon-color);display:flex;font-size:14px;justify-content:space-between;margin-top:auto}.post-card-wrapper .post-card .info .categories{display:flex}.post-card-wrapper .post-card .info .categories .category{margin-left:4px}.post-card-wrapper .post-card .info .categories .category:hover{text-decoration:underline}.post-card-column-wrapper{display:flex;justify-content:center;width:100%}.post-card-column-wrapper .post-card-column{align-items:center;display:flex;flex-direction:column;width:100%}.post-card-column-wrapper .post-card-column .post-card-wrapper{margin-bottom:10px}.post-card-column-wrapper .post-card-column .more-post-card-button{background-color:var(--button-background-color);color:var(--tab-hover-text-color);font-size:15px;font-weight:500;height:40px}.post-tabs-wrapper{align-self:flex-start;display:flex;flex-direction:column;justify-content:center;top:0;width:100%}.post-tabs-wrapper .post-tabs{display:flex;height:40px;justify-content:center;margin-bottom:12px;max-width:760px;width:100%}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root{color:var(--tab-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:17px;font-weight:500;height:40px;min-height:auto;min-width:auto;padding:10px 12px;transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected,.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root :hover{color:var(--tab-hover-text-color);transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected{background-color:var(--tab-selected-background-color);border-radius:8px;font-weight:600}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabScrollButton-root{height:40px;width:20px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-scrollable{height:40px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-indicator{display:none}</style><style data-emotion="css-global o6gwfi">html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;}*,*::before,*::after{box-sizing:inherit;}strong,b{font-weight:700;}body{margin:0;color:rgba(0, 0, 0, 0.87);font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;background-color:#fff;}@media print{body{background-color:#fff;}}body::backdrop{background-color:#fff;}</style><style data-emotion="css-global 1prfaxn">@-webkit-keyframes mui-auto-fill{from{display:block;}}@keyframes mui-auto-fill{from{display:block;}}@-webkit-keyframes mui-auto-fill-cancel{from{display:block;}}@keyframes mui-auto-fill-cancel{from{display:block;}}</style><style data-emotion="css 1lambp5 feqhe6 12rx5qu mnn31 vubbuv 1yxmbwk 6flbmm">.css-1lambp5.Mui-focused .MuiAutocomplete-clearIndicator{visibility:visible;}@media (pointer: fine){.css-1lambp5:hover .MuiAutocomplete-clearIndicator{visibility:visible;}}.css-1lambp5 .MuiAutocomplete-tag{margin:3px;max-width:calc(100% - 6px);}.css-1lambp5 .MuiAutocomplete-inputRoot{-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiAutocomplete-inputRoot,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiAutocomplete-inputRoot{padding-right:30px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiAutocomplete-inputRoot{padding-right:56px;}.css-1lambp5 .MuiAutocomplete-inputRoot .MuiAutocomplete-input{width:0;min-width:30px;}.css-1lambp5 .MuiInput-root{padding-bottom:1px;}.css-1lambp5 .MuiInput-root .MuiInput-input{padding:4px 4px 4px 0px;}.css-1lambp5 .MuiInput-root.MuiInputBase-sizeSmall .MuiInput-input{padding:2px 4px 3px 0;}.css-1lambp5 .MuiOutlinedInput-root{padding:9px;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiOutlinedInput-root,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiOutlinedInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiOutlinedInput-root{padding-right:65px;}.css-1lambp5 .MuiOutlinedInput-root .MuiAutocomplete-input{padding:7.5px 4px 7.5px 6px;}.css-1lambp5 .MuiOutlinedInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1lambp5 .MuiOutlinedInput-root.MuiInputBase-sizeSmall{padding-top:6px;padding-bottom:6px;padding-left:6px;}.css-1lambp5 .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input{padding:2.5px 4px 2.5px 6px;}.css-1lambp5 .MuiFilledInput-root{padding-top:19px;padding-left:8px;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiFilledInput-root,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiFilledInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiFilledInput-root{padding-right:65px;}.css-1lambp5 .MuiFilledInput-root .MuiFilledInput-input{padding:7px 4px;}.css-1lambp5 .MuiFilledInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-sizeSmall{padding-bottom:1px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-sizeSmall .MuiFilledInput-input{padding:2.5px 4px;}.css-1lambp5 .MuiInputBase-hiddenLabel{padding-top:8px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel{padding-top:0;padding-bottom:0;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel .MuiAutocomplete-input{padding-top:16px;padding-bottom:17px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel.MuiInputBase-sizeSmall .MuiAutocomplete-input{padding-top:8px;padding-bottom:9px;}.css-1lambp5 .MuiAutocomplete-input{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;text-overflow:ellipsis;opacity:1;}.css-feqhe6{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;position:relative;min-width:0;padding:0;margin:0;border:0;vertical-align:top;width:100%;}.css-12rx5qu{font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.4375em;letter-spacing:0.00938em;color:rgba(0, 0, 0, 0.87);box-sizing:border-box;position:relative;cursor:text;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:100%;position:relative;}.css-12rx5qu.Mui-disabled{color:rgba(0, 0, 0, 0.38);cursor:default;}label+.css-12rx5qu{margin-top:16px;}.css-12rx5qu:after{border-bottom:2px solid #1976d2;left:0;bottom:0;content:"";position:absolute;right:0;-webkit-transform:scaleX(0);-moz-transform:scaleX(0);-ms-transform:scaleX(0);transform:scaleX(0);-webkit-transition:-webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;transition:transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;pointer-events:none;}.css-12rx5qu.Mui-focused:after{-webkit-transform:scaleX(1) translateX(0);-moz-transform:scaleX(1) translateX(0);-ms-transform:scaleX(1) translateX(0);transform:scaleX(1) translateX(0);}.css-12rx5qu.Mui-error:before,.css-12rx5qu.Mui-error:after{border-bottom-color:#d32f2f;}.css-12rx5qu:before{border-bottom:1px solid rgba(0, 0, 0, 0.42);left:0;bottom:0;content:"\00a0";position:absolute;right:0;-webkit-transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;pointer-events:none;}.css-12rx5qu:hover:not(.Mui-disabled, .Mui-error):before{border-bottom:2px solid rgba(0, 0, 0, 0.87);}@media (hover: none){.css-12rx5qu:hover:not(.Mui-disabled, .Mui-error):before{border-bottom:1px solid rgba(0, 0, 0, 0.42);}}.css-12rx5qu.Mui-disabled:before{border-bottom-style:dotted;}.css-mnn31{font:inherit;letter-spacing:inherit;color:currentColor;padding:4px 0 5px;border:0;box-sizing:content-box;background:none;height:1.4375em;margin:0;-webkit-tap-highlight-color:transparent;display:block;min-width:0;width:100%;-webkit-animation-name:mui-auto-fill-cancel;animation-name:mui-auto-fill-cancel;-webkit-animation-duration:10ms;animation-duration:10ms;}.css-mnn31::-webkit-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-moz-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:focus{outline:0;}.css-mnn31:invalid{box-shadow:none;}.css-mnn31::-webkit-search-decoration{-webkit-appearance:none;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-webkit-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-moz-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-webkit-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-moz-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus:-ms-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-ms-input-placeholder{opacity:0.42;}.css-mnn31.Mui-disabled{opacity:1;-webkit-text-fill-color:rgba(0, 0, 0, 0.38);}.css-mnn31:-webkit-autofill{-webkit-animation-duration:5000s;animation-duration:5000s;-webkit-animation-name:mui-auto-fill;animation-name:mui-auto-fill;}.css-vubbuv{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}.css-1yxmbwk{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-1yxmbwk::-moz-focus-inner{border-style:none;}.css-1yxmbwk.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1yxmbwk{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1yxmbwk:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1yxmbwk:hover{background-color:transparent;}}.css-1yxmbwk.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-6flbmm{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:2.1875rem;}</style><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><script>
+  
+  function gaOptout(){document.cookie=disableStr+'=true; expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/',window[disableStr]=!0}var gaProperty='0',disableStr='ga-disable-'+gaProperty;document.cookie.indexOf(disableStr+'=true')>-1&&(window[disableStr]=!0);
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', '0', 'auto', {});
+      ga('set', 'anonymizeIp', true);
+      
+      
+      
+      
+      }</script><link rel="icon" href="/favicon-32x32.png?v=ac282ee8b425d7125928e69153395c36" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="alternate" type="application/rss+xml" title="어제보다 오늘 더" href="/feed.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2"/><style>@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc-.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxM.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc-.woff) format("woff")}</style><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-react-helmet="true">서버 오픈 전 부하테스트로 대비하기</title></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="page-wrapper"><header class="page-header-wrapper"><div class="page-header"><div class="front-section"><a class="link" href="/">어제보다 오늘 더 </a></div><div class="trailing-section"><a class="link" href="/about/">about</a><a class="link" href="/posts/">posts</a><div class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1lambp5"><div class="search-input-wrapper"><div class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root search-input css-feqhe6"><div class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-12rx5qu"><input aria-invalid="false" autoComplete="off" id=":R74m:" type="text" class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-mnn31" aria-autocomplete="list" aria-expanded="false" autoCapitalize="none" spellcheck="false" role="combobox" value=""/><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium search-icon css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="SearchOutlinedIcon"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div></div></div></div></div></div></header><main class="page-content"><header class="post-header"><div class="emoji"><div data-gatsby-image-wrapper="" class="gatsby-image-wrapper gatsby-image-wrapper-constrained thumbnail"><div style="max-width:1720px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg%20height=&#x27;502&#x27;%20width=&#x27;1720&#x27;%20xmlns=&#x27;http://www.w3.org/2000/svg&#x27;%20version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#d8c898;position:absolute;top:0;left:0;bottom:0;right:0"></div><picture><source type="image/webp" data-srcset="/static/64ed89b807428fcec5c78873ca6cef20/78cca/load_test.webp 430w,/static/64ed89b807428fcec5c78873ca6cef20/9dfd4/load_test.webp 860w,/static/64ed89b807428fcec5c78873ca6cef20/fd27b/load_test.webp 1720w" sizes="(min-width: 1720px) 1720px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 1720px) 1720px, 100vw" decoding="async" loading="lazy" data-src="/static/64ed89b807428fcec5c78873ca6cef20/971b0/load_test.png" data-srcset="/static/64ed89b807428fcec5c78873ca6cef20/2c570/load_test.png 430w,/static/64ed89b807428fcec5c78873ca6cef20/195fe/load_test.png 860w,/static/64ed89b807428fcec5c78873ca6cef20/971b0/load_test.png 1720w" alt="hi"/></picture><noscript><picture><source type="image/webp" srcSet="/static/64ed89b807428fcec5c78873ca6cef20/78cca/load_test.webp 430w,/static/64ed89b807428fcec5c78873ca6cef20/9dfd4/load_test.webp 860w,/static/64ed89b807428fcec5c78873ca6cef20/fd27b/load_test.webp 1720w" sizes="(min-width: 1720px) 1720px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 1720px) 1720px, 100vw" decoding="async" loading="lazy" src="/static/64ed89b807428fcec5c78873ca6cef20/971b0/load_test.png" srcSet="/static/64ed89b807428fcec5c78873ca6cef20/2c570/load_test.png 430w,/static/64ed89b807428fcec5c78873ca6cef20/195fe/load_test.png 860w,/static/64ed89b807428fcec5c78873ca6cef20/971b0/load_test.png 1720w" alt="hi"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div></div><div class="info"><div class="categories"><a class="category" href="/posts/트러블슈팅/">트러블슈팅</a></div></div><h1 class="title">서버 오픈 전 부하테스트로 대비하기</h1><div class="info"><div class="author">posted by <strong>써머</strong>,</div> <!-- -->March 12, 2023</div></header><div class="post-content"><div class="markdown"><p>💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다.</p>
+<p>디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
+전체 사이클에서 내 생각에 한 80% 지점에 참여하게 되었다.
+현재 신규 서버는 프로덕션 환경에 올라간 채로 ‘회사 사람들이 디어 앱을 통해 하는 요청’ 이라는 티끌의 트래픽만 받고 있는데, 다음 2주 간의 스프린트에 전체 트래픽을 100% 전환하는 게 목표다.
+그래서 이번 스프린트 중에 이 서버의 성능을 테스트하고, 운영 환경에 적절한 인프라 설정값을 찾는 과제를 수행했다.</p>
+<br>
+<h2 id="-인프라-구조" style="position:relative;"><a href="#-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0" aria-label=" 인프라 구조 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🏗 인프라 구조</h2>
+<p>모든 인프라 구조도는 극히 단순화하여 그렸다.</p>
+<h3 id="기존-프로덕션-인프라-구조" style="position:relative;"><a href="#%EA%B8%B0%EC%A1%B4-%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0" aria-label="기존 프로덕션 인프라 구조 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>기존 프로덕션 인프라 구조</h3>
+<p>신규 인터널 서버는 기존 디어 서버에서 외부 API 연동이 잦은 특정 도메인을 분리한 서버다.
+기존에는 디어 앱에서 특정 요청이 들어오면, 디어 서버를 거쳐, 경우에 따라 또 다른 인터널 서버를 경유해 로직을 수행했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 31.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABBklEQVR42m2RbU/CMBSF+f9/y8TElw9GAwEFh8BYu7UV5tbRjvYx28CIeJOTe5rcPDm3d0SMRCB2PYbO0R6PWGuxB0/tAtYFatdi/ZHq0OLacJqPhDB4ToxRHBy/q6w9ydawVJ7EwPNqy93igZvxLffJE4n8xBiDlLLvF8BzwuAUtR4TbIrceRJZkamSd1Ez3uyYCsUkzZlkmrW2GKN7oNa6T3kNbDKq/BG3n7MpKuZrRZZrZivNy0fJXLa8Cc9r1pKIL/JckqYpRVFcAv9bWdeRWR5ZqEHTbcNMHHpNM8dSVihVIIRAKfUnIXHgnT65ezc+sLeBsjkr/vh90x0pEkMghOujfAOJ9c41jQ0l0gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="production infra"
+        title=""
+        src="/static/5116c05fea8ebd0083f6ee7ce8a65f5d/37523/infra_production.png"
+        srcset="/static/5116c05fea8ebd0083f6ee7ce8a65f5d/e9ff0/infra_production.png 180w,
+/static/5116c05fea8ebd0083f6ee7ce8a65f5d/f21e7/infra_production.png 360w,
+/static/5116c05fea8ebd0083f6ee7ce8a65f5d/37523/infra_production.png 720w,
+/static/5116c05fea8ebd0083f6ee7ce8a65f5d/302a4/infra_production.png 1080w,
+/static/5116c05fea8ebd0083f6ee7ce8a65f5d/07a9c/infra_production.png 1440w,
+/static/5116c05fea8ebd0083f6ee7ce8a65f5d/9f9a4/infra_production.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>신규 인터널 서버를 분리하면서 구조도 변했다.</p>
+ <br>
+<h3 id="신규-서버-도입-후-인프라-구조" style="position:relative;"><a href="#%EC%8B%A0%EA%B7%9C-%EC%84%9C%EB%B2%84-%EB%8F%84%EC%9E%85-%ED%9B%84-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0" aria-label="신규 서버 도입 후 인프라 구조 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>신규 서버 도입 후 인프라 구조</h3>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 31.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA+klEQVR42mWR2W6DMBRE8/9/1oc+NFWrBgQhDS0Bgw1Z7NhgnworW5UrjWYsWUd37EUIgXlmD8HPiWnyGGM4W4exHmOnm7SdcFO43L/rylhcw+Mczch2p/huLbmETQ/FAJsB1gry3QnZddR1jZSScRzvwBvd9dghxesf2r2laAy10hSNZpX1JIkgSVpW64GsOqCUQggRgc65Z6A/N+x3L2j5yW97IN22VLUgLTuWbyXL15z3WR8VX1tJKwRlWUbovw0vicfSvQ6kIpC1kHewlhcpyDrIqmOs3DTNc+UIi7Tr4waM86jTRK991JzjObrncPaxprU2+uOn/AEd2s7io4pLGwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="new production infra"
+        title=""
+        src="/static/8878210584397d26c1e40f1afa5bb478/37523/infra_new_production.png"
+        srcset="/static/8878210584397d26c1e40f1afa5bb478/e9ff0/infra_new_production.png 180w,
+/static/8878210584397d26c1e40f1afa5bb478/f21e7/infra_new_production.png 360w,
+/static/8878210584397d26c1e40f1afa5bb478/37523/infra_new_production.png 720w,
+/static/8878210584397d26c1e40f1afa5bb478/302a4/infra_new_production.png 1080w,
+/static/8878210584397d26c1e40f1afa5bb478/07a9c/infra_new_production.png 1440w,
+/static/8878210584397d26c1e40f1afa5bb478/9f9a4/infra_new_production.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>앞으로 해당 도메인과 관련된 모든 요청은 신규 서버를 경유한다.
+신규 서버가 분리되면서 요청을 처리할 외부 서버를 간편하게 추가할 수 있게 되었다.
+실제로 이번에 D사 서버 연동을 추가해야 했는데, 첫 삽을 뜨기부터 스테이지 테스트를 완료하기 까지 단 이틀이 걸렸다.</p>
+<p>신규 서버를 도입하면서 목표는 ‘사용자 관점에서 아무 변화도 없어야 한다’ 였다.
+현재 디어 서버에서 이뤄지는 해당 도메인의 트래픽, 나아가서 회사가 올해 목표하는 트래픽 양을 문제없이 처리할 수 있어야 했다.
+이를 위해 부하테스트를 진행했다.</p>
+<br>
+<h3 id="부하테스트-인프라" style="position:relative;"><a href="#%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9D%B8%ED%94%84%EB%9D%BC" aria-label="부하테스트 인프라 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>부하테스트 인프라</h3>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 31.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA2klEQVR42o2RbWvCMBRG/f9/bTBw062d1lrtzEpdxL4kaUlzRtpFnfhhDzycfLgcuLkz5xw+gT7D4NBao5Sh0ZZG3VXbcT4Uz0nC7FYWaDrLVpxJS0N6glQycnuamB0HBq4JMs9ZkPR9T1VVtE1FrR0HUSA+nsizFXEiWb7sWcx3vEcF668OLfeofI46vEJ3HmXe9UdY1zVtU/8KBeXmmc/dmiiRxEtB5BuXrIRByxwjFnTFG+5W+GhlZSzJERIJG3ldOTT7/sfK0wdPA9YOtNpe2jx4X45xd5QfE1HQs9dDM70AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="test infra"
+        title=""
+        src="/static/1d71ef9c09a0917fca8e178b059b4318/37523/infra_test.png"
+        srcset="/static/1d71ef9c09a0917fca8e178b059b4318/e9ff0/infra_test.png 180w,
+/static/1d71ef9c09a0917fca8e178b059b4318/f21e7/infra_test.png 360w,
+/static/1d71ef9c09a0917fca8e178b059b4318/37523/infra_test.png 720w,
+/static/1d71ef9c09a0917fca8e178b059b4318/302a4/infra_test.png 1080w,
+/static/1d71ef9c09a0917fca8e178b059b4318/07a9c/infra_test.png 1440w,
+/static/1d71ef9c09a0917fca8e178b059b4318/9f9a4/infra_test.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>앞선 구조도에서 볼 수 있듯이, 신규 서버는 디어 서버를 유일한 클라이언트로 가진다.
+즉, 외부에서 요청을 받을 일이 없다.
+따라서 실제와 비슷하며 프로덕션 보안정책을 준수하는 테스틀 위해 VPC 내에서 요청을 보낼 목 클라이언트가 필요하다.
+또한, 외부 서버와 통신을 해야하며, 이 요청의 응답 속도나 상태가 제어 밖이라는 점도 특징이다.
+그래서 외부 목 서버도 필요했다.
+더 정확한 테스트를 위해서라면 디어 앱을 모킹한 곳에서 요청을 보내야겠지만, 테스트의 주 목적을 생각해 내부 클라이언트(디어 서버)까지만 모킹하고 여기서 요청을 보냈다.</p>
+<p>외부 목 서버는 스프링으로 만들었다.
+며칠 간 쌓인 신규 서버 로그 데이터를 통해 외부 서버의 API 응답 속도를 대략 알 수 있었다.
+이 중 평균 소요시간이 제일 긴 서버의 경우 약 2초의 시간이 걸릴 때가 많았다.
+따라서 목 서버는 간단하게 스레드를 2초간 정지하고 응답하도록 만들었다.</p>
+<div class="gatsby-highlight" data-language="java"><pre class="language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MockController</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@PostMapping</span>
+    <span class="token keyword">public</span> <span class="token class-name">MockApiResponse</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">MockApiRequest</span> request<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2_000L</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MockApiResponse</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
+<br>
+<h2 id="-테스트-시나리오-짜기" style="position:relative;"><a href="#-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%EC%A7%9C%EA%B8%B0" aria-label=" 테스트 시나리오 짜기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>📝 테스트 시나리오 짜기</h2>
+<h3 id="목표-트래픽-처리량-설정" style="position:relative;"><a href="#%EB%AA%A9%ED%91%9C-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC%EB%9F%89-%EC%84%A4%EC%A0%95" aria-label="목표 트래픽 처리량 설정 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>목표 트래픽 처리량 설정</h3>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 56.111111111111114%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAADF0lEQVR42i3DW0+TBwCA4e9iP2BLtmTOaYbuaiRbsoM6HNmWRbrEyBRFMoQakylWwLFUoAUp1cIntRRpgR7WFuuggBRYZXKyXw/0QOkJaFMQEHUs283+xLubPckjWMbc9HvnMC6E6Akl6PZH0QcSGEKrGEJJzJE84+nXWJc30fhWkDYK+Ap/M5HbZyL1klB2l5X8SxK5V0SyOwhWtw2D4zf03qeIoQRd/gg9oRX0gTim6BqWwDo/ixbk9WouVlxAXlWJzvkYX+EfltI7SNltwhu7RNZ3CWa3EQY8w2j9cbqXlhH9MXT+KGIwTm84jTWc5/y1ZkplFXxReorDHxZz8vhXVNdc5llmh2DmOVJmCyn9/8xzhMFRJ3elVboXw3Q9i6BdimIIprDHNrGFcpSeruTQ4SN8+/kxDA0NzPXruN9QhWchyO+5fWYye4wndhiNbzMcySE8mhjh1+QejlgeZ3wT18oW7uQ2o6kXTKb2MOs0nCv7Dm2NHE+bGmlQ5I68jAGTnsdb/zK29iee9X3GNv5iZO01wuxShOnkC6ayr9AHtqjyJKkZX6V6MsNgIINpyEGzRuRG+WncLUr6FHLUl04xoJIzO/8H01IU86MZel3TGJxTCJqZFBcexqn1JJE5Y5TY45TYV1B4Eww8eYpueJJmZTtnTn7KpW9OoDjxGfdqZYg/ybjfpcI66sZktdDX78JoeogwEshhXtxgcGEdh1RAbZtC5ZjAlc7TYbVhHPJSV1tPpew4SlUjHrsVY8s1rLfl2M06up0uer2TuGf9+JYSCPq5LA7/Om5pjau+Aop2DQaFjAd3NHSW/0jXD5dp+riE1k+KMZaXY7hynXtnz+E4U4al5iztoo5Om43hYBQpvY1QbpBotC+jGY3zRt0iVxRNDF08gqr4I3rePEjH2+9z870i9G8dYOhQEfoPjtLzzkH07xah/fIYrZpWboh9TIezPInlEb5Xz9PQF0Y7vIrwtZuK2/MYHT6qazrpaHnArbq7NJ6/Tl3DLzTrRbTKJtS3lNRru7mpaaNN2YTZMs1Ai4hL3ct/hmpVrGW+WnQAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="진짜같다짤"
+        title=""
+        src="/static/a182ce258762ffea712f6b392fd19d65/37523/realistic.png"
+        srcset="/static/a182ce258762ffea712f6b392fd19d65/e9ff0/realistic.png 180w,
+/static/a182ce258762ffea712f6b392fd19d65/f21e7/realistic.png 360w,
+/static/a182ce258762ffea712f6b392fd19d65/37523/realistic.png 720w,
+/static/a182ce258762ffea712f6b392fd19d65/302a4/realistic.png 1080w,
+/static/a182ce258762ffea712f6b392fd19d65/07a9c/realistic.png 1440w,
+/static/a182ce258762ffea712f6b392fd19d65/14747/realistic.png 1914w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>시나리오 작성의 목표는 ‘최대한 현실과 비슷하게’였다.
+먼저 신규 서버가 감당해야 할 최소 트래픽을 계산했는데, 해상도를 제일 높여 잰다면 ‘디어를 운영한 모든 기간 중에 트래픽이 제일 많았던 시간의 순간 트래픽량’이 필요하다.
+하지만 몇 년 간의 데이터를 분석하기보다, 현실적으로 서비스가 계속 성장해왔음을 감안해 범위를 2022년도의 데이터로 한정하고, 다음과 같은 과정으로 간략히 구했다.</p>
+<ol>
+<li>2022년도의 365일 중, 해당 요청이 가장 많았던 날짜를 구한다.</li>
+<li>해당 날짜의 기록을 분당 group by 하여, 제일 트래팩이 많았던 시간의 요청 수를 구한다.</li>
+</ol>
+<p>데이터 전문가가 보면 킹받을지도 모른다는 걱정이 잠깐 들지만 나름 합리적인 계산이었다.
+2022년도의 x월 x일에 가장 많은 요청이 있었고, 특정 시간대에 요청이 제일 많았다.
+분당 최대 요청수를 초단위로 단순화해보면 신규 서버는 최소 <code class="language-text">n tps</code>를 처리할 수 있어야 했다.
+다만 이번년도에 내가 속한 디어서비스팀은 모든 걸 10x로 목표하고 있다.
+따라서 신규 서버도 최소 <code class="language-text">10*n tps</code>를 지원하는 것을 목표한다.</p>
+<br>
+<h3 id="유저-행동-설정" style="position:relative;"><a href="#%EC%9C%A0%EC%A0%80-%ED%96%89%EB%8F%99-%EC%84%A4%EC%A0%95" aria-label="유저 행동 설정 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>유저 행동 설정</h3>
+<p>디어에서 해당 도메인을 경유지로 이뤄지는 요청은 세 가지가 있다. 1.단순 요청  2.별도 요청  3.자동 요청<br>
+뭔가 최대한 정보를 마스킹하려다 보니 요상해지는데 꿋꿋하게 설명하겠다.
+3번 요청은 항상 1과 함께 이뤄지되, 3이 선행될 경우 1에서 외부 서버 요청이 일어나지 않는다는 특성이 있다.
+좋은 테스트를 위해 각 요청이 어떤 비율로 일어나는지 알아야 한다.
+만약 1번 요청과 2번 요청이 1:1 비율로 발생하는데, 1번 요청만 테스트 시나리오에 사용한다면 현실과 큰 괴리가 생기기 떄문이다.</p>
+<p>2022년도에 1번 유형 요쳥은 약 x건이 일어났다.
+2번 요청은 x건의 0.5% 정도가, 3번 요청은 0.6% 정도 발생했다.
+초당 요청량을 생각했을 때 이정도 비율은 큰 의미가 없을 것 같아 1번 요청을 단일한 시나리오로 작성하려 했다.
+다만 이미 테스트 DB에 3번-1번 요청을 연달하 하도록 설정된 유저 데이터가 있길래, 추후 테스트 대상 유저 데이터를 선정할 때 해당 비율로 섞고, 2번 요청은 제외했다.</p>
+<br>
+<h2 id="-테스팅-툴-선정" style="position:relative;"><a href="#-%ED%85%8C%EC%8A%A4%ED%8C%85-%ED%88%B4-%EC%84%A0%EC%A0%95" aria-label=" 테스팅 툴 선정 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🧪 테스팅 툴 선정</h2>
+<p>테스팅 툴은 1.빠르게 실행가능 할 것  2.이용이 간단할 것을 중점으로 선정했다.
+2주간의 스프린트 계획을 짤 때 부하테스트에 약 2~3일을 배정했고, 목표 tps를 테스트 할 때 너무 상세하거나 복잡한 기능을 필요하지 않다고 생각했다.
+그래서 별도의 서버를 필요로 하는 툴은 제외하고, 코드나 설정 파일로 간단히 실행 가능한 <a href="https://github.com/rakyll/hey">hey</a>, <a href="https://www.artillery.io/">artillery</a>, <a href="https://k6.io/">k6</a>를 후보로 골랐다.</p>
+<h3 id="hey" style="position:relative;"><a href="#hey" aria-label="hey permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>hey</h3>
+<p>hey는 다음과 같이 커맨드라인에서 간단히 요청을 보낼 수 있다.</p>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">hey <span class="token parameter variable">-z</span> 10s <span class="token parameter variable">-m</span> GET http://new-server.stage.com/actuator/health</code></pre></div>
+<br>
+<p>해당 명령어는 10초간 신규 서버의 헬스체크 주소로 요청을 보낸다.
+문서를 보면 요청 수, 초당 동시 실행할 worker의 수, 지속 시간, 헤더 등등을 설정할 수 있다.
+curl 명령어와 비슷하다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 37.222222222222214%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAAA1klEQVR42n2R2wqDMBBENZJEo/F+V1Cw//+LU2aLUKn2YXAxm7OzkyAIAoRhiKqqEEURiqJAlmXg/2+dZ23bIk3Tn/MvfYqu6+CcwzRNcukcRJ3AYRiwbRvKsvwP5CVOjeMYWuvbRqUU6rrGsiy3G/w4ZCMdrOsqolNqnmf0fS+DCKQ7bpDnuUSgtYGNEygVXoGEUUmSwForMsbIlzA65ABC9n2X+nUcaPoRw7LBWnMFjuMoD/O0CoFN08B7L3kzItapc8i9l4wvQK7BhifgmTPFx3vK8A0VuZiu0j3AQwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="hey test"
+        title=""
+        src="/static/b5e7cdd93701ce85fc23475f803e5084/37523/hey.png"
+        srcset="/static/b5e7cdd93701ce85fc23475f803e5084/e9ff0/hey.png 180w,
+/static/b5e7cdd93701ce85fc23475f803e5084/f21e7/hey.png 360w,
+/static/b5e7cdd93701ce85fc23475f803e5084/37523/hey.png 720w,
+/static/b5e7cdd93701ce85fc23475f803e5084/302a4/hey.png 1080w,
+/static/b5e7cdd93701ce85fc23475f803e5084/07a9c/hey.png 1440w,
+/static/b5e7cdd93701ce85fc23475f803e5084/2adcb/hey.png 1984w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>테스트 결과를 이런 형태로 출력해 보여준다.</p>
+<p>사용법은 제일 간단했지만, 일련의 요청 흐름을 실행할 수 없었다.
+1,2,3번 유형에 관계없이 모든 요청의 흐름은 디어 서버에서 신규 서버로 1. POST 요청을 보낸다  2. GET 요청으로 이전 요청의 결과값을 조회한다  두 가지 요청이 항상 묶음으로 보내졌기에, hey로는 원하는 시나리오 테스트를 할 수 없었다.</p>
+<br>
+<h3 id="k6-하려다-못-함" style="position:relative;"><a href="#k6-%ED%95%98%EB%A0%A4%EB%8B%A4-%EB%AA%BB-%ED%95%A8" aria-label="k6 하려다 못 함 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>k6 하려다 못 함</h3>
+<p>두번째로 k6는 자바스크립트로 테스트를 작성할 수 있다는 점이 매력적이었다. 그런데 설치에 문제가 있었다.
+처음 목 클라이언트와 목 서버 인스턴스를 제일 저렴한 <code class="language-text">t2.micro</code>로 생성했다.
+사실 현실과 가까운 테스틑가 목적이라면 실제 클라이언트인 디어 서버와 비슷한 스펙으로 설정해야 했다.
+하지만 당시에는 거기까지 생각하지 못했고, 후에 문제를 만나 바꾸게 된다.
+어쨌든 <code class="language-text">t2.micro</code> 인스턴스는 스펙이 부족해 k6를 설치할 수 없었다… 그래서 우선 artillery로 넘어갔다.</p>
+<br>
+<h3 id="️-artillery" style="position:relative;"><a href="#%EF%B8%8F-artillery" aria-label="️ artillery permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>⭐️ artillery</h3>
+<p>마지막으로 artillery는 node.js로 만들어진 툴이다.
+hey처럼 커맨드라인으로 간단한 테스트가 가능한 동시에, <code class="language-text">json</code>, <code class="language-text">yaml</code>로 자세한 시나리오 테스트를 작성할 수 있어 선택했다.
+테스팅 결과 역시 <code class="language-text">json</code>과 <code class="language-text">html</code> 파일로 출력 가능하다.
+<a href="https://blog.outsider.ne.kr/1238">Artillery를 이용한 스트레스 테스트 - Outsider’s dev story</a> 해당 블로그 포스팅에서 많은 도움을 받았다.</p>
+<br>
+<h2 id="️-yaml로-시나리오-작성" style="position:relative;"><a href="#%EF%B8%8F-yaml%EB%A1%9C-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%EC%9E%91%EC%84%B1" aria-label="️ yaml로 시나리오 작성 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>✍️ yaml로 시나리오 작성</h2>
+<p>테스트 대상 신규 서버의 엔드포인트는 총 두 개다.</p>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">POST http://new-server.stage.com/deers
+<span class="token punctuation">{</span>
+  <span class="token string">"userId"</span><span class="token builtin class-name">:</span> 유저 아이디,
+  <span class="token string">"deerId"</span><span class="token builtin class-name">:</span> 생성할 엔티티와 관련된 아이디, 
+  <span class="token string">"data"</span><span class="token builtin class-name">:</span> 특정값  
+<span class="token punctuation">}</span></code></pre></div>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">GET http://new-server.stage.com/deers?userId<span class="token operator">=</span>:userId<span class="token operator">&amp;</span><span class="token assign-left variable">deerId</span><span class="token operator">=</span>:deerId</code></pre></div>
+<br>
+<p>그런데 문제가 있다. 로직 상 한 번 POST 요청이 성공하면 동일한 <code class="language-text">deerId</code>로 다시 요청할 수 없다.
+따라서 <code class="language-text">deerId</code>가 요청마다 다르지 않으면 테스트가 불가능하다.
+artillery는 <a href="https://www.artillery.io/docs/guides/plugins/plugin-fuzzer">매 요청마다 랜덤한 문자열을 생성하는 플러그인</a>을 지원하지만, 숫자는 찾지 못했다.
+대신 <code class="language-text">csv</code> 파일에서 랜덤한 값을 요청마다 지정하는 기능이 있었다.</p>
+<p>그래서 자바스크립트로 간단히 1000부터 100000까지 숫자가 적힌 <code class="language-text">numbers.csv</code> 파일을 아래와 같이 만들었다.</p>
+<div class="gatsby-highlight" data-language="csv"><pre class="language-csv"><code class="language-csv"><span class="token value">1000</span>
+<span class="token value">1001</span>
+<span class="token value">...</span>
+<span class="token value">99999</span>
+<span class="token value">100000</span></code></pre></div>
+ <br>
+<p>또, 디어 앱에서부터 유저 흐름을 생각하면, 한 유저는 대게 단일한 요청을 보낸다.
+짧은 시간 내 여러 요청을 보내는 경우는 외부 API 연동이 실패해 재요청하는 경우 뿐이다.
+궁금해서 외부 API 처리 실패율을 단순하게 ‘실패한 횟수 % 전체 횟수’로 계산했는데, 실패율이 가장 높은 외부 서버 기준으로 약 <code class="language-text">0.2%</code>에 불과했다.
+적은 비율이라 테스트에서 한 유저는 한 번만 요청을 보낸다 가정했다.
+만약 요청 특성 상 특정 시간에 한 유저가 여러 요청을 보낼 수 있었다면, 유저가 평균 몇 번 요청을 보내는지 조사하고 반영해야 했을 것이다.</p>
+<p>테스트 DB에 존재하는 유저 데이터 id 목록을 조회해 마찬가지로 <code class="language-text">users.csv</code>라는 파일로 만들고 시나리오를 <code class="language-text">yaml</code>로 작성했다.
+artillery 공식 문서가 친절해서 조건을 하나씩 추가하며 작성하기 수월했다.</p>
+<div class="gatsby-highlight" data-language="yaml"><pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">config</span><span class="token punctuation">:</span>
+  <span class="token key atrule">target</span><span class="token punctuation">:</span> <span class="token string">"http://new-server.stage.com"</span>
+  <span class="token key atrule">http</span><span class="token punctuation">:</span>
+    <span class="token key atrule">timeout</span><span class="token punctuation">:</span> <span class="token number">10</span>
+  <span class="token key atrule">phases</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">duration</span><span class="token punctuation">:</span> <span class="token number">10</span>
+      <span class="token key atrule">arrivalRate</span><span class="token punctuation">:</span> <span class="token number">5</span>
+  <span class="token key atrule">plugins</span><span class="token punctuation">:</span>
+    <span class="token key atrule">expect</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+  <span class="token key atrule">payload</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span>
+      <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"users.csv"</span>
+      <span class="token key atrule">fields</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token string">"userId"</span>
+    <span class="token punctuation">-</span>
+      <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"numbers.csv"</span>
+      <span class="token key atrule">fields</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token string">"deerId"</span>
+
+<span class="token key atrule">scenarios</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"specific scenario"</span>
+    <span class="token key atrule">flow</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">post</span><span class="token punctuation">:</span>
+          <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">"/deers"</span>
+          <span class="token key atrule">json</span><span class="token punctuation">:</span>
+            <span class="token key atrule">userId</span><span class="token punctuation">:</span> <span class="token string">"{{ userId }}"</span>
+            <span class="token key atrule">deerId</span><span class="token punctuation">:</span> <span class="token string">"{{ deerId }}"</span>
+            <span class="token key atrule">data</span><span class="token punctuation">:</span> <span class="token number">100</span>
+          <span class="token key atrule">headers</span><span class="token punctuation">:</span>
+            <span class="token key atrule">Content-Type</span><span class="token punctuation">:</span> <span class="token string">"application/json"</span>
+            <span class="token key atrule">capture</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">json</span><span class="token punctuation">:</span> <span class="token string">"code"</span>
+              <span class="token key atrule">as</span><span class="token punctuation">:</span> code
+          <span class="token key atrule">expect</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">statusCode</span><span class="token punctuation">:</span> <span class="token number">200</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">equals</span><span class="token punctuation">:</span>
+              <span class="token punctuation">-</span> <span class="token string">"{{ code }}"</span>
+              <span class="token punctuation">-</span> <span class="token string">"success"</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">get</span><span class="token punctuation">:</span>
+          <span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">"/deers?deerId={{ deerId }}&amp;userId={{ userId }}"</span>
+          <span class="token key atrule">capture</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">json</span><span class="token punctuation">:</span> <span class="token string">"code"</span>
+              <span class="token key atrule">as</span><span class="token punctuation">:</span> code
+          <span class="token key atrule">expect</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">statusCode</span><span class="token punctuation">:</span> <span class="token number">200</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">equals</span><span class="token punctuation">:</span>
+              <span class="token punctuation">-</span> <span class="token string">"{{ code }}"</span>
+              <span class="token punctuation">-</span> <span class="token string">"success"</span></code></pre></div>
+<br>
+<p>설정을 간략히 설명하자면, 신규 서버(target)로 60초간(duration) 초당 5명의 요청(arrivalRate)을 보낸다.
+응답이 10초간 오지 않을 시 요청이 실패(timeout)한 것으로 취급한다.</p>
+<p>해당 스크립트를 실행하면 POST, GET 요청이 각각 연달아 나간다.
+또한 요청마다 <code class="language-text">csv</code> 파일에서 랜덤 지정된 <code class="language-text">userId</code>와 <code class="language-text">deerId</code>값이 각각 json 바디, url에 지정된다.
+<code class="language-text">expect</code> 플러그인으로 응답 코드와 응답 바디값에 간단한 검증도 붙였다.
+실행 시 옵션을 주면 결과를 json 파일로 생성할 수 있고, 이를 보기 편한 html로 변환할 수 있다.</p>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">npx artillery run <span class="token parameter variable">--output</span> report.json script.yaml</code></pre></div>
+<div class="gatsby-highlight" data-language="shell"><pre class="language-shell"><code class="language-shell">artillery report ./report.json</code></pre></div>
+<br>
+<h2 id="-문제-해결하기" style="position:relative;"><a href="#-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0" aria-label=" 문제 해결하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🛠 문제 해결하기</h2>
+<h3 id="예상치-못한-삽질" style="position:relative;"><a href="#%EC%98%88%EC%83%81%EC%B9%98-%EB%AA%BB%ED%95%9C-%EC%82%BD%EC%A7%88" aria-label="예상치 못한 삽질 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>예상치 못한 삽질</h3>
+<p>그렇게 가벼운 마음으로 테스트의 테스트를 실행했는데 당황스런 결과가 나왔다.
+초당 요청 수가 5에 불과했는데 요청 하나를 빼고 다 실패했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 19.444444444444443%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVR42pWOQQoAIQwD/UmtImpR0P8/LksK7lkPA01o0oYxBkjvHbVWtNau4b6ZeZ4zCTT23i5ijFDVa7ifc0Yp5c+GOSfWWm68IiJIKXkpZ3r+IUvPxVdYSI7+ABxEcQjH9+mAAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="timeout"
+        title=""
+        src="/static/910c4729e696d952ae6907b8e7b637c8/37523/micro_test.png"
+        srcset="/static/910c4729e696d952ae6907b8e7b637c8/e9ff0/micro_test.png 180w,
+/static/910c4729e696d952ae6907b8e7b637c8/f21e7/micro_test.png 360w,
+/static/910c4729e696d952ae6907b8e7b637c8/37523/micro_test.png 720w,
+/static/910c4729e696d952ae6907b8e7b637c8/302a4/micro_test.png 1080w,
+/static/910c4729e696d952ae6907b8e7b637c8/07a9c/micro_test.png 1440w,
+/static/910c4729e696d952ae6907b8e7b637c8/eff3b/micro_test.png 2072w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>이유가 짐작하지 않아 요청 수를 계속 낮추면서 실행했는데, 결과적으로 <code class="language-text">2tps</code>일 경우에만 안정적으로 처리됐다.
+너무나 예상 밖의 결과라 당황했다.
+결국 팀원의 도움을 받아 로깅을 보고 원인을 찾았는데, 목 서버에서 응답을 주지 못하고 있었다.
+앞에서 언급한 ‘모킹 인스턴스를 <code class="language-text">t2.micro</code>로 설정해 생긴 문제’였다.
+목 서버의 인스턴스를 더 좋은 사양으로 업그레이드 하니 테스트가 정상적으로 수행되었다.</p>
+<p>테스트를 할 때 프로덕션과 최대한 비슷한 인프라 환경을 구축하는 것이 좋다고 생각하면서도, 이런 식으로 문제가 바로 생길 줄 몰랐다.
+그래서 목 클라이언트 인스턴스도 더 나은 사양으로 함께 변경했다.
+다만, 프로덕션 환경과 완전히 동일한 사양으로 올리는 것은 여전히 낭비라고 생각해 적당히 올렸다.</p>
+<br>
+<h3 id="그래도-예상-범위였던-문제-해결하기" style="position:relative;"><a href="#%EA%B7%B8%EB%9E%98%EB%8F%84-%EC%98%88%EC%83%81-%EB%B2%94%EC%9C%84%EC%98%80%EB%8D%98-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0" aria-label="그래도 예상 범위였던 문제 해결하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>그래도 예상 범위였던 문제 해결하기</h3>
+<p>그리고 테스트를 다시 시작했는데, 또다시 한자릿수 tps에 막혔다.
+아까와 달리 목 서버와 클라이언트에는 문제가 없었다.
+한자릿수의 요청을 1분간 보냈을 때, 약 10초 후 부터 DB 커넥션 풀이 고갈되는 현상이 발생했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 18.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAwklEQVR42i2PzYrDMBCD8/4PVtjzQs9LS+rfsTO2x2kCiRZPchDS2CD0TcdxYGGGdREpGcyvH1B8w3qCsQ4xZTgfESLB+QDjPJoIpPfb1zt3bNuO6TxP/UiZUUoEhSeYPSgzKGVwqcgLY+GClBdV76tKpKOvV9bCfcc0FpZa4QMhZw9nfnWpCwTrvBaMdZESwq1SG2oTlFLVa2369v1uV+FY8LEBRB+8/x4I4aX3bIyWDcyBPXw29kKVjtYudM0iivwPn4UwbxtjlgcAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="connection timeout"
+        title=""
+        src="/static/7adff8ce79b62be9015efbeeca75f61e/37523/connection_timeout.png"
+        srcset="/static/7adff8ce79b62be9015efbeeca75f61e/e9ff0/connection_timeout.png 180w,
+/static/7adff8ce79b62be9015efbeeca75f61e/f21e7/connection_timeout.png 360w,
+/static/7adff8ce79b62be9015efbeeca75f61e/37523/connection_timeout.png 720w,
+/static/7adff8ce79b62be9015efbeeca75f61e/302a4/connection_timeout.png 1080w,
+/static/7adff8ce79b62be9015efbeeca75f61e/07a9c/connection_timeout.png 1440w,
+/static/7adff8ce79b62be9015efbeeca75f61e/5b503/connection_timeout.png 1976w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  그래도 로그를 바로바로 확인할 수 있는 환경이라 원인 파악이 쉬웠다  
+</div>  
+<br>
+<br>
+<p>히카리 CP 설정은 모두 default 값이었기에, maximum pool size를 우선 default인 10에서 30으로 늘려보고 다시 실행했다.
+그러니 커넥션 고갈이 시작되는 시간을 미뤄졌지만 결국 특정 시간 이후에 고갈되는 현상은 그대로였다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 44.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABIUlEQVR42o2Q2U7DMBBF8xdNaideEseTNFKohCioLCp9YRFLXwoFif//i4s8DSFIBfJwNZt85o4jIkLbtmiaBt57hPqgwswXg55neSJ4v+855xAZY5DnOay1CPlhKWhbIS2vYHTGdT/jWve9SCmFIK3171ISaT5HXL0gsw2kO4cslpDFAsKtoIxnaW0Q/QliGRglkeVHSOgJaXGKhDYQ5TWku0Rcv/GSsEyZcn/y/0DRATdIixMk9ABRrthpXG2R2RniescuozHuhL9hZ1N6ZGCIPbDeQjHwdQzQwqgEk9kHpLvoTl4goWeIct2dvGOHk/p9BNBYPndKd0iLY8hyjSyfMyx1Z+xW0C2UJQi6hzbuG/j1l8M4zK0d1Nz7+c528RNPJgD1bS+r7AAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="pool-30"
+        title=""
+        src="/static/d3f34564ef856ca451951f5d8545c841/37523/pool-30.png"
+        srcset="/static/d3f34564ef856ca451951f5d8545c841/e9ff0/pool-30.png 180w,
+/static/d3f34564ef856ca451951f5d8545c841/f21e7/pool-30.png 360w,
+/static/d3f34564ef856ca451951f5d8545c841/37523/pool-30.png 720w,
+/static/d3f34564ef856ca451951f5d8545c841/302a4/pool-30.png 1080w,
+/static/d3f34564ef856ca451951f5d8545c841/07a9c/pool-30.png 1440w,
+/static/d3f34564ef856ca451951f5d8545c841/8c48a/pool-30.png 2096w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  Hikari CP maximum pool size가 30, 인스턴스가 1개일 때   
+</div>  
+<br>
+<br>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 43.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAq0lEQVR42qWSzQrCMBCE8xRqk9hkg/kxQejVgyLYk1Xvff8HGUmrWAVBmsOwJLuZ7AfDUkpomga5hhCK5L0H01qDiJDrLJGBnrxns400gRSHcC2kPYCUGO4KDSvwcIVwZ1C9GA3n444bcn+BcCfUZgdFm3Jk7rsBeRV7KBPLkatwg7BHLGOP+mWYsX9pmoLPnoHREtK3WNs9xPYOZcJ/G35/8I5MPqvnzBibB5gd+3QKNNmaAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="pool-40"
+        title=""
+        src="/static/aa53a59e35db42d7b50567d2c1950edb/37523/pool40-instance2.png"
+        srcset="/static/aa53a59e35db42d7b50567d2c1950edb/e9ff0/pool40-instance2.png 180w,
+/static/aa53a59e35db42d7b50567d2c1950edb/f21e7/pool40-instance2.png 360w,
+/static/aa53a59e35db42d7b50567d2c1950edb/37523/pool40-instance2.png 720w,
+/static/aa53a59e35db42d7b50567d2c1950edb/302a4/pool40-instance2.png 1080w,
+/static/aa53a59e35db42d7b50567d2c1950edb/07a9c/pool40-instance2.png 1440w,
+/static/aa53a59e35db42d7b50567d2c1950edb/87629/pool40-instance2.png 2076w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  Hikari CP maximum pool size가 40, 인스턴스가 2개일 때   
+</div> 
+<br>
+<br>
+<p>우선 가장 빠른 해결법으로 DB 커넥션 수 늘리기가 있었다.
+신규 서버는 aws RDS를 사용했고, 바로 다음 사양으로 업그레이드하면 10배가 넘는 커넥션이 지원됐다.
+22년도와 동일한 패턴과 양의 트래픽이 들어온다면 일단 문제는 생기지 않는 해결법이다.</p>
+<p>다만 올해의 목표를 생각했을 때, 또 확장성을 고려했을 때 너무 불안한 해결법으로 느껴졌다.
+올해 여러가지 정책을 시도하게 될 것 같은데, 만약 해당 도메인의 요청이 늘어나는 이벤트라도 한다면 바로 문제가 된다.
+아직 오지 않을 일은 대게 영원히 오지 않는다고 하지만 그래도 최소 목표치인 <code class="language-text">10*n tps</code>는 안정적으로 달성하고 싶었다.</p>
+<p>다른 하나는 신규 서버에서 DB 커넥션을 물고 있는 시간을 줄이기였다.
+신규 서버의 사양을 올리고, 커넥션을 최대한 써도 요청 시간을 늘리면 결국 커넥션 풀 고갈이 발생하는 걸 보고, 목 서버의 응답 시간을 2초에서 0.5초로 줄여보았다.
+그러니 tps가 문제없이 쭉쭉 올랐다.
+반대로 말하면 외부 서버의 응답 시간이 더 길어지면 tps가 더 내려갈 수도 있었다.
+신규 서버는 외부 서버의 응답을 최대 5초까지 대기하도록 설정했으니 가능성 있는 이야기다.</p>
+<p>신규 서버는 기존 DB와 새로운 DB에 동시에 접근한다.
+앞 인프라 구조에서 생략했던 DB를 추가하면 아래와 같다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 33.33333333333333%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABJklEQVR42nWRe0/CMBRH+f6fyT+I0ZiYaBR5g0xkT9Z2tDy2jm7HMCBCxJucpEl7T+7tr1UD1DX1BdZarC1Y5w69q9A7d0FFXtZUVYVzruHQc9TUtBoZ1/WdGCYLxWTpmCmOZOBlMBXgRRohUqIoQkrJfr//FTayylKsRuxkF5uvmCUFQWoIhWHsG8ajJf1ewKAbMPQ0XqxRUhLHMUqp/4R9tuKN7TptJGGyIko1nXFC72VO52nK4N3nYyT4DDOkEIS3JoTDv12vvLGOIFN4fkimdiizxU+XiM2Wja2RK4OUgiRJbkx4TOUUSNVc6ELxOLnnYdhmUxp8Pac9uON1/nx6WzXBlWXZcB3K6XDmUNZZfLVgoRaUrsTkhq/UIzHxnwDPde79AfCNGhc8FavBAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="db infra"
+        title=""
+        src="/static/a8af77d7b5823086130af4e6c2b10c87/37523/db_infra.png"
+        srcset="/static/a8af77d7b5823086130af4e6c2b10c87/e9ff0/db_infra.png 180w,
+/static/a8af77d7b5823086130af4e6c2b10c87/f21e7/db_infra.png 360w,
+/static/a8af77d7b5823086130af4e6c2b10c87/37523/db_infra.png 720w,
+/static/a8af77d7b5823086130af4e6c2b10c87/302a4/db_infra.png 1080w,
+/static/a8af77d7b5823086130af4e6c2b10c87/07a9c/db_infra.png 1440w,
+/static/a8af77d7b5823086130af4e6c2b10c87/9f9a4/db_infra.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>요청이 들어온 후 시간에 따라 각 자원에 접근하는 순서를 그려봤다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABhElEQVR42n2Ta2/aUAyG+f9/bLcP6yq0Sqx0aILSFkYDybnY5/g8U04JDRXDkiMrkR+9r+1MSin02UfbOJbzJ5YPa3brhn1omK5u+b2d08YDd+sps5cZph1x8wv/dIf5be0dOJMxsNkcuL9dMPvxwPPiL69+x+f7T/xcTTnEhm/zL9z8uaHInrD8Trf4irWPlDGQYwzQmEGCkHNCRHCxxUqu37IlrBgfY+jtY6SwkAwab0QfKkxVCeLJlilWSDlRKCeImdW+gXFSOACdgiYjdI4QAiF4nOvT4b2ndfsK7UE5Zyznd4VHxuRUU+gENJeqTFNGNCGqpJRq6lDnTJKIxfaaZarCx5dXVs9b1psdjVOsXJ4VJVPkIvDdcivgJRNFiZrQbNVe6fM4s5p9nfSywrcXR8vab7IQ3HiG7jTDzrUn26qCJbmusDsupd9yFCFGqVBRIWkiiKOMzsZK+Z/CN6AadNEQ7+vZiCg+dhTs7G84P5srwP65D4ZGPZvZ0DCuP8IH4D8ImazwsBaBUgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="long transaction"
+        title=""
+        src="/static/60cd8c13b1169fb637c32802836b02b8/37523/long_transaction.png"
+        srcset="/static/60cd8c13b1169fb637c32802836b02b8/e9ff0/long_transaction.png 180w,
+/static/60cd8c13b1169fb637c32802836b02b8/f21e7/long_transaction.png 360w,
+/static/60cd8c13b1169fb637c32802836b02b8/37523/long_transaction.png 720w,
+/static/60cd8c13b1169fb637c32802836b02b8/302a4/long_transaction.png 1080w,
+/static/60cd8c13b1169fb637c32802836b02b8/07a9c/long_transaction.png 1440w,
+/static/60cd8c13b1169fb637c32802836b02b8/9f9a4/long_transaction.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>여기서 문제는 이 모든 접근이 하나의 트랜잭션으로 묶여있는 점이었다.
+트랜잭션 내에서 외부 서버에 요청을 보내서, 실제로 필요한 시간보다 훨씬 길게 커넥션을 점유했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABW0lEQVR42o2S207DMBBE+/8fhXjjDSEhkIpEi4DeSJu2juu7fZBNkqZVga4U7SaZHc2MPUopkSv3al4zf1symy5RjWYhZjzNH9mqDVWz4nnxSCUrUGsOqzF2M4FgSO1+rlFPGBPvLwvGDxNeHqaIjWRav3L7dMNKLPjcvnP7fMNs9wnig2Z6h5ndk7w8JaStodKYIiEGjDEYcyjfYwxYq3tcv/ez1L8Xhd2TyzmH1hrrHPag8Pt9WYrOkaTsaWKMAxGXLLfdWouUEqUUByGQ1RfKGOR+j9nWxEweAiGEE1e/Ws5A7z0+d2Nwux0+JbzWP3OM5X+OI6sc7l4k7EAt+9Fm8APLFNKrCUs+bW6hEcdZiGI5xViiuYowH0rOTxuDkg1qvUZbi2oaTF33ljPhef4XCTuwy10pbEuS53ziQ/xVhKcKJa7NLYVA1LoDn12bfxR24JLnhavxl8JvkNiturgaP00AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="long connection"
+        title=""
+        src="/static/27e5b1f0296266c89a66b4f5f2c98420/37523/long_connection.png"
+        srcset="/static/27e5b1f0296266c89a66b4f5f2c98420/e9ff0/long_connection.png 180w,
+/static/27e5b1f0296266c89a66b4f5f2c98420/f21e7/long_connection.png 360w,
+/static/27e5b1f0296266c89a66b4f5f2c98420/37523/long_connection.png 720w,
+/static/27e5b1f0296266c89a66b4f5f2c98420/302a4/long_connection.png 1080w,
+/static/27e5b1f0296266c89a66b4f5f2c98420/07a9c/long_connection.png 1440w,
+/static/27e5b1f0296266c89a66b4f5f2c98420/9f9a4/long_connection.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>그래서 외부 서버 요청 로직을 트랜잭션 밖으로 분리하는 리팩터링을 진행했다.
+다행히 외부 서버 요청 전 DB 접근은 조회가 대부분이었다.
+일부 값을 변경하는 로직도 있었지만, 외부 서버 요청 성공 여부와 무관하게 값이 변경되어도 비즈니스 로직 상 문제가 없았다.
+결론적으로 외부 서버 요청이 성공할 때만 트랜잭션을 시작하고 각 DB에 접근하도록 개선했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 62.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAABc0lEQVR42nVS2WrDMBDM/39U6fFSaF7ah1BoKSZtTC7biSWtztUUyZHrknhhkbzaGc+stIgxImUKEhqHusW+btC3EtIKVO0XdmILsgrrrsLmvEH0BNv9QDcVou0ztvAspoTHusPq5SNn/bnHUR1wv7rD2/oVnW7x9P6AZbVENC2oeob4fAT33/8JcYlCmiJYP6zBQ+gzrDeIiFmlcWbsixNs2Y8KCyEzQwkJIoImDdISHDmfp7OpgPKdsZe8SSgvhIoUpJRQSoEUoVcn+OBzTwjhH2HBL4bCn+W0Omvhvc/pnLvehwDvDNiqq3FNZng9j6x40jwFggOiFbcJywxSmSyj3h1R7xpsDx2E9uMPeGItskc0s4R/Eo1jnM4SvaSckky2mtJaO9p2zoIvNz5jeSieNaPvFazR0MZAHQ8g0YOMATUN2LmsOF0Ic5xXWIrCDIRaE0hr6NMJ0Q+2WSnEEG4/mzmFqckblx9yAY1n0xnOEP4CIdutTJOWTOwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="refactoring"
+        title=""
+        src="/static/4ff969a3fdfb53f2ab0eebe033433dba/37523/refactor.png"
+        srcset="/static/4ff969a3fdfb53f2ab0eebe033433dba/e9ff0/refactor.png 180w,
+/static/4ff969a3fdfb53f2ab0eebe033433dba/f21e7/refactor.png 360w,
+/static/4ff969a3fdfb53f2ab0eebe033433dba/37523/refactor.png 720w,
+/static/4ff969a3fdfb53f2ab0eebe033433dba/302a4/refactor.png 1080w,
+/static/4ff969a3fdfb53f2ab0eebe033433dba/07a9c/refactor.png 1440w,
+/static/4ff969a3fdfb53f2ab0eebe033433dba/9f9a4/refactor.png 1560w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>구조를 개선하고 나니 원래 목표했던 <code class="language-text">10*n tps</code>의 두 배까지 한 인스턴스로 안정적으로 처리 가능했다.
+커넥션 풀도 조정하며 테스트를 재차 수행한 결과, 30개로 충분해 30개로 줄였다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 56.111111111111114%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAABuUlEQVR42o2SS2/UQBCE/QsQaHe9j6zdj/HMeDdrO3uLEBIcACEQIMQt5ASIAwoHIASUP19o2kOUhAMcSmOV3V9XT7sIIaDrOsQYoapgZojIfyl9e13JK9q2xX6/RzqdcyAiEAuIGMSj2Dz+27ulBDVg3/eW0HuPGANiUKTkMXjE0CCEmM+bXohZyc/1RRqzaRo4l6RQ50HtQ0srTQfxR3DK4+kctNlA/ACnYn6qSb69U0VxPS5TDRKPSX9uz8v2Febbd5B6Zh6xwyo8Rnn4AVrdxXx7glq2YKrsmmzkmxebgAHT/iuYyYCL7QmkLjEdfoCkwUF4gnL3Ea66g8nRJSq3h9AKQmswC4qrbYkzIyWc9t8MuMpANeA5+BYwNam1A0nE2t83aMGsEFpguXmDVXxhKaf99wx8+Q/gBUharP0DzLov0HqSgXVphcvNW+syGS7yyK8x354acDL8HEeOT1HuPo0jD79AusnAsz9AsYSrlLB9DuEKZffZgAfxWW4yHz1psA6PsDg8hVb3UPZnIG1RNceY795D69m4FNuy6CgmiDb5XhUi48+uLuTFib0nqiHqr7zULNX+BgazPe/oXHuQAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="result"
+        title=""
+        src="/static/f2825b41a05d0a6153a288806aee1ac1/37523/result.png"
+        srcset="/static/f2825b41a05d0a6153a288806aee1ac1/e9ff0/result.png 180w,
+/static/f2825b41a05d0a6153a288806aee1ac1/f21e7/result.png 360w,
+/static/f2825b41a05d0a6153a288806aee1ac1/37523/result.png 720w,
+/static/f2825b41a05d0a6153a288806aee1ac1/302a4/result.png 1080w,
+/static/f2825b41a05d0a6153a288806aee1ac1/07a9c/result.png 1440w,
+/static/f2825b41a05d0a6153a288806aee1ac1/38116/result.png 2086w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>1분간 초당 <code class="language-text">20*n</code>명의 가상 유저가 요청을 연달아 2개씩 보내도 실패하지 않는 최종 테스트 결과다.</p>
+ <br>
+<h2 id="-짧은-회고" style="position:relative;"><a href="#-%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0" aria-label=" 짧은 회고 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>💬 짧은 회고</h2>
+<p>글은 깔끔하게 썼지만 사실 많은 고비가 있었다.
+해당 작업에 2~3일이 걸릴 것이라 예상했는데, 실제로는 5~6일 정도를 소요했다.
+인프라 설정부터 쉽지 않았고, chat gpt와 함께 짠 테스트 스크립트는 돌아가지 않아 삽질을 반복했고,
+(결과적으로 chat gpt가 계속 없는 설정을 쓸 수 있다고 잘못 알려준 문제였다😡 공식 문서 링크를 달라고 하니 not found가 뜨는 링크만 계속 줬다!!!),
+원인 파악부터 리팩터링 후 다시 부하테스트, 스테이지 테스트, 이후 배포까지 생각보다 많은 일을 해야했다.</p>
+<p>돌이켜보았을 때, 앞으로 낯선 문제를 해결할 때 접근 방식을 개선해야겠다는 생각이 든다.
+글에서는 단순히 ‘목 서버에서 요청 응답을 하지 못해서 사양을 높였다’라고 나와있지만, 사실 그 때 나는 멘붕 상태였다.
+신규 서버가 문제인가? 왜 커넥션 풀 문제도 아닌데 응답이 안 오지? 인스턴스 CPU 상태도 괜찮은데? 하고 허둥대면서 팀원한테 도움을 요청했다.
+로깅을 본 팀원이 <code class="language-text">분할 정복</code> 처럼 문제를 작은 단위로 나눠 보라고 했다.
+먼저 목 서버만 떼어서 문제를 해결해보고, 안되면 다른 방법을 찾아보라며, 자기가 볼 때는 사양이 너무 낮다는 힌트도 줬다.</p>
+<p>예상치 못한 문제, 또는 잘 모르는 영역의 문제에 부딪히면 늘 분할 정복을 잊게 된다.
+익숙한 스프링에서 문제를 만났다면 디버깅을 찍고, 예외 스택을 따라가며 해결했을 것 같은데, 익숙하지 않은 영역으로 오니 생각이 실타래처럼 엉켰다.
+지금 해결법도 결과적으로 목표한 tps를 달성하긴 했지만, 편하고 자신있는 방식으로 편향해 해결했다는 생각이 든다.
+인스턴스 모니터링을 분석하거나, 톰캣의 스레디풀 등을 조사하기 보다 알고 있는 문제에 먼저 덤볐다.
+이게 ‘진짜 문제’가 맞기를 빌면서…
+어쩌면 다른 문제 또한 있었고 함께 해결했다면 tps를 더 개선할 수 있었을 것 같다.
+문제 단위를 충분히 잘게 쪼개는 동시에, 컴포트존 너머의 영역에도 도전하기를 의식적으로 수행해야겠다.</p>
+<br>
+<div class="table-of-contents">
+<ul>
+<li>
+<p><a href="#-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0">🏗 인프라 구조</a></p>
+<ul>
+<li><a href="#%EA%B8%B0%EC%A1%B4-%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0">기존 프로덕션 인프라 구조</a></li>
+<li><a href="#%EC%8B%A0%EA%B7%9C-%EC%84%9C%EB%B2%84-%EB%8F%84%EC%9E%85-%ED%9B%84-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%A1%B0">신규 서버 도입 후 인프라 구조</a></li>
+<li><a href="#%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9D%B8%ED%94%84%EB%9D%BC">부하테스트 인프라</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%EC%A7%9C%EA%B8%B0">📝 테스트 시나리오 짜기</a></p>
+<ul>
+<li><a href="#%EB%AA%A9%ED%91%9C-%ED%8A%B8%EB%9E%98%ED%94%BD-%EC%B2%98%EB%A6%AC%EB%9F%89-%EC%84%A4%EC%A0%95">목표 트래픽 처리량 설정</a></li>
+<li><a href="#%EC%9C%A0%EC%A0%80-%ED%96%89%EB%8F%99-%EC%84%A4%EC%A0%95">유저 행동 설정</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#-%ED%85%8C%EC%8A%A4%ED%8C%85-%ED%88%B4-%EC%84%A0%EC%A0%95">🧪 테스팅 툴 선정</a></p>
+<ul>
+<li><a href="#hey">hey</a></li>
+<li><a href="#k6-%ED%95%98%EB%A0%A4%EB%8B%A4-%EB%AA%BB-%ED%95%A8">k6 하려다 못 함</a></li>
+<li><a href="#%EF%B8%8F-artillery">⭐️ artillery</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#%EF%B8%8F-yaml%EB%A1%9C-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4-%EC%9E%91%EC%84%B1">✍️ yaml로 시나리오 작성</a></p>
+</li>
+<li>
+<p><a href="#-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0">🛠 문제 해결하기</a></p>
+<ul>
+<li><a href="#%EC%98%88%EC%83%81%EC%B9%98-%EB%AA%BB%ED%95%9C-%EC%82%BD%EC%A7%88">예상치 못한 삽질</a></li>
+<li><a href="#%EA%B7%B8%EB%9E%98%EB%8F%84-%EC%98%88%EC%83%81-%EB%B2%94%EC%9C%84%EC%98%80%EB%8D%98-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0">그래도 예상 범위였던 문제 해결하기</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#-%EC%A7%A7%EC%9D%80-%ED%9A%8C%EA%B3%A0">💬 짧은 회고</a></p>
+</li>
+</ul>
+</div></div></div><div class="post-navigator"><div class="post-navigator-card-wrapper"><a class="post-card prev" href="/book-objects/"><div class="direction">이전 글</div><div class="title">열 번 들어 안 기억하는 나를 위한 친절한 오브젝트</div></a></div><div class="post-navigator-card-wrapper"></div></div><div class="utterances"></div></main><footer class="page-footer-wrapper"><p class="page-footer">© <!-- -->2023<!-- --> <a href="https://github.com/hyewoncc">최혜원</a> powered by<a href="https://github.com/zoomKoding/zoomkoding-gatsby-blog"> zoomkoding-gatsby-blog</a></p></footer><div class="dark-mode-button-wrapper"><button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium dark-mode-button css-1yxmbwk" tabindex="0" type="button"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge dark-mode-icon css-6flbmm" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DarkModeIcon"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"></path></svg></button></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/load-test/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-698faeaaa3a2e980843b.js\"],\"component---cache-caches-gatsby-plugin-offline-app-shell-js\":[\"/component---cache-caches-gatsby-plugin-offline-app-shell-js-7d2390e45387f77150e7.js\"],\"component---src-pages-404-js\":[\"/component---src-pages-404-js-c63686867eac418b4a83.js\"],\"component---src-pages-about-js\":[\"/component---src-pages-about-js-6ff3e1e677f249e3d5a0.js\"],\"component---src-pages-index-js\":[\"/component---src-pages-index-js-cda9041956cb96426cc7.js\"],\"component---src-templates-blog-template-js\":[\"/component---src-templates-blog-template-js-c9d6f6cc05a9faacf210.js\"],\"component---src-templates-category-template-js\":[\"/component---src-templates-category-template-js-d2acca944737816567e6.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="f0064e9ac81f6c7815b7";</script><script src="/webpack-runtime-7b9a65587cf10e19ad02.js" async></script><script src="/framework-6311fb43802fa1f7615d.js" async></script><script src="/app-698faeaaa3a2e980843b.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
