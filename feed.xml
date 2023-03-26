@@ -1,4 +1,406 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 12 Mar 2023 05:51:21 GMT</lastBuildDate><item><title><![CDATA[서버 오픈 전 부하테스트로 대비하기]]></title><description><![CDATA[💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다. 디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 26 Mar 2023 14:16:49 GMT</lastBuildDate><item><title><![CDATA[[JPA] 실종된 데이터와 연관 객체 조회하기]]></title><description><![CDATA[백엔드 면접 단골 질문 중 하나가 이다.
+물론 몇 달 전까지 나도 줄줄 외우고 있었다.
+dto…]]></description><link>https://hyewoncc.github.io/fetch-join-and-entity-graph/</link><guid isPermaLink="false">https://hyewoncc.github.io/fetch-join-and-entity-graph/</guid><pubDate>Sun, 26 Mar 2023 14:18:00 GMT</pubDate><content:encoded>&lt;p&gt;백엔드 면접 단골 질문 중 하나가 &lt;code class=&quot;language-text&quot;&gt;JPA N+1 문제를 어떻게 해결하나요?&lt;/code&gt;이다.
+물론 몇 달 전까지 나도 줄줄 외우고 있었다.
+dto로 갖고 오던가, 페치 조인이 엔티티 그래프가 어쩌고 배치 사이즈를…
+그리고 몇 개는 실제로 적용해서 문제를 해결해보기도 했지만, 비교적 전형적인 케이스만 다뤘기에 적용했더니 해결됐다, 끝! 이었다.
+그래서 최근에 &lt;code class=&quot;language-text&quot;&gt;N+1&lt;/code&gt;을 해결하기 위해 페치 조인을 쓰다가 동작을 잘 모른다는 걸 알게 되었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-문제-상황&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C-%EC%83%81%ED%99%A9&quot; aria-label=&quot; 문제 상황 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🎁 문제 상황&lt;/h2&gt;
+&lt;p&gt;단방향 연관관계를 가진 두 엔티티가 있다.
+&lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;는 유저가 획득한 아이템이다.
+&lt;code class=&quot;language-text&quot;&gt;ItemLog&lt;/code&gt;는 아이템을 획득, 또는 사용될 때 생기는 로그다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;strategy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@ElementCollection&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@CollectionTable&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_acquire_log&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; joinColumns &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token annotation punctuation&quot;&gt;@JoinColumn&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_acquire_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_log_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; itemLogIds &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemLog&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;strategy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Enumerated&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;EnumType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Action&lt;/span&gt; action&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Action&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token constant&quot;&gt;ACQUIRE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token constant&quot;&gt;USE&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;엔티티 &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;ItemLog&lt;/code&gt;는 다음과 같은 비즈니스 로직을 가진다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;아이템 로그는 아이템에 취한 행동에 따라 &lt;code class=&quot;language-text&quot;&gt;ACQUIRE(획득)&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;USE(사용)&lt;/code&gt;이 정해진다.&lt;/li&gt;
+&lt;li&gt;아이템 획득은 &lt;code class=&quot;language-text&quot;&gt;ItemAcquire 생성&lt;/code&gt; -&gt; &lt;code class=&quot;language-text&quot;&gt;ItemLog(action = ACQUIRE) 생성&lt;/code&gt; 순서로 이뤄진다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;아이템 획득 생성&lt;/code&gt; 이 후 &lt;code class=&quot;language-text&quot;&gt;아이템 획득 로그 생성&lt;/code&gt;까지 로직에서 문제가 생기더라도, &lt;code class=&quot;language-text&quot;&gt;아이템 획득&lt;/code&gt;은 남아야 한다.&lt;/li&gt;
+&lt;li&gt;따라서 &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;는 아이템 로그를 가지지 않을 수도 있다.&lt;/li&gt;
+&lt;li&gt;두 엔티티는 단방향 간접참조로 연결되어있다. 아이템 로그는 아이템 획득 엔티티를 모른다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;DB에는 두 테이블을 연결하는 &lt;code class=&quot;language-text&quot;&gt;item_acquire_log&lt;/code&gt; 테이블이 추가로 생성된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.77777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAwElEQVR42n2RCQqFMAxEe/8rCuIuKrgr7vOZgUr/ZiAtmSYvbWOu68KnUXN1N/6V7+qGy7ZtWNdV+3Ecj2Ba27YoigJ1XeM8T7k9N1yapkEcx/B9H3meC0y96zpEUYQgCBCGoUDU+75Xnud5gs7zfEPNvu8SkyRBmqZKHIZBXpblrXMnkM0YV1WFaZr0sjcgOzKRAMJZYBN4wyzL1ITF4zjKGbMBX/YFxINZOH1ZFjV0/9b+nzswYw9/+dM0/035Bf6UIhZ8KoWBAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;diagram&quot;
+        title=&quot;&quot;
+        src=&quot;/static/acba0fb5e13cd69ce1ea9c87a7168eed/37523/diagram.png&quot;
+        srcset=&quot;/static/acba0fb5e13cd69ce1ea9c87a7168eed/e9ff0/diagram.png 180w,
+/static/acba0fb5e13cd69ce1ea9c87a7168eed/f21e7/diagram.png 360w,
+/static/acba0fb5e13cd69ce1ea9c87a7168eed/37523/diagram.png 720w,
+/static/acba0fb5e13cd69ce1ea9c87a7168eed/302a4/diagram.png 1080w,
+/static/acba0fb5e13cd69ce1ea9c87a7168eed/2cefc/diagram.png 1400w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;acquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt; itemAcquire &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; itemAcquireRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;포션&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;// 여기서 예외가 발생하더라도 itemAcquire는 저장되어야 한다. 논리적으로 분리된 단위다. &lt;/span&gt;
+        inventoryService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemAcquire&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        itemLogRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemLog&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemAcquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Action&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;ACQUIRE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;예상 가능하듯이, &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;를 조회하고 하위 &lt;code class=&quot;language-text&quot;&gt;itemLogIds&lt;/code&gt;에 접근할 때 추가 조회 쿼리가 발생한다.
+이를 해결하기 위해 페치 조인을 사용했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquireRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Query&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;select i from ItemAcquire i join fetch i.itemLogIds where c.id = :id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Param&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;조회 쿼리는 원하는 대로 join을 사용하게 고쳐졌으나, &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;를 조회하는 몇 테스트가 실패했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;acquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt; itemAcquire &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; itemAcquireRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;포션&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;// 여기서 예외가 발생하더라도 itemAcquire는 저장되어야 한다. 논리적으로 분리된 단위다. &lt;/span&gt;
+        inventoryService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemAcquire&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        itemLogRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemLog&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemAcquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Action&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;ACQUIRE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; itemAcquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquireRepository&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;orElseThrow&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemNotExistException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@DisplayName&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;아이템이 생성되나 유저 인벤토리 등록에 실패한다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Test&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;failPutInInventory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; itemService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;acquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// ItemNotExistException 발생 &lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt; item &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; itemService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token function&quot;&gt;assertThat&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;item&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getItemLogIds&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;내가 기대한 결과는 &lt;code class=&quot;language-text&quot;&gt;빈 itemLogIds를 갖는 ItemAcquire가 조회된다&lt;/code&gt;였으나, 실제로는 &lt;code class=&quot;language-text&quot;&gt;ItemNotExistException&lt;/code&gt; 예외가 발생했다.
+이상한 점은 &lt;code class=&quot;language-text&quot;&gt;itemId&lt;/code&gt;을 id로 갖는 &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt;가 분명 존재한다는 것이었다.
+이유를 모른 채로 다른 &lt;code class=&quot;language-text&quot;&gt;N+1&lt;/code&gt; 해결책인 &lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;를 적용해 변경했더니 통과했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquireRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@EntityGraph&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;attributePaths &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;itemLogIds&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;를 사용하는 경우에는 의도대로 &lt;code class=&quot;language-text&quot;&gt;빈 itemLogIds를 갖는 ItemAcquire&lt;/code&gt;가 조회된다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-원인-탐색&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9B%90%EC%9D%B8-%ED%83%90%EC%83%89&quot; aria-label=&quot; 원인 탐색 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🔍 원인 탐색&lt;/h2&gt;
+&lt;p&gt;각 경우에 실행되는 sql문을 비교해 원인을 찾을 수 있었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# join fetch로 실행되는 sql &lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt;
+    itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;item_log_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; item_log_id 
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt;
+    item_acquire itemacquire 
+&lt;span class=&quot;token keyword&quot;&gt;inner&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+    item_log itemlog 
+        &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;itemlog&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;item_acquire_id 
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt;
+    item_acquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;?
+
+&lt;span class=&quot;token comment&quot;&gt;# EntityGraph로 실행되는 sql &lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;select&lt;/span&gt;
+    itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;item_log_id &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; item_log_id 
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt;
+    item_acquire itemacquire 
+&lt;span class=&quot;token keyword&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;outer&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;join&lt;/span&gt;
+    item_log itemlog 
+        &lt;span class=&quot;token keyword&quot;&gt;on&lt;/span&gt; itemacquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;itemlog&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;item_acquire_id 
+&lt;span class=&quot;token keyword&quot;&gt;where&lt;/span&gt;
+    item_acquire&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;?&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;  
+&lt;h3 id=&quot;inner-join과-outer-join&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#inner-join%EA%B3%BC-outer-join&quot; aria-label=&quot;inner join과 outer join permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;inner join과 outer join&lt;/h3&gt;
+&lt;p&gt;테이블에 다음과 같은 데이터가 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 27.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA6klEQVR42kWQXW8CIRRE/f//zbTpgxvTNNHUal2N+8ECFy5wGtjaPgy5wHAyw6aUAhSCFuYlMC0e4xTNIFowNjIvwmwDPhY0FSQWrCQm47GS23nOlQObJ/DyEN7ee166E7vDwGiVw7dh232x3Z3Ydie648hslWPv2X/OvO7P7A4PPi4OiXkF1qVCQ4h4LyzL0mYJkWEYuV57ptlwu9+bNGWscxhjiJra/ThOlDXgCswVqJkQFeeEWGdN1BYprzVTVZszXiLOB6wo/e3OY5j+Kz8TNrMmYtT26Gng90tWrdvm09R8znlEwl/CH0HMhBEaFvVUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;data&quot;
+        title=&quot;&quot;
+        src=&quot;/static/a7b52e526ccada51c42af6536228b104/37523/data.png&quot;
+        srcset=&quot;/static/a7b52e526ccada51c42af6536228b104/e9ff0/data.png 180w,
+/static/a7b52e526ccada51c42af6536228b104/f21e7/data.png 360w,
+/static/a7b52e526ccada51c42af6536228b104/37523/data.png 720w,
+/static/a7b52e526ccada51c42af6536228b104/302a4/data.png 1080w,
+/static/a7b52e526ccada51c42af6536228b104/07a9c/data.png 1440w,
+/static/a7b52e526ccada51c42af6536228b104/95e59/data.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;inner join&lt;/code&gt;을 사용할 경우, 조인 테이블에 join에 사용되는 id값이 없다면 조회가 되지 않는다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 27.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA9klEQVR42l2R3U7CQBSEef8n48JEUNQSWQtI6RZo3druX9vdz2z1Rs7FmcxkMplkFhCJEawPtL1DdZbejkwhYnzgW3va3s5oh8g4xRmTJ+nG//KYQoBFeomcrp4XceNpKxGFpjMBUfSsMsk6K1lnkn1p6MyEKA3ZUbHannk7KPaVZZzC/0DZVhxuB/JLTqFO1PpG9rllk29mbfPxzO78jhscfa/RWjOOE1KWMw/3DVX1yvW4pNovaYoHjG740jVNV9EYRZ24VShX814JxEUgrjmPuxU7KZjCXUPGAQZH9BZGD3+G+0te7TTaG4w3tH2LdiYtkebgB0D2frjtH2kbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;inner join&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b39704f6301d969ad0e3bd42128bea38/37523/inner_join.png&quot;
+        srcset=&quot;/static/b39704f6301d969ad0e3bd42128bea38/e9ff0/inner_join.png 180w,
+/static/b39704f6301d969ad0e3bd42128bea38/f21e7/inner_join.png 360w,
+/static/b39704f6301d969ad0e3bd42128bea38/37523/inner_join.png 720w,
+/static/b39704f6301d969ad0e3bd42128bea38/302a4/inner_join.png 1080w,
+/static/b39704f6301d969ad0e3bd42128bea38/07a9c/inner_join.png 1440w,
+/static/b39704f6301d969ad0e3bd42128bea38/95e59/inner_join.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;각 id에 대해 &lt;code class=&quot;language-text&quot;&gt;findBy(Long id)&lt;/code&gt;를 시행하면 하나의 엔티티만 나온다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ItemAcquire(id=1L, itemLogIds = [2L])&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;p&gt;반면, &lt;code class=&quot;language-text&quot;&gt;left outer join&lt;/code&gt;은 join에 사용되는 id값이 없더라도 조회가 된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 27.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA/klEQVR42lWPW2+CQBSE/f9/rOlDffBSoyCoBFlQ5LbLLrC7XyONqT3JnMzknExmFuDxHqS2lI3iVkkaNTJZT6ctj7anrBWPVqOMY7QOaTy1HCibfv5Rg8M/TYDFcznvSe8Du6hkE+SchUb2jmMqWR/EjNVekBSGrrfEQrO/1KwDwT5pSG4G69y7oSOrr5zvJ05FRFollKpkd/lmG68532I20YpjFmBGg1JqxjhZsuyKVOp/Qu8ctdhyv3ySxx9U6RLdZXRS0Mqcpk1pOkEncyqVc8hDgiIkLI58HZaEIppb/hk+hZtgGmEawI6/+jX+jXqPHvWc1EwG2cuZv24/z4B+fJz7yQgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;outer join&quot;
+        title=&quot;&quot;
+        src=&quot;/static/f405def3baea772f979068a2ab98a0b1/37523/outer_join.png&quot;
+        srcset=&quot;/static/f405def3baea772f979068a2ab98a0b1/e9ff0/outer_join.png 180w,
+/static/f405def3baea772f979068a2ab98a0b1/f21e7/outer_join.png 360w,
+/static/f405def3baea772f979068a2ab98a0b1/37523/outer_join.png 720w,
+/static/f405def3baea772f979068a2ab98a0b1/302a4/outer_join.png 1080w,
+/static/f405def3baea772f979068a2ab98a0b1/07a9c/outer_join.png 1440w,
+/static/f405def3baea772f979068a2ab98a0b1/95e59/outer_join.png 1460w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;각 id에 대해 &lt;code class=&quot;language-text&quot;&gt;findBy(Long id)&lt;/code&gt;를 시행하면 두 개의 엔티티가 나온다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ItemAcquire(id=1L, itemLogIds = [2L])&lt;/li&gt;
+&lt;li&gt;ItemAcquire(id=2L, itemLogIds = [ ])&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;의도한 join 방식이 &lt;code class=&quot;language-text&quot;&gt;left outer join&lt;/code&gt;이기에 우선 &lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;를 적용해 해결했다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-적용할-수-있었던-다른-선택지들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%A0%81%EC%9A%A9%ED%95%A0-%EC%88%98-%EC%9E%88%EC%97%88%EB%8D%98-%EB%8B%A4%EB%A5%B8-%EC%84%A0%ED%83%9D%EC%A7%80%EB%93%A4&quot; aria-label=&quot; 적용할 수 있었던 다른 선택지들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🍷 적용할 수 있었던 다른 선택지들&lt;/h2&gt;
+&lt;h3 id=&quot;left-join-fetch&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#left-join-fetch&quot; aria-label=&quot;left join fetch permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;left join fetch&lt;/h3&gt;
+&lt;p&gt;JPQL에 &lt;code class=&quot;language-text&quot;&gt;left join fetch&lt;/code&gt;를 쓰면 &lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;와 동일하게 &lt;code class=&quot;language-text&quot;&gt;outer join&lt;/code&gt;으로 가져올 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquireRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Query&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;select i from ItemAcquire i left join fetch i.itemLogIds where c.id = :id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Param&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;  
+&lt;h3 id=&quot;fetchtypeeager-하지만&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#fetchtypeeager-%ED%95%98%EC%A7%80%EB%A7%8C&quot; aria-label=&quot;fetchtypeeager 하지만 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;FetchType.EAGER, 하지만…&lt;/h3&gt;
+&lt;p&gt;또는, &lt;code class=&quot;language-text&quot;&gt;itemLogIds&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;FetchType.EAGER&lt;/code&gt;를 사용하는 것도 방법이다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemAcquire&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;strategy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@ElementCollection&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;fetch &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;FetchType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;EAGER&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@CollectionTable&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_acquire_log&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; joinColumns &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token annotation punctuation&quot;&gt;@JoinColumn&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_acquire_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;item_log_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; itemLogIds &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;하지만 이 방법은 &lt;a href=&quot;https://docs.jboss.org/hibernate/orm/5.5/userguide/html_single/Hibernate_User_Guide.html#fetching-strategies-dynamic-fetching-entity-graph&quot;&gt;Hibernate 공식 문서&lt;/a&gt;에서 권장하지 않는다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;JPQL 쿼리에서 EAGER 연관관계가 생략된 경우, Hibernate는 각 객체의 EAGER 연관관계를 조회하기 위해 또 다른 조회문을 실행해 N+1 문제가 발생하게 됩니다.
+따라서 LAZY를 설정하고 필요할 때만 쿼리별로 EAGER를 적용하는 게 낫습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;left outer join&lt;/code&gt;을 사용하거나, &lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;를 이용하는 게 낫다.
+&lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;의 경우 &lt;a href=&quot;https://docs.jboss.org/hibernate/orm/5.5/userguide/html_single/Hibernate_User_Guide.html#fetching-strategies-dynamic-fetching-entity-subgraph&quot;&gt;Hibernate 공식 문서&lt;/a&gt;의 예시에는 &lt;code class=&quot;language-text&quot;&gt;inner join&lt;/code&gt;이 실행된다.
+내가 겪은 문제처럼 연관관계에 따라 엔티티가 조회되지 않을 수도 있는 경우에는 &lt;code class=&quot;language-text&quot;&gt;outer join&lt;/code&gt;을 실행하도록 구현되어있는 것 같다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;️-이상과-현실&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%9D%B4%EC%83%81%EA%B3%BC-%ED%98%84%EC%8B%A4&quot; aria-label=&quot;️ 이상과 현실 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;☁️ 이상과 현실&lt;/h2&gt;
+&lt;p&gt;일을 하면서 내 지식의 얕음을 마주칠 때 마다 부끄러움 반 더 열심히 공부하자는 투지 반이 든다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 47.77777777777777%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABu0lEQVR42m2Sb2/SUBSH9/0/hMZX7oVME7c5DAlMF9kkk0HbSJuW0gLtbW+hfyhDh+1jqEAm4yQ3J+ck57m/e+7vBKAsy00iX+Touo5lWeR5zmEURcGx2M1v4mRT7BrCF3Q6nQqaZRlJkhCGEiEEURQhpUTKiCAIqiOjaH/JjvEfcJakWLZNEEps20ZVFOZJRrZcEYYhqqpUeZ4uiLMFSZZTbGefAauKTVquSxZPBenqCcseYZgmYhaT/v6DmCdV7XqCOF8SpylRklVzPBNVKdwB/SjG8wWOTHCCGYYzqdSOxhP00QQ3fsSMcrp9le6PLpN0dRxYlv/20FYMrpstHgwbc7akJ3IUVeVe06l9uMQYGGSPv7ht33H9pY21KFkX1RNfKtz0XSG5ad9iOw6TOGcgEn4OdJypjzby0IYuUy/gvq9w872DH8rtDg+BW0v4nodpDjF0g+FU4I4nzKKIh56KDEP64xBtHNDrKXz83OLrt7v9hxz95aE1pPauxtWnqwrmC0Gr2eTV6zecn1/g+T6hlFxeXPL29BTXdV8CD42paVplmV00Gg3en51Rr9dZr9dVL47jPezQ2H8B+2TwPACmy4MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;순히포&quot;
+        title=&quot;&quot;
+        src=&quot;/static/fc57fc2e46ccc296e843dddf5b2ba765/37523/shp1.png&quot;
+        srcset=&quot;/static/fc57fc2e46ccc296e843dddf5b2ba765/e9ff0/shp1.png 180w,
+/static/fc57fc2e46ccc296e843dddf5b2ba765/f21e7/shp1.png 360w,
+/static/fc57fc2e46ccc296e843dddf5b2ba765/37523/shp1.png 720w,
+/static/fc57fc2e46ccc296e843dddf5b2ba765/302a4/shp1.png 1080w,
+/static/fc57fc2e46ccc296e843dddf5b2ba765/07a9c/shp1.png 1440w,
+/static/fc57fc2e46ccc296e843dddf5b2ba765/29007/shp1.png 1600w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 47.77777777777777%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABmElEQVR42pWSXU8aQRSG/V+9MPFfNfEKbbwyKqnGNOmFCbIaMBGiFS3FthYMhI/AtrsFDaTsjssKJmQrCpTdp1lEUEQTz81Mzsz7zHvOmSnHcXDDXe/3zWYTRVFQVRW/34/P50OSJLa2JILBAJZlDTXg6hhqp54DyrJMqajw8cMiC563vF9+h3dpjlXvAjXD6N+zbfspcEDDYZRstVqU1DTFX3HgElH5Se9GY3dng8j+Nn+t5piJO93QoXMPdRx6Pbt/MO+ZZWb6DaIqUzqv0KgLlEKMdDLC1VX9SVUjh2PAQZ698DbrK2uYusq5mqGmyVxbNYyLMvVL8wGQQdnOZIdudLod4l9OON77zplSoG6UyebzpJI5jnc3MYR2B5zUw4nAdpvP4SNioSj5WAjTMMikPpE+jZAKLGFevACcNJTO7TWxwCaJgx9UMkm0qoYo5/jz+xvhoIQQ+kBmD0t+NJTxBv9r3xD1rRPeOSQaCpA//UoynkBRS6QzWRqNxuv+ofuyWTOoVKvoQu+XLHQNoet9WLfbfRb4H5Hl6PQf0Df6AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;순히포&quot;
+        title=&quot;&quot;
+        src=&quot;/static/632d4f2e378a0243e2e5290c1638c7d2/37523/shp2.png&quot;
+        srcset=&quot;/static/632d4f2e378a0243e2e5290c1638c7d2/e9ff0/shp2.png 180w,
+/static/632d4f2e378a0243e2e5290c1638c7d2/f21e7/shp2.png 360w,
+/static/632d4f2e378a0243e2e5290c1638c7d2/37523/shp2.png 720w,
+/static/632d4f2e378a0243e2e5290c1638c7d2/302a4/shp2.png 1080w,
+/static/632d4f2e378a0243e2e5290c1638c7d2/07a9c/shp2.png 1440w,
+/static/632d4f2e378a0243e2e5290c1638c7d2/29007/shp2.png 1600w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  다음 웹툰 순정 히포크라테스. 초반엔 딱 이런 심정이었는데 요새는 이 정도는 아니고🥹 좋아하는 웹툰이라 가져와봤다.  
+&lt;/div&gt;  
+&lt;br&gt;  
+&lt;p&gt;이번 문제는 도메인 로직 때문에 생경한 조합을 사용하면서 마주쳤다.
+&lt;code class=&quot;language-text&quot;&gt;@ElementCollection&lt;/code&gt;을 처음 써봤으며 트랜잭션도 일부 구간만 묶여있다.
+‘전형적인’ 경우였다면 &lt;code class=&quot;language-text&quot;&gt;ItemAcquire&lt;/code&gt; 생성과 &lt;code class=&quot;language-text&quot;&gt;ItemLog&lt;/code&gt; 생성이 동일 트랜잭션으로 묶여있어, 한 쪽만 생기는 일이 없었을 것 같다.&lt;/p&gt;
+&lt;p&gt;이런 일을 마주하면 앞으로 어떻게 공부해야 더 깊이있고 효율적이게 공부할 수 있을까 고민이 든다.
+물론 처음부터 꼼꼼하게 공부한다면 좋았겠지만, 새로운 기술을 배우면서 야생형으로 학습하기 보다 경우의 수를 정복하는 데 중점을 두는 건 좋은 해결책이 아니라고 생각한다.
+우테코 때 부터 계속 했던 고민이라 선택한 극복법 중에 하나가 “관련된 부분 공식 문서 읽기”였는데 소홀해진 것 같아 반성했다.&lt;/p&gt;
+&lt;p&gt;챗지피티 얘기를 지금 하면 뜬금없는 뒷북같긴 하지만, 그 때만 해도 공식 문서를 찾는 것 부터 일이었는데, 요즘은 문제의 키워드를 얻거나 관련 문서 링크를 찾는 데에 정말 유용하게 쓰는 중이다. 몇 달 새에 무서울 정도로 공부하기가 쉬워졌다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 23.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA+klEQVR42oWO206DUBBF+SFjYrXQUmMLBywUOKBVbofWSy+giYmxfv8yPTa1bz7srJ09kz1jnE0qzkWDOwmZuAnCSxEixdWSeH6GNfC46N3Quxz/K+NqGNK3Q+zRlKE91bRHwYFT7OtAF/YtgWkJ+uYpPayBjznwdLanIZ5XiNc1s6AgkopYKmZxTSwb7aNEkWSL40xmS6KkRt4tCaOKsZMi/AfthT/HcOICP1MU5Yay3pKXa4pqQ6Va6qajUp2mWrzprKxbmuW79o/F7+7+gOvND4VuRhDkbLsdbffNav3Jpv3i6eXj+GUiG5L0z5/mMltwG+Q44l4X/gD9lb1PGVhICQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;chatgpt&quot;
+        title=&quot;&quot;
+        src=&quot;/static/4d225b73cc6bd5812e7ead4a93077d48/37523/chatgpt.png&quot;
+        srcset=&quot;/static/4d225b73cc6bd5812e7ead4a93077d48/e9ff0/chatgpt.png 180w,
+/static/4d225b73cc6bd5812e7ead4a93077d48/f21e7/chatgpt.png 360w,
+/static/4d225b73cc6bd5812e7ead4a93077d48/37523/chatgpt.png 720w,
+/static/4d225b73cc6bd5812e7ead4a93077d48/302a4/chatgpt.png 1080w,
+/static/4d225b73cc6bd5812e7ead4a93077d48/07a9c/chatgpt.png 1440w,
+/static/4d225b73cc6bd5812e7ead4a93077d48/9f9a4/chatgpt.png 1560w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  존재하지 않는 섹션 링크를 붙이는 정도는 눈감아주자...
+&lt;/div&gt;  
+&lt;br&gt;  
+&lt;p&gt;이번 문제는 페이지네이션이 없어서 평일에 &lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;만 적용하고 넘어갔었다.
+주말에 공부를 하면서 공식 문서를 읽다 보니 &lt;code class=&quot;language-text&quot;&gt;@BatchSize&lt;/code&gt;보다 dto 프로젝션, 또는 fetch join을 권장한다는 것,
+&lt;code class=&quot;language-text&quot;&gt;@EntityGraph&lt;/code&gt;도 디폴트 &lt;code class=&quot;language-text&quot;&gt;EntityGraphType&lt;/code&gt; 옵션이 있어서 다른 옵션을 설정하면 표기한 연관 객체를 제외하고 EAGER로 불러올 수도 있다는 것… 등등
+많은 새로운 정보를 알게 됐다.
+작심삼일도 삼일마다 하면 된다고, 이번처럼 그냥 넘어가지 말고 나중에라도 공부하자고 매번 상기하고 실천해야겠다.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C-%EC%83%81%ED%99%A9&quot;&gt;🎁 문제 상황&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%9B%90%EC%9D%B8-%ED%83%90%EC%83%89&quot;&gt;🔍 원인 탐색&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#inner-join%EA%B3%BC-outer-join&quot;&gt;inner join과 outer join&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%A0%81%EC%9A%A9%ED%95%A0-%EC%88%98-%EC%9E%88%EC%97%88%EB%8D%98-%EB%8B%A4%EB%A5%B8-%EC%84%A0%ED%83%9D%EC%A7%80%EB%93%A4&quot;&gt;🍷 적용할 수 있었던 다른 선택지들&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#left-join-fetch&quot;&gt;left join fetch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#fetchtypeeager-%ED%95%98%EC%A7%80%EB%A7%8C&quot;&gt;FetchType.EAGER, 하지만…&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%9D%B4%EC%83%81%EA%B3%BC-%ED%98%84%EC%8B%A4&quot;&gt;☁️ 이상과 현실&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[서버 오픈 전 부하테스트로 대비하기]]></title><description><![CDATA[💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다. 디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
 전체 사이클에서 내 생각에 한 8…]]></description><link>https://hyewoncc.github.io/load-test/</link><guid isPermaLink="false">https://hyewoncc.github.io/load-test/</guid><pubDate>Sun, 12 Mar 2023 05:50:00 GMT</pubDate><content:encoded>&lt;p&gt;💡 해당 글은 사내에 작성한 문서를 허가 하에 개인 포스팅용으로 적절히 수정한 글입니다.&lt;/p&gt;
 &lt;p&gt;디어에 입사하고 처음 맡은 일은 개발 중이던 신규 인터널 API 서버 개발을 마무리하고 프로덕션 환경에 올리는 것이었다.
 전체 사이클에서 내 생각에 한 80% 지점에 참여하게 되었다.
