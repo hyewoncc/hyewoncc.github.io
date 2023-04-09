@@ -1,4 +1,458 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 26 Mar 2023 14:16:49 GMT</lastBuildDate><item><title><![CDATA[[JPA] 실종된 데이터와 연관 객체 조회하기]]></title><description><![CDATA[백엔드 면접 단골 질문 중 하나가 이다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 09 Apr 2023 13:33:06 GMT</lastBuildDate><item><title><![CDATA[이상한 부업 일기 - 나는 얼마나 고객을 알고 있을까]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/weird-side-job-1/</link><guid isPermaLink="false">https://hyewoncc.github.io/weird-side-job-1/</guid><pubDate>Sun, 09 Apr 2023 13:35:00 GMT</pubDate><content:encoded>&lt;p&gt;어느날 문득 천재적인 생각이 떠올랐다.
+‘벚꽃철에 석촌호수에서 폴라로이드 사진을 돈 받고 찍으면 부자가 될 수 있지 않을까?’&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 41.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABWElEQVR42n2SzSuEURTGJ3+DpChmYTGZhaSkFM0QspQNe38ASTI7jCTKlhkf+UgWFENKNiLF28yIjUYW3umVha+YMTO99/4016Xx0ZzN6fQ857nP07kOdEkpdReqi2Sc0y0f28Fe0lZIzbbkmyO/dvTeVzlyhyxRKPyJ8/V2+tocDHUUYMy5wewC0498j2uy+GHkj2AWkNL+fPluDfukntudJqw9L5GlWlZ8TrZGSrCj3ZC+1w4Fv+uPoIp7MwVhD9Z+CwfTbnYnXMz2lmIs1kHEi4gNK0HUTl6HOsZLGIw2rLUqNsdcLAw6mekv53immtfDZoh2IjOP+SMrUBG0SytEKlgMRiscergOVLIyUMZkTyFmqBHkA+Kf2I6ci/yIIIXgbb6GZ38BiUARcqMCzhpIHHlJXY3npMp7Zal1P0nixSRzsYp9OYq89WPHlyEZ+07z+8tkBT8AOMo+mHrCILAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;hmm&quot;
+        title=&quot;&quot;
+        src=&quot;/static/2fea1c5946edf51051ec5a940e84d203/37523/hmm.png&quot;
+        srcset=&quot;/static/2fea1c5946edf51051ec5a940e84d203/e9ff0/hmm.png 180w,
+/static/2fea1c5946edf51051ec5a940e84d203/f21e7/hmm.png 360w,
+/static/2fea1c5946edf51051ec5a940e84d203/37523/hmm.png 720w,
+/static/2fea1c5946edf51051ec5a940e84d203/302a4/hmm.png 1080w,
+/static/2fea1c5946edf51051ec5a940e84d203/07a9c/hmm.png 1440w,
+/static/2fea1c5946edf51051ec5a940e84d203/29007/hmm.png 1600w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;우리 회사엔 &lt;code class=&quot;language-text&quot;&gt;가설과 팩트를 구분하자&lt;/code&gt;는 그라운드 룰이 있다.
+예시로 ‘비오는 날에 킥보드 이용이 줄어든다’는 팩트, ‘킥보드에 우산을 달면 이용률이 올라갈 것이다’는 가설이다.
+이 룰에 따라 내 발상을 표현하자면 다음과 같다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;팩트
+&lt;ul&gt;
+&lt;li&gt;인생네컷과 같은 사진 촬영, 즉석 출력 서비스가 인기가 많다.&lt;/li&gt;
+&lt;li&gt;인생네컷에는 지역, 계절별로 특별한 프레임, 예를 들어 벚꽃 프레임 같은 것이 한정판으로 존재한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;가설
+&lt;ul&gt;
+&lt;li&gt;요즘 사람들은 디지털 사진을 찍는 것이 대부분이다. 그래서 실물 사진을 갖고 싶어 한다.&lt;/li&gt;
+&lt;li&gt;사실 인생네컷 같은 실물 사진을 벚꽃과 함께 찍고싶지만, 그러기 힘들어서 벚꽃 프레임 같은 걸로 대리만족 하고있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 아이디어를 회사 사람들에게 얘기했을 때, 소수의 몇명은 돈이 되겠다 동의하고 몇명은 반대했다.
+제일 긍정적인 의견이 한 10만원 벌 것 같다 였고, 제일 비관적인 의견은 만원이나 벌면 다행이라 했다.
+이 쯤 되니 진짜 얼마가 벌리나 너무너무 궁금해졌다.&lt;/p&gt;
+&lt;p&gt;그래서 해봤다.
+폴라로이드 사진기조차 없엇지만, 내 예상 만큼 수익이 나면 당연히 카메라 가격은 번다고 생각해서 당근으로 구매했다.
+폴라로이드 필름도 100장 시켰다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 42.22222222222223%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABTElEQVR42n2RvU7DMBSFeWtegJWF5wCJoR1ADAxMSPyUFqmAOkALJU0KTWwnvo7tD8VVESBgsK5ln/P5+twtgBhjVxBr0VWJE8FoRVMbtKpwYpPGOYeIkGUZxpjkCSF8+ru69RVYFjnj4ZCX/J2yFoyLNB4CYK2lLEuslQT23tPYFud8R6BDfAfGmIzq+QG57sH4BIZ9uDyA2QBVN0xnM+rWEJISWt+t+DewuyqXSybX5zyNLphP7tFFBq0QYmT0OGKa5WT5knyx4PV1njrfML4B17+OeB9oGksns3dnyP427aCXTLpakRdFys+K8Pb2/jdwE3ClDIX25A0s5nOqyQD0cj00EaqqRFyLbjwr5ZCU4a8drqFWraj6u+jDHfTRHvXxHn58muIIwSedUjrBu/2/U/YhYmuDDE+wVz3szRHhpk98vuXnw5v9z7MP0FNpHCJHmQEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;buying&quot;
+        title=&quot;&quot;
+        src=&quot;/static/7cd0810d091b665aa9b95e5a83184e32/37523/buying.png&quot;
+        srcset=&quot;/static/7cd0810d091b665aa9b95e5a83184e32/e9ff0/buying.png 180w,
+/static/7cd0810d091b665aa9b95e5a83184e32/f21e7/buying.png 360w,
+/static/7cd0810d091b665aa9b95e5a83184e32/37523/buying.png 720w,
+/static/7cd0810d091b665aa9b95e5a83184e32/302a4/buying.png 1080w,
+/static/7cd0810d091b665aa9b95e5a83184e32/07a9c/buying.png 1440w,
+/static/7cd0810d091b665aa9b95e5a83184e32/9f9a4/buying.png 1560w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;그리고 이 ‘폴라로이드 사진 찍기’로 실험할 수 있는 여러 가설이 떠올랐다.
+그 중 하나가 이 부업의 최대 병목은 ‘돈을 송금하는 시간’일 것이라는 가설이다.&lt;/p&gt;
+&lt;p&gt;그래서 가격을 적은 피켓 뒤에 카카오페이와 토스 QR도 출력해 붙였다.
+몇 년 전에 마지막으로 썼던 사진 잘 찍을 것만 같은 카메라 가방도 발굴해서 좀 더 전문가스러워 보이기 위해 멨다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 67.77777777777777%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAADOklEQVR42lXQ62scVRzG8fnn9A+QYl6JBpWoiFBKUQmk1AtB2zRBbCGmtbltssnO7s7eZzczs3M9Z2b2kuxubm7SYhLN5YVtXgmK8JVMpNgDH36Hw+Hhx6Pc+WSEOx/dYG7qLnErZnuvT7dr0G6VabcqtNtVup0am906vS2DQd9gZ2Ay3A/ZO9invdXj6FBSWHzAvVujKJO3P6CQWaK33abTMZBBjkgWiKMScViiFZXoRGW6cYVuu0Zn06c1GKJ7A35aLuNtnjAcdml7Waa/GENxnTKdrkngZxNSaISykIhFgZYo0JYlulIjiprU5TNm5jLc/Pwu777/MTk9pr9/yHDXYvXR1yhCaPiuigy0VyJfIw7+R2jE8koJU+6yf/ArZ+fnnJ5d8OLlJbvPLuj3XSIng+J7eXw/h/Q1Qi9L5GaI/ByRnycMriV3oREJFVcE/P0Pr53t55eEsWSvV70OlCKP8DPIoITj+7hujdBXkz6ln0VcVXHVrcgReBr9/d8YHr3k8PgPnh+dsLUVshlX6beKKI6totdVnLBFyegwM5ujYgSEQRbhXYcJT0V6KpGfJfLWsGwb3fTRqyrNxgqphSmks0YvKqDYzSzzaZ3xbx7x3tgt3hoZZerhKkLoBM4a0s0kn8Mr7nqiFWTQi3NMfz+OWVmgkn+CtNfZ7VZRrrop1S2qdYcwbuOJiOHhCa1uF89KJWHSSSPsdDKlex0ceyrl3BxuI8VOq0jbXSe/9ABFLz1hwyzz51+vF73Z/wWrnvovbJWguZpMaaeTbWNnjY6fQTTTuGae5kaFbz97B+XHe1/i2SqDnQOOTy85Pfudi/NjhFfGri/iWyuvBOYKYXMFYaaw9RQbNZWmtYEQks3egEYxg3L7w7cx9SUq5Ry1WolcZpbp+xPM3J/A0pdwNpbxjBSBsYxbX8CoLNOo5bFMEz8QSBkipUzErTbK2I03mJ+dxDHTPPzhK76bHGfx6TRFdQ6zuoBVm8coP0UvLFEraxiGhev5+L6P53m4rpvMIAiSN+XTkTeZuDmK2Uiz+PM0pdxjLH0Zo7xIJf8YLTNPUcvRaJg0bQ/bdrEsi2bTwrbthOM4Cdd1+Bead3yK3RqCVQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;qr&quot;
+        title=&quot;&quot;
+        src=&quot;/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/37523/qr.png&quot;
+        srcset=&quot;/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/e9ff0/qr.png 180w,
+/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/f21e7/qr.png 360w,
+/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/37523/qr.png 720w,
+/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/302a4/qr.png 1080w,
+/static/4a43a74f2507a9d0dd2c778e1ce0d8c4/b67f3/qr.png 1338w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAADF0lEQVR42h2Pa09bBQBA74f5A5yTZRrdFibb5DWT2c2qwdeYoQyGwuZmu/JaC0MHgwoK64DiihsWMl590AJ2UN593Jbe23v7CBAc05EZgplfNDEmJvonjpEPJ+fbSY7Q0fEVSiKGokjIiThJVUaSoqRTMpmUTFKRWJn14HMOM+504XaNMj3lpq+vh95uCwszDmQpgM/rIBZ5iGBp/ZJMUmJg4HuCoRDzCwtExAhqUiEuSfz67DeePZYITfQTWA4SWJzj4ZSLtvoaGo2fExN9bKyH8fmGWVn2I5SXnkNVVhl+MEQoHESMRghHQiiqTDC0wtbPP/Eo6iHk6sZ0x0ZhqY5r+iomB/q4UW1AjHjZ3lbxTY0SFecRirRvsPnjOtHwErFVkXQmuRf63/F4lCdPf0Ge7EL09qD59Ar7TxVgaGrgu44mrF/oGRmzsbOTYTbgQZZWEM4UHCWdUVlZCqCq8b1VWY6TSqmIYojf//yLpQEjjxZtfKCvZ9+hgxw/e5pzn+iouFrOkeL3uGXvZNo/jpIII2g0hcTkVSQ5zmosyPpGhoQi75FOq/z9z788XV/mj22Z8loT+w7sJyvnVbSlJVysq+O5wnyy3n8HfesN1tISgrW9hd6vmzHVV2NpaaS2thqT2Yzddpv2tmbmJwa5225GicWwOwbJP/MmRWUlmNtasPT0kqsr4YBWg7njJmtpGeHqh6cpfzuXgryTGC5dIOvQyzz/4ktcN1RSVVHKzGA7XquBzUQM75SPu/1WAnM/4A/4UdIZ7o85uVhvxOV2oEgiQsW7+WjzjvB6zmtcq9KRk53NiWPHqCw7j/FyGfJEFylfJ7uP1/F6J+mzdTLhdTIzN0MilWJja4uEEmP4wbdEw4sIF946wUenDvPKwRcoyD/J8ezDFOQcJTcvF4v5M3bCDnbEIXa31hgZdWK3W5meduP2jDG3MIsYDeP3e7ljbcUzeg+hq07HNzUlVBWfpbhIQ+V5LQ1XPsbeZiQ0fpsnwSF2oyNsyhHu3xvAZDbQdKuR6ut1XNLr0VVW0Nxcw80GA/3dbfwHCCs09NUKqTUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;bag&quot;
+        title=&quot;&quot;
+        src=&quot;/static/de4d07586d6baf7aa2abc228c3702c56/37523/bag.png&quot;
+        srcset=&quot;/static/de4d07586d6baf7aa2abc228c3702c56/e9ff0/bag.png 180w,
+/static/de4d07586d6baf7aa2abc228c3702c56/f21e7/bag.png 360w,
+/static/de4d07586d6baf7aa2abc228c3702c56/37523/bag.png 720w,
+/static/de4d07586d6baf7aa2abc228c3702c56/302a4/bag.png 1080w,
+/static/de4d07586d6baf7aa2abc228c3702c56/07a9c/bag.png 1440w,
+/static/de4d07586d6baf7aa2abc228c3702c56/66632/bag.png 1504w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-가설-정리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B0%80%EC%84%A4-%EC%A0%95%EB%A6%AC&quot; aria-label=&quot; 가설 정리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🎯 가설 정리&lt;/h2&gt;
+&lt;p&gt;폴라로이드 사진 찍기로 증명하고 싶었던 가설 목록이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;사업 감각
+&lt;ul&gt;
+&lt;li&gt;⬜️ 벚꽃 철에 폴라로이드를 찍으면 돈을 벌 수 있다&lt;/li&gt;
+&lt;li&gt;⬜️ 일요일에 최소 50만원은 벌 수 있을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 가격은 적절하게 책정되었다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 유형
+&lt;ul&gt;
+&lt;li&gt;⬜️ 커플이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 아기나 어린이를 동반한 가족이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 20대 여성 그룹(내 생각에 인생네컷을 많이 찍는…)이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 반려동물을 동반한 사람이 많을 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 행동
+&lt;ul&gt;
+&lt;li&gt;⬜️ 대부분의 사람들은 현금을 들고 다니지 않을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 이 작업의 최대 병목은 돈을 주고받거나 송금하는 시간이 될 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;과연 이 중에 얼마나 사실로 밝혀졌을까?&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;️-41-토요일---파일럿&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-41-%ED%86%A0%EC%9A%94%EC%9D%BC---%ED%8C%8C%EC%9D%BC%EB%9F%BF&quot; aria-label=&quot;️ 41 토요일   파일럿 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧑‍✈️ 4/1 토요일 - 파일럿&lt;/h2&gt;
+&lt;p&gt;폴라로이드 필름은 한 장에 천원으로 꽤 비싸다.
+얼마나 팔릴지 모르는데 덮어두고 시키기엔 부담되는 금액이었다.
+거기다 &lt;code class=&quot;language-text&quot;&gt;벚꽃 사진&lt;/code&gt;이라는 특성 상, 그 주 주말이 마지막 장사 기회였다.&lt;/p&gt;
+&lt;p&gt;그래서 토요일에 나름 &lt;code class=&quot;language-text&quot;&gt;파일럿 프로젝트&lt;/code&gt;를 했다.
+그리고 장소로 석촌호수가 아닌 양재천을 택했다.
+집에서 가깝기도 하고, 이미 좋은 포토스팟을 알고 있었기 떄문이다.
+오후에 약속이 있어서 오전 11시 20분부터 12시 10분까지 50분 간 서있었다.
+이 날의 판매량을 토대로 일요일에 필요한 총 필름을 더 주문하려고 했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 54.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAADG0lEQVR42h3DW0xbBQCA4fPmgybbQrIIbGqYIMmgKzBYUi6DOakb4TYGUkahFyoyYGwwCKZc19IDvVEoLbSlnLaUtqcMGpjiEgNZjDHLosYYfdjznqbZg0affxO/5BPcM2bWxQWCTjdR7xp70hZe0cGSeYZUOILf6WFVdBLxh3BZ7dimrHhtDmJrfh5vJ3n2/Y/88upPfnvzL7++/hthZXaW6LKLqGeFgH2R6Kqb5IYP15yFxGaYtSUnHouN2EaQRDjCpi/Mmugi7g+SSaR5dvwdv7/6g5dv/uHl678QIqsevFYL64sOoh4PcsCHHPSxKor4nG7EqVmWRRdyZJunmUMycoadkMRjKUYyKHGYSHH89IQXz3/mh+c/Iaw7ncyPj2I3P0Ty2PkmGeckIyMH15geHWegx8hXaZmDZIqjvX2epPc4SO0iB0LsBsJ8HU9ytJMiE46xG0sjDPZqWPhykAf9n7FoHiC9vsKLoyd8K8cZ1OowtHeyt+lnXwr9f9PlIGh3kA6GiCyvcihFOYrvcLJ/SMS/jbDlchFy2LBO3Cdon2fLPU3C5+BACjCk09PToeNYjiNveMlIAcKeJVYsj/DZRFzzVpKBEJmwRMDupr6mAcE+O8Lcw7vcaW1hwXyfvajIxJAB1/w4Oo2GytrbTE1MY9QZER/N4Z6bYnhgkIG7D7BNmnFbFjjcjmKZsVJWUY+QpzhLieJDCi4oUamuMjHUTZGyEqP2Fk3qa+Qr1XxwuZq88it0adqYHh9j5N4ouv579PfoqVFVcv26GkWtjksVaoRT7+ZwNiuXixeVKMs/prD4Mm+deZ+338nlzOlcst4r5nxJDqfzs6lpaqS2rpGy6iqqG1pouHmDapWKmto6FKpWiso+QWjV92D4wkDf50ZMJhOVVTUUFBRTWHiJnHP5ZF9QkpV3nlM52bRpTRSWXKX0SjmfNrdRVKygvLSCRrWa7o52qq61IPQZdHRpNNzp6kSv66azox2TvpfJsWHMY8M0t3Zi7O2l36Djxs1Gzn1USm1dPXptN83Nt9C0d9DXo2VyZJCmxhb+AzhLDiFbE2dcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;day1&quot;
+        title=&quot;&quot;
+        src=&quot;/static/bb9bcb18ee60c75ec41ee91a6451aede/37523/day1.png&quot;
+        srcset=&quot;/static/bb9bcb18ee60c75ec41ee91a6451aede/e9ff0/day1.png 180w,
+/static/bb9bcb18ee60c75ec41ee91a6451aede/f21e7/day1.png 360w,
+/static/bb9bcb18ee60c75ec41ee91a6451aede/37523/day1.png 720w,
+/static/bb9bcb18ee60c75ec41ee91a6451aede/302a4/day1.png 1080w,
+/static/bb9bcb18ee60c75ec41ee91a6451aede/07a9c/day1.png 1440w,
+/static/bb9bcb18ee60c75ec41ee91a6451aede/d61c2/day1.png 1800w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이 날 50분 동안 총 19장의 자신을, 매출은 48,000원을 기록했다.
+진짜 되는 장사였던 것이다.
+일요일은 9시부터 해가 질 때 까지, 약 9~10시간 정도 있을 예정이었기에 100장의 필름을 추가 주문했다.&lt;/p&gt;
+&lt;p&gt;예상 외로 실물 현금으로 지불한 사람이 절반이었다.
+&lt;code class=&quot;language-text&quot;&gt;요즘 사람들은 현금을 들고 다니지 않는다&lt;/code&gt;는 가설이 깨지는 순간이었다.
+일요일에 잔돈을 거슬러주지 못할까 걱정되었지만, 주말이라 은행을 갈 수 없어 그냥 잔돈이 없을 수 있다는 사실만 염두에 두기로 했다.&lt;/p&gt;
+&lt;p&gt;돈이 된다는 제일 중요한 가설이 증명되었으니, 일요일에 시도해 볼 가치가 충분했다. 아래는 가설 중간 점검이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;사업 감각
+&lt;ul&gt;
+&lt;li&gt;✅ 벚꽃 철에 폴라로이드를 찍으면 돈을 벌 수 있다&lt;/li&gt;
+&lt;li&gt;⬜️ 일요일에 최소 50만원은 벌 수 있을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 가격은 적절하게 책정되었다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 유형
+&lt;ul&gt;
+&lt;li&gt;⬜️ 커플이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 아기나 어린이를 동반한 가족이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 20대 여성 그룹(내 생각에 인생네컷을 많이 찍는…)이 많을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 반려동물을 동반한 사람이 많을 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 행동
+&lt;ul&gt;
+&lt;li&gt;❌ 대부분의 사람들은 현금을 들고 다니지 않을 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 이 작업의 최대 병목은 돈을 주고받거나 송금하는 시간이 될 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-42-일요일---진짜-한-탕-하자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-42-%EC%9D%BC%EC%9A%94%EC%9D%BC---%EC%A7%84%EC%A7%9C-%ED%95%9C-%ED%83%95-%ED%95%98%EC%9E%90&quot; aria-label=&quot; 42 일요일   진짜 한 탕 하자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌸 4/2 일요일 - 진짜 한 탕 하자&lt;/h2&gt;
+&lt;p&gt;토요일 파일럿 때 사람들이 &lt;code class=&quot;language-text&quot;&gt;사진이 예쁘게 나올 지 모르겠어서&lt;/code&gt; 망설이다 안 찍는 걸 보고, 아침에 친구를 찍은 샘플을 허락받고 샘플로 붙였다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAADlklEQVR42i3S2U/TBwDA8d82NhwON7MHkzFc9rBEp6JhiRtzE8aCCOMK59gAFQGjI4CAHHI0UKCUFuhJ75PSArYChXJVxlFug+CMCtv7/o3vErLX78Pn6SvcLcyj/o8H1FZWUfWgksaHD5F2iFBIetDK+7Bq1QwNKnDbbHiddizaISZGnIiam2moa6S8tILSokJKCrIpzMlCqL5XikWnZ35mgfnZIAd7Bzzf3sPp8GG0TDOoGadb5kChdGK2TaIzTdArs9LTo8Zg9uFwB2mtq6Yg4waxMRcRivLzmPPaONzfwO1wotPoWJwLolQaaW6RU1MvobFlkKYWOZPTG9Q3iOnus+IcXWZievu4tdbeJys5nsjISITEhJ9ZmBhhJ7SMql9G2+N2vKNe5gPPUAyaeNTYTdNjKb19BtzuGXqkRsQSI1K5gdDWK3z+EEk/JfLxqU8QBAHh3LmLjFhNPN/YIvDUx5+LS4SWV9lcXeevgyP29w6Znd3CaJ1Ho/Mz7JrD7VnAYJ1EZfZgcfn5/rtrx9h7YWEI0Z9/gbitlZmpeSwWH0evjzDrDWyvrfDi5b+ozevIlH46+ybplE0ypLXRLuqnrVNNYVEZ4h41X1+4/D/4PsLJDyO4X1bOanCZSf8qe7v7bK6uEFpeZnZ2G6V+gZm5FwSCbzE519BoXCjVHgZUIxTfqqCvX0daSiqfnj7NO++GIZw6+RFpqRnshlZYWXtNcOkAl82GQT+Ma2ydxaWXuL07DI/voDYuoNU6aRfJ0ejG8Ae3GZ16Rvmd21TdKyElKQHhxAfh5GXn88+bv9nYfMPI+AqiNjG1dR0Maqfokj9BpgnQrVykT7eK2z1FV7cSjd7LgMaJbEBHWmo6P8ZdJfGHOISI8HBSbtzk8NVb7MNL9Ctcx1ibSIlMMY5SH2DMt4XTE8Lj28IzOotKO4rZPkdVdSNldyv4NTeXby6dJzoqCiEy4gSJ1+PZCu2iH7IjkWjolph41CRH1KE6Htzp8KIdcqFQ2enqNaHSPcVgDdCvcjCoHSYjPYcrMZeI+/YqwmdnznAlJpZRTwC79QlarQOJ1Ex9o5yaOiltHTrEEgstHXo6eu10SiwMqMaQq8YQS200tasoKsin/Pbv5CclInwZfZboqLPcTM6gpKiU4uIysvLLSc8ppaK6k8oGCTUNXUhkGmpb+0nKvENC8m9c/6WE2GvpJGfeojA3k+zkeC6f/4r/ADfxk+/Et6KBAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;day2&quot;
+        title=&quot;&quot;
+        src=&quot;/static/ad10545c9182a8df27048e9dc61ec338/37523/day2.png&quot;
+        srcset=&quot;/static/ad10545c9182a8df27048e9dc61ec338/e9ff0/day2.png 180w,
+/static/ad10545c9182a8df27048e9dc61ec338/f21e7/day2.png 360w,
+/static/ad10545c9182a8df27048e9dc61ec338/37523/day2.png 720w,
+/static/ad10545c9182a8df27048e9dc61ec338/302a4/day2.png 1080w,
+/static/ad10545c9182a8df27048e9dc61ec338/07a9c/day2.png 1440w,
+/static/ad10545c9182a8df27048e9dc61ec338/6a5c3/day2.png 1646w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그리고 개인적인 아쉬움으로, 폴라로이드 사진을 파는 것과 별개로 커플이나 가족이 사진을 함께 찍기 어려워하는 모습이 많이 보였다.
+소심한 편인 나도 그럴 때 지나가는 사람한테 부탁을 잘 못해서, 폰카를 무료로 찍어준다는 말을 덧붙였다.
+하지만 이 무료 서비스를 많이 이용할 거라는 기대는 아래 가설에 따라 안했는데…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⬜️ 지나가는 사람들에게 사진 찍어달라고 얘기 못 하는 사람은, 당연히 나한테 무료로 찍어달라 얘기 못 할 것이다&lt;/li&gt;
+&lt;li&gt;⬜️ 무료로 찍어주는 서비스를 받으면 사진을 팔아줘야 한다는 부담감을 느낄 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 가설도 증명해보고 싶었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;양재천에서 제일 예쁜 포토스팟 앞에 오전 10시부터 서있었다.
+사진은 주로 이런 느낌으로 찍었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 57.22222222222223%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAADEElEQVR42m3QW0+bBQCA4f4L71QkWYZTSGRsyHSAyRIXbjwsuukkmS6UwQ7EA4VANkaxi8JSOdjzgdNC269fS2lLjxsdoRYoFFgHDG0RDGNmd5OMUujymnnt+wOei1dyz+5k0jnG5KibsMWOoDZw1+ZgOhBiNbHEnyuPSG4+Y2ozx9TGHjNbWXypDMPLWex/7ONcP8CzkSOwlSP85AUS089K7Go9Y+Y7jBkGcGqNWPq0uAdHsOkHmBSdJJbWca3sISR3GV3NEEjtIjzKMJbeY3x9n9DmAXe3D5h8CfZ3dTPY1Y1Lb0bo0/6H2tUGRL2Z37x+wlaReCDEzMNtvGtZgmvPiaR38axlCKQzhDezRLayRLf3mf57H4nLZMahM2LtVdF3Q0HHNRle0yD3RSdz/hDxcT/z/hDJByliyS1iqWfMbOwwkfqHyF8Z7m/uMPt4l/nHz1l8mkXi7u9H1OgRtUZ+ab1Jz3U5Do2BexY7C6Ews24PcbePaaeb5ZkED7Z3WN54yvziGvHEKrG5FRaW0jz8fZtk+gmSXxW3GOpVYexSImgNjBoHEHUmBK2J4IiA6afb9Hcq8Q8NE7bZWF1YJj41S1R0ER/zkfBPMOePMOubIOQIIulobqL5aj1WjQ730B0EnY6XGywqLWGrQFdLK2qFAptKTfeNNpYCYaLeIG7jID7TEFHBxbwnSNzlJyp4kJyuKKHi6NucqzrFl1VV1H/xGbKLF/j+aynKluvcaviO9isNtNU10NvajqgxEPME8JqHcWiNTNhEIhaRccMQMbsLyat5r/BmQR4Fb73GoUOvc7ykkA8rK7l8oQZ5Uys//tBIZ0szjbVX6OtQ4BuxErQ6UN3soKetDbVcQWdTO4O3e7H0aJAczn+D8rJCSo8eofxEIZXvFXO6ohx5k4wXuRz/12Isxjeffk6jVIr0XDXyb2XY1BoGlN1ICvLzKDqcT0nREU6WFvNucREnj73DB2XHuVRTw+VLddRJa6mvreVqXR3NjTIuflXNieISykvLOPV+Bec/+oTzH5+h+sxZ/gV/WHkfqq0sHQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;spot&quot;
+        title=&quot;&quot;
+        src=&quot;/static/c8a618689fc959828b1539fe11f1b73b/37523/spot.png&quot;
+        srcset=&quot;/static/c8a618689fc959828b1539fe11f1b73b/e9ff0/spot.png 180w,
+/static/c8a618689fc959828b1539fe11f1b73b/f21e7/spot.png 360w,
+/static/c8a618689fc959828b1539fe11f1b73b/37523/spot.png 720w,
+/static/c8a618689fc959828b1539fe11f1b73b/302a4/spot.png 1080w,
+/static/c8a618689fc959828b1539fe11f1b73b/07a9c/spot.png 1440w,
+/static/c8a618689fc959828b1539fe11f1b73b/0e0c4/spot.png 1884w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;원래 계획은 해질 때 까지 있기였으나, 날이 더운데 밥도 물도 먹지 않고 있으니 너무 힘들어서 오후 5시에 철수했다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-가설-검증&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B0%80%EC%84%A4-%EA%B2%80%EC%A6%9D&quot; aria-label=&quot; 가설 검증 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🔍 가설 검증&lt;/h2&gt;
+&lt;p&gt;그러면 이 이상한 부업의 결과를 공개하겠다.&lt;/p&gt;
+&lt;p&gt;먼저 사업 감각 부분이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 벚꽃 철에 폴라로이드를 찍으면 돈을 벌 수 있다&lt;/li&gt;
+&lt;li&gt;❌ 일요일에 최소 50만원은 벌 수 있을 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;돈은 확실히 벌었으나, 매출이 50만원까지 나오진 않았다.
+오전에는 토요일보다 훨씬 많은 사람들이 찍어서 필름이 모자라진 않을까 걱정할 정도였는데, 오후 1시 ~ 3시 쯤 사진을 찍는 사람이 급격하게 줄었다.
+그 날 날씨가 꽤 더웠는데, 사람들이 대부분 긴팔과 겉옷을 입고 있었다.
+안그래도 더운데 사진 찍을 자리가 나기를 기다릴 마음이 없던 것 같다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❓ 가격은 적절하게 책정되었다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;적절했다고 생각하는 건 여러번 찍은 사람들이 있어서다.
+나도 갈 수록 스킬이 늘어서 나중에는 내가봐도 사진을 기막히게 예쁘게 찍었는데…
+제일 많이 찍은 고객은 세 번, 여섯 장, 총 15,000원을 지불하셨다.&lt;/p&gt;
+&lt;p&gt;적절하지 않았다고 생각하는 건 찍을까 말까 얘기하며 비싸다는 말을 한 사람들이 있어서다. (결국 찍지 않았던 것 같다.)
+원래는 1장 5,000원 2장 8,000원에 하려다가 회사 사람들이 너무 비싸다 해서 깎은 가격이었다.&lt;/p&gt;
+&lt;p&gt;인생네컷과 비교해 타당한 가격이라 생각했는데 고객 입장에서는 그렇지 않나보다.
+비싸게 하고 총 매출을 올릴 수도 있었으니 완전히 검증하지 못했다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;고객 유형 부분이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 커플이 많을 것이다&lt;/li&gt;
+&lt;li&gt;✅ 아기나 어린이를 동반한 가족이 많을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 20대 여성 그룹(내 생각에 인생네컷을 많이 찍는…)이 많을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 반려동물을 동반한 사람이 많을 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;대부분이 고객이 커플과 아이가 있는 가족이었다.
+20대 여성 그룹은 두 번 정도 있었고, 반려동물을 동반한 사람은 한 번도 찍지 않았다!
+도무지 이해가 안갔는데, 아마 20대 여성 그룹은 이미 사진을 잘 찍어서 남에게 맡길 이유를 못느껴서고,
+반려동물은 움직여서 사진을 여러 번 찍어야 한 장 건질까 말까라 그렇지 않을까 추측만 했다.&lt;/p&gt;
+&lt;p&gt;그리고 또 하나 착각이 있었다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 어린이들은 폴라로이드가 뭔지 잘 모른다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;폴라로이드가 추억의 사진 느낌이라 그런가?
+사실 뚜렷한 근거 없이 초등학생 정도 까지의 어린이들 부터 한 중학생까지 폴라로이드를 잘 모를 거라 생각했다.
+그런데 다수의 어린이들이 날 보고 사진 찍자고 부모님을 조르다가 혼났다.
+관광지 앞에서 풍선과 장난감으로 아이들을 현혹하는 역할이 된 것 같고, 혼난 어린이들에게 너무 미안했다…&lt;/p&gt;
+&lt;p&gt;어쨌든, 그래도 폴라로이드를 찍거나 찍혀본 경험은 적을텐데 왜 좋아하는 것일까? 고민하는데, 친구가
+‘요즘 폰카 어플에 폴라로이드 효과가 있어서 그걸 많이 접한 것이 아닐까?‘했다.
+증명은 불가능하지만 굉장히 일리 있는 말이었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;마지막으로 고객 행동 부분이 제일 의외였다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 대부분의 사람들은 현금을 들고 다니지 않을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 이 작업의 최대 병목은 돈을 주고받거나 송금하는 시간이 될 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;대부분의 고객이 20~30대 였음에도, 실물 현금으로 계산한 사람이 절반이 넘었다.
+나는 지폐를 만져본 지가 까마득해서 당연히 다른 사람들도 그럴 줄 알았다.
+그런데 전혀 아니었다.
+거기다 만원짜리만 잔뜩 받아 거슬러 줄 돈이 없을까 걱정이었는데, 많은 사람들이 천원 지폐를 들고 다녔다.&lt;/p&gt;
+&lt;p&gt;그리고 돈계산 하는 시간은 전혀 병목이 아니었으며, 벚꽃 스팟 앞에서 자리가 나길 기다리는 시간이 제일 많았다 ㅎㅎ…
+같이 서서 멀뚱히 기다리려니 엄청 뻘쭘했다.&lt;/p&gt;
+&lt;p&gt;거기다 내가 얼마나 편향 속에 살았는지 깨달은 것이 있었는데…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ QR 송금은 사람들에게 익숙하며 편한 결제 방식이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이게 전혀 아니었다.
+내가 만들어 간 QR 코드는 휴대폰 기본 카메라를 대면, 카카오페이와 토스의 송금 페이지로 연결되는 코드였다.
+그런데 이 플로우를 알고 있는 사람이 한명도 없었다.
+모두 카카오페이나 토스 앱을 일단 키거나, 계좌 번호를 물어보았다.&lt;/p&gt;
+&lt;p&gt;그래서 ‘기본 카메라로 찍으면 카카오페이나 토스 송금 화면에 자동으로 연결된다’라고 꼬박꼬박 설명을 했는데도,
+따라하다가 뭔가 잘 안돼서 포기하거나, 그냥 은행 송금을 하면 안되냐고 물어봤다.&lt;/p&gt;
+&lt;p&gt;나부터가 직업이 개발자고, 주위 사람도 IT 업종에 종사하거나, 그렇지 않아도 기술이나 신제품에 관심이 많은 사람이 대부분이다.
+그래서 &lt;code class=&quot;language-text&quot;&gt;QR을 기본 카메라로 찍을 수 있다&lt;/code&gt;가 보편적인 지식이라 생각했다.
+내 사고가 굉장히 편향적인 환경에서 돌아가고 있구나 깨달았다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;그래도 폰카 무료 서비스 부분은 모두 적중했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 지나가는 사람들에게 사진 찍어달라고 얘기 못 하는 사람은, 당연히 나한테 무료로 찍어달라 얘기 못 할 것이다&lt;/li&gt;
+&lt;li&gt;✅ 무료로 찍어주는 서비스를 받으면 사진을 팔아줘야 한다는 부담감을 느낄 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;사진을 찍어달라 하는 사람이 거의 없었다.
+단체로 온 중장년 분들 정도…
+한 번은 단체 사진 찍는 걸 어려워해서 말 걸었더니 괜찮다고 거절당한 적이 있고,
+또 한 번은 일행 중 한 명이 나한테 말을 걸었는데, 다른 사람이 황급하게 말린 적이 있었다.&lt;/p&gt;
+&lt;p&gt;그러다 중간에 한 커플이 셀카봉이 고장났는지 끙끙대고 있어서 폰카 찍어주겠다고 가서 찍었는데…
+폴라로이드 얘기는 한마디도 하지 않았음에도 강매로 느꼈는지 찍고 나서 굉장히 당황+불쾌해해서 ㅠㅠ 나도 민망해서 그 뒤로 먼저 폰카 찍어주겠다는 말은 하지 못했다. 근데 충분히 이해한다…&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-부업-총-정리와-회고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%B6%80%EC%97%85-%EC%B4%9D-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%9A%8C%EA%B3%A0&quot; aria-label=&quot; 부업 총 정리와 회고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💸 부업 총 정리와 회고&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;사업 감각
+&lt;ul&gt;
+&lt;li&gt;✅ 벚꽃 철에 폴라로이드를 찍으면 돈을 벌 수 있다&lt;/li&gt;
+&lt;li&gt;❌ 일요일에 최소 50만원은 벌 수 있을 것이다&lt;/li&gt;
+&lt;li&gt;❓ 가격은 적절하게 책정되었다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 유형
+&lt;ul&gt;
+&lt;li&gt;✅ 커플이 많을 것이다&lt;/li&gt;
+&lt;li&gt;✅ 아기나 어린이를 동반한 가족이 많을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 20대 여성 그룹(내 생각에 인생네컷을 많이 찍는…)이 많을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 반려동물을 동반한 사람이 많을 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;고객 행동
+&lt;ul&gt;
+&lt;li&gt;❌ 대부분의 사람들은 현금을 들고 다니지 않을 것이다&lt;/li&gt;
+&lt;li&gt;❌ 이 작업의 최대 병목은 돈을 주고받거나 송금하는 시간이 될 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;기타
+&lt;ul&gt;
+&lt;li&gt;❌ 어린이들은 폴라로이드가 뭔지 잘 모른다&lt;/li&gt;
+&lt;li&gt;❌ QR 송금은 사람들에게 익숙하며 편한 결제 방식이다&lt;/li&gt;
+&lt;li&gt;✅ 지나가는 사람들에게 사진 찍어달라고 얘기 못 하는 사람은, 당연히 나한테 무료로 찍어달라 얘기 못 할 것이다&lt;/li&gt;
+&lt;li&gt;✅ 무료로 찍어주는 서비스를 받으면 사진을 팔아줘야 한다는 부담감을 느낄 것이다&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;p&gt;처음에는 요즘 삶에 서스팬스가 부족해… 하고 시작한 장난이었는데, 의외로 유용한 인사이트를 얻었다.
+무엇보다 그 이후로 ‘우리 서비스를 사용하는 고객은 이러이러 할 것이다’ 생각할 때,
+이게 정말 맞나? 근거는? 관찰한 사실이 있나? 어디까지가 나의 편향인가? 를 돌아보게 되었다.&lt;/p&gt;
+&lt;p&gt;그리고 꽃 구경 사람 구경 실컷 해서 재밌었다.
+나도 중간부터는 뻔치가 늘어서 폴라로이드 찍고 서비스로 이어서 폰카를 엄청나게 찍어줬는데,
+커플들한테 포즈 추천도 하고 너무 보기 좋다고 하고 재밌어서 주접을 떨었다.&lt;/p&gt;
+&lt;p&gt;사람들이 사진이 너무 잘나왔다며 기뻐할 때 나도 기뻤고,
+아이가 눈을 감아서 한 장을 그냥 추가로 찍어드리자 고맙다며 아이를 통해 간식을 건네준 분도 계셨다.
+이렇게 돈 벌 생각을 하다니 천재적이라는 말을 여러번 들었고, 심지어 그 분 중에 한 분은 나랑 셀카를 찍어가셨다. 대체 왜…?!&lt;/p&gt;
+&lt;p&gt;반면 불쾌한 경험도 있었는데, 내가 NPC로 보였던 건지 도촬을 엄청 당했다… 찍지 말라 하기도 이상해서 그냥 있었는데 그건 좀 스트레스였다.&lt;/p&gt;
+&lt;p&gt;그리고 이 자리를 빌어 고백할 일이 있는데… 덜 부끄럽고 덜 창피하려고 ‘누가 물어보면 대학생이고 과제라고 해야지’ 하는 생각을 했는데…
+물어본 사람이 두 명 있어서 준비했던 거짓말을 하고 말았다.
+그러니 아~ 그렇구나 하는 반응이어서 덜 쪽팔리긴 했는데, 별 거 아닌데도 거짓말 하고 나서 계속 신경쓰였다.
+정직하게 살자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 121.1111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;end&quot;
+        title=&quot;&quot;
+        src=&quot;/static/3be2b732cbe4a167649f9df160d8469a/37523/end.png&quot;
+        srcset=&quot;/static/3be2b732cbe4a167649f9df160d8469a/e9ff0/end.png 180w,
+/static/3be2b732cbe4a167649f9df160d8469a/f21e7/end.png 360w,
+/static/3be2b732cbe4a167649f9df160d8469a/37523/end.png 720w,
+/static/3be2b732cbe4a167649f9df160d8469a/302a4/end.png 1080w,
+/static/3be2b732cbe4a167649f9df160d8469a/4a00e/end.png 1406w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;철수할 때 친구에게 부업 기념 사진을 찍어달라 부탁했다.&lt;/p&gt;
+&lt;p&gt;마지막으로 가장 중요한 깨달음은…
+한 탕 벚꽃 사진 장사로는 부자가 될 수 없다! 개발 공부 열심히 하자!! 회사를 열심히 다니자!!! 였다. 🥹
+그래도 이런 영감을 주는 호작질을 기회가 되면 또 해보고 싶다.
+이상한 부업 일기 2를 언젠가 쓸 수 있기를…&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B0%80%EC%84%A4-%EC%A0%95%EB%A6%AC&quot;&gt;🎯 가설 정리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EF%B8%8F-41-%ED%86%A0%EC%9A%94%EC%9D%BC---%ED%8C%8C%EC%9D%BC%EB%9F%BF&quot;&gt;🧑‍✈️ 4/1 토요일 - 파일럿&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-42-%EC%9D%BC%EC%9A%94%EC%9D%BC---%EC%A7%84%EC%A7%9C-%ED%95%9C-%ED%83%95-%ED%95%98%EC%9E%90&quot;&gt;🌸 4/2 일요일 - 진짜 한 탕 하자&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B0%80%EC%84%A4-%EA%B2%80%EC%A6%9D&quot;&gt;🔍 가설 검증&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EB%B6%80%EC%97%85-%EC%B4%9D-%EC%A0%95%EB%A6%AC%EC%99%80-%ED%9A%8C%EA%B3%A0&quot;&gt;💸 부업 총 정리와 회고&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[[JPA] 실종된 데이터와 연관 객체 조회하기]]></title><description><![CDATA[백엔드 면접 단골 질문 중 하나가 이다.
 물론 몇 달 전까지 나도 줄줄 외우고 있었다.
 dto…]]></description><link>https://hyewoncc.github.io/fetch-join-and-entity-graph/</link><guid isPermaLink="false">https://hyewoncc.github.io/fetch-join-and-entity-graph/</guid><pubDate>Sun, 26 Mar 2023 14:18:00 GMT</pubDate><content:encoded>&lt;p&gt;백엔드 면접 단골 질문 중 하나가 &lt;code class=&quot;language-text&quot;&gt;JPA N+1 문제를 어떻게 해결하나요?&lt;/code&gt;이다.
 물론 몇 달 전까지 나도 줄줄 외우고 있었다.
