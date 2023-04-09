@@ -1,7 +1,7 @@
 ---
 emoji: headers/weird-side-job-1.png
 title: '이상한 부업 일기 - 나는 얼마나 고객을 알고 있을까'
-date: '2023-04-09 22:35:00'
+date: '2023-04-09 22:40:00'
 author: 써머
 tags: etc
 categories: etc
