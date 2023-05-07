@@ -1,4 +1,198 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 09 Apr 2023 13:42:13 GMT</lastBuildDate><item><title><![CDATA[이상한 부업 일기 - 나는 얼마나 고객을 알고 있을까]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/weird-side-job-1/</link><guid isPermaLink="false">https://hyewoncc.github.io/weird-side-job-1/</guid><pubDate>Sun, 09 Apr 2023 13:40:00 GMT</pubDate><content:encoded>&lt;p&gt;어느날 문득 천재적인 생각이 떠올랐다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 07 May 2023 13:37:35 GMT</lastBuildDate><item><title><![CDATA[[JPA] @Transactional이 없다고 레포지토리가 왜 터져?]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/jpa-transactional/</link><guid isPermaLink="false">https://hyewoncc.github.io/jpa-transactional/</guid><pubDate>Sun, 07 May 2023 13:38:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;-문제상황&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9&quot; aria-label=&quot; 문제상황 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧶 문제상황&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://hyewoncc.github.io/load-test/&quot;&gt;서버 오픈 전 부하테스트로 대비하기&lt;/a&gt;의 경험으로, 요즘 코드를 짤 때 외부 호출이 끼어있다면 트랜잭션을 최소로 잡고 있다.
+거기다 더티 체킹도 사용하지 않고 명시적으로 다시 저장해주는 방식을 사용 중이다. 이건 교휸이 있어서는 아니고, 그냥 성향이다. 더 읽기 명확한 것 같고?&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 28.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA7klEQVR42mWR226DMBBE8///1vahVKnUphVBGBo7mJudgC+nAkpI1JXGHo9Ws/Z4F2NkQgjLHmHjsx5Ya9ViCDNmbeJx69/BQvIq8Cks78eGVHouY2SwA+Ig2b98cEhSTmk1m7ii4PqWoJ6fsMkrQyFuA3fTMlUmFKXUtGagtY7eXjCdIT8WaFVjWovtrjjnqITg5/uLodb4tsH13X9Dqc6UZYlSirbtcM5T65osy1BKLjdzjr7vabRG5DnGmPnJfhweDRcsQvjLczYYPfIkqc4a7wMXc8VauwZ6y/Ihw5VAXKO/Tbuv+/P6eRs2w18Fj9N7fX0PggAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;entity&quot;
+        title=&quot;&quot;
+        src=&quot;/static/37295abf486de22af73111d2cec6e742/37523/entity.png&quot;
+        srcset=&quot;/static/37295abf486de22af73111d2cec6e742/e9ff0/entity.png 180w,
+/static/37295abf486de22af73111d2cec6e742/f21e7/entity.png 360w,
+/static/37295abf486de22af73111d2cec6e742/37523/entity.png 720w,
+/static/37295abf486de22af73111d2cec6e742/302a4/entity.png 1080w,
+/static/37295abf486de22af73111d2cec6e742/07a9c/entity.png 1440w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserRepository&lt;/span&gt; userRepository&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserItemRepository&lt;/span&gt; userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ExternalItemClient&lt;/span&gt; itemClient&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Item&lt;/span&gt; item&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        itemClient&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;checkAvailable&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;item&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;User&lt;/span&gt; user &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; userRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;orElseThrow&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;UserNotExistException&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        user&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;item&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;user&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getItems&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기에 아이템을 삭제하는 기능을 추가 개발하게 되었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        itemClient&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;checkExpired&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;deleteByUserIdAndItemId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;그리고 테스트를 실행하니, 아래와 같은 에러 메시지를 던지며 터졌다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;No EntityManager with actual transaction available for current thread - cannot reliably process ‘remove’ call; nested exception is javax.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread - cannot reliably process ‘remove’ call
+org.springframework.dao.InvalidDataAccessApiUsageException: No EntityManager with actual transaction available for current thread - cannot reliably process ‘remove’ call; nested exception is javax.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread - cannot reliably process ‘remove’ call&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-transactional-없어도-잘되던데&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-transactional-%EC%97%86%EC%96%B4%EB%8F%84-%EC%9E%98%EB%90%98%EB%8D%98%EB%8D%B0&quot; aria-label=&quot; transactional 없어도 잘되던데 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;❓ Transactional 없어도 잘되던데&lt;/h2&gt;
+&lt;p&gt;이 에러를 보자마자 스치는 기억이 있었으니…
+팀원에게 코드리뷰를 받다가 &lt;code class=&quot;language-text&quot;&gt;트랜잭션이 없는데 제대로 동작해? 확인한 거지?&lt;/code&gt;라는 얘기를 들었었다.
+그 때 잘 되는데? 트랜잭션이랑 이거랑 관련 없지 않아? 하고 넘어갔는데, 원인은 모르지만 이 얘기였구나! 했다.&lt;/p&gt;
+&lt;p&gt;에러 메시지를 검색하면 서비스 메서드에 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt;을 붙이면 해결된다는 얘기가 많이 나온다.
+붙여보니 잘 된다.
+나도 외부 호출 문제를 겪기 전에는 으레 이렇게 짜곤 했으니, 이런 문제를 겪을 일이 없었다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        itemClient&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;checkExpired&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;deleteByUserIdAndItemId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;그런데 여기서 이상하다 느낀 게, 서비스에 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt; 없다고 동작 안하는 게 맞나?
+한 트랜잭션에서 처리하고 싶지 않을 수도 있는데? 하는 거였다.
+그리고 이제까지는 왜 문제가 없었지? 하는 점도 이상했다.&lt;/p&gt;
+&lt;p&gt;이유는 금방 찾을 수 있었는데, &lt;code class=&quot;language-text&quot;&gt;JpaRepository&lt;/code&gt;의 구현체인 &lt;code class=&quot;language-text&quot;&gt;SimpleJpaRepository&lt;/code&gt;에서 이미 메서드에 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt;을 붙여 놓아서다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Repository&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;readOnly &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;SimpleJpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ID&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepositoryImplementation&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; ID&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;
+	&lt;span class=&quot;token annotation punctuation&quot;&gt;@Override&lt;/span&gt;
+	&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;deleteById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ID&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+		&lt;span class=&quot;token class-name&quot;&gt;Assert&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;notNull&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;ID_MUST_NOT_BE_NULL&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+		&lt;span class=&quot;token function&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;orElseThrow&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;EmptyResultDataAccessException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+				&lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;No %s entity with id %s exists!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; entityInformation&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getJavaType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;그래서 &lt;code class=&quot;language-text&quot;&gt;JpaRepository&lt;/code&gt;에 미리 선언된 메서드를 호출할 경우에, 서비스 클래스에서 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt;을 붙이지 않아도 문제가 없었던 것이다.
+따라서 레포지토리 클래스에 추가로 정의한 메서드에 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt;을 붙여줘도 문제를 해결할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Repository&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserItemRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;UserItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;deleteByUserIdAndItemId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;그러다 직접 사용할 메서드를 선언해야 하는 &lt;code class=&quot;language-text&quot;&gt;Repository&lt;/code&gt; 인터페이스를 상속하면 어떻게 될까 궁금해졌다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserItemRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Repository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;UserItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// @Transactional이 없는데 동작할까?  &lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;UserItem&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;UserItem&lt;/span&gt; userItem&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;deleteByUserIdAndItemId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 5.555555555555555%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAQklEQVR42kXGSwqAMAwFQI8iImJJQj62Dd7/YK+0LlwMzKaREG8oErjZQFohkWDrIGtg7//tu3gu8/q868dF2M+CAdeBHw+Sry07AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;구현체&quot;
+        title=&quot;&quot;
+        src=&quot;/static/36a1bd768d0328bb18fadf1b4bc01436/37523/simplejparepository.png&quot;
+        srcset=&quot;/static/36a1bd768d0328bb18fadf1b4bc01436/e9ff0/simplejparepository.png 180w,
+/static/36a1bd768d0328bb18fadf1b4bc01436/f21e7/simplejparepository.png 360w,
+/static/36a1bd768d0328bb18fadf1b4bc01436/37523/simplejparepository.png 720w,
+/static/36a1bd768d0328bb18fadf1b4bc01436/302a4/simplejparepository.png 1080w,
+/static/36a1bd768d0328bb18fadf1b4bc01436/07a9c/simplejparepository.png 1440w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이 역시 구현체는 &lt;code class=&quot;language-text&quot;&gt;SimpleJpaRepository&lt;/code&gt;로 동일해, 미리 구현되어 있는 메서드는 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt; 없이도 동작한다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-관성을-이기기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B4%80%EC%84%B1%EC%9D%84-%EC%9D%B4%EA%B8%B0%EA%B8%B0&quot; aria-label=&quot; 관성을 이기기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🛺 관성을 이기기&lt;/h2&gt;
+&lt;p&gt;JPA 쓴 지가 언젠데 이제까지 이걸 몰랐을까? 자문했을 때, 일하면서 기출변형같은 문제를 마주쳐서 그런 것 같다.
+&lt;a href=&quot;https://hyewoncc.github.io/fetch-join-and-entity-graph/&quot;&gt;실종된 데이터와 연관 객체 조회하기&lt;/a&gt; 포스팅도 그랬다.
+보통 JPA를 쓰면 서비스 클래스에 &lt;code class=&quot;language-text&quot;&gt;@Transactional&lt;/code&gt;부터 붙이고 시작하니까 이런 식의 오류를 마주칠 일이 적다.
+이런 문제를 해결할 때 왜 나는 좀 더 꼼꼼히 공부하지 않았을까? 자책했는데, 요즘은 해결하면서 배워가면 충분한 거 아닌가? 로 생각이 조금 바뀌었다.&lt;/p&gt;
+&lt;p&gt;처음 JPA를 접하면서 지금 수준까지 일단 파보려고 했다면 개발을 재밌게 공부할 수 있었을까? 재미야 둘째쳐도, 효율적으로 공부할 수 있었을까?
+요즘 익숙한 스프링보다 낯선 Node.js의 오류와 싸우는 시간이 길어서 이런 생각이 더 드는 것 같기도 하다.
+자바스크립트랑 Node를 마스터하고 해결해야지 하면 아직 오류 하나도 제대로 못고쳤을지 모른다.
+앞으로 수많은 이걸 왜 몰랐지를 마주칠텐데, 그 때 마다 스트레스 받을 필요가 없다.&lt;/p&gt;
+&lt;p&gt;또 다른 생각은 관성을 이기자는 것이다. 매번 다짐하는데 잘 안되는 걸 보면, 내가 관성에 약한 편인 것 같다.
+이 문제를 금방 해결할 수 있었던 건, 팀원이 말했던 &lt;code class=&quot;language-text&quot;&gt;트랜잭션이 없는데 제대로 동작하냐&lt;/code&gt;는 리뷰 덕분이었다.
+그 때도 난 잘 되던데 하고 그냥 넘어갔었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.666666666666664%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAD/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAT4txCyJP//EABkQAQADAQEAAAAAAAAAAAAAAAEAAhEDEP/aAAgBAQABBQJW0dvAyc/f/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGBAAAwEBAAAAAAAAAAAAAAAAAAEQITH/2gAIAQEABj8C4YjY5//EABoQAQEAAwEBAAAAAAAAAAAAAAEAESFRMdH/2gAIAQEAAT8hMOYa8icJggRG+7xws7b/2gAMAwEAAgADAAAAEHc//8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EBwm/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8Qiv/EABwQAQACAwADAAAAAAAAAAAAAAEAESFBUTGBwf/aAAgBAQABPxAP6gvBvxNoM2ZQ9rURIQR1Ego03ke4BUBbmiKM+/k//9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;난 이렇게 살아왔는데&quot;
+        title=&quot;&quot;
+        src=&quot;/static/fdaa77e4845fff6789187e56a5c2ec98/80e3c/livethisway.jpg&quot;
+        srcset=&quot;/static/fdaa77e4845fff6789187e56a5c2ec98/4ec73/livethisway.jpg 180w,
+/static/fdaa77e4845fff6789187e56a5c2ec98/158ba/livethisway.jpg 360w,
+/static/fdaa77e4845fff6789187e56a5c2ec98/80e3c/livethisway.jpg 720w,
+/static/fdaa77e4845fff6789187e56a5c2ec98/47311/livethisway.jpg 1080w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center; font-style:italic; color:grey;&quot;&gt;
+  이런 상태가 될 때가 종종 있다 
+&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;허투루 지나가지 않고 왜 제대로 동작하지 않을 것 같냐고 물어봤다면 더 빨리 배울 수 있었다.
+하던 대로 하지않고 절박한 마음으로 일하고 공부하는 그런 열정을 가질 수 있도록… 의식적으로 노력해야겠다.
+말만 썼는데 벌써 쉽지 않다.&lt;/p&gt;
+&lt;p&gt;그리고 위에서 문제가 되었던 &lt;code class=&quot;language-text&quot;&gt;deleteByUserIdAndItemId()&lt;/code&gt;는 결국 요구사항에 맞춰 소프트 딜리트로 바뀌면서 자연스레 해결됐다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ItemService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; userId&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        itemClient&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;checkExpired&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;UserItems&lt;/span&gt; userItems &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserItems&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findAllByUserId&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        userItems&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;itemId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;  
+        userItemRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;saveAll&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userItems&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getUserItems&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;원래 소프트 딜리트로 만들었어야 할 로직인데, 옆길로 새서 좋은 걸 배웠다.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EB%AC%B8%EC%A0%9C%EC%83%81%ED%99%A9&quot;&gt;🧶 문제상황&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-transactional-%EC%97%86%EC%96%B4%EB%8F%84-%EC%9E%98%EB%90%98%EB%8D%98%EB%8D%B0&quot;&gt;❓ Transactional 없어도 잘되던데&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B4%80%EC%84%B1%EC%9D%84-%EC%9D%B4%EA%B8%B0%EA%B8%B0&quot;&gt;🛺 관성을 이기기&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[이상한 부업 일기 - 나는 얼마나 고객을 알고 있을까]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/weird-side-job-1/</link><guid isPermaLink="false">https://hyewoncc.github.io/weird-side-job-1/</guid><pubDate>Sun, 09 Apr 2023 13:40:00 GMT</pubDate><content:encoded>&lt;p&gt;어느날 문득 천재적인 생각이 떠올랐다.
 ‘벚꽃철에 석촌호수에서 폴라로이드 사진을 돈 받고 찍으면 부자가 될 수 있지 않을까?’&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
