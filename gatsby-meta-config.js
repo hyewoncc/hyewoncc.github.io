@@ -9,7 +9,7 @@ module.exports = {
       repo: `hyewoncc/hyewoncc.github.io`, // `zoomkoding/zoomkoding-gatsby-blog`,
     },
   },
-  ga: 'G-JFJXSVC7W2', // Google Analytics Tracking ID
+  ga: `G-JFJXSVC7W2`, // Google Analytics Tracking ID
   author: {
     name: `최혜원`,
     bio: {
