@@ -212,9 +212,8 @@ Hibernate:
     values
         (default, ?)
 </code></pre></div>
-<p>실행 결과 그런 것을 볼 수 있다.</p>
-<p>다시 코틀린 코드로 돌아와서, 코틀린의 <code class="language-text">Long</code>은 자바의 <code class="language-text">Long</code>과 다르게 <code class="language-text">null</code>이 들어갈 수 없다.
-따라서 위 예제처럼 자바에서 <code class="language-text">id</code>의 자료형을 <code class="language-text">long</code>으로 하고, <code class="language-text">0L</code>로 초기화 한 것과 동일하다.</p>
+<p>실행 결과 그런 것을 볼 수 있다.<br>
+코틀린 코드는 위 예제처럼 자바에서 <code class="language-text">id</code>의 자료형을 <code class="language-text">long</code>으로 하고, <code class="language-text">0L</code>로 초기화 한 것과 동일하다.</p>
 <h3 id="숫자가-아닌-값을-id로-쓰려면" style="position:relative;"><a href="#%EC%88%AB%EC%9E%90%EA%B0%80-%EC%95%84%EB%8B%8C-%EA%B0%92%EC%9D%84-id%EB%A1%9C-%EC%93%B0%EB%A0%A4%EB%A9%B4" aria-label="숫자가 아닌 값을 id로 쓰려면 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>숫자가 아닌 값을 id로 쓰려면?</h3>
 <p>줍줍 서비스를 개발하다 슬랙은 식별값으로 문자열을 쓴다는 사실이 기억났다.
 (물론 내부적으로는 숫자 <code class="language-text">id</code>를 쓸 수도 있겠으나…)
