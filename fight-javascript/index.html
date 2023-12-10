@@ -1,0 +1,964 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 5.7.0"/><meta data-react-helmet="true" property="og:title" content="자바스크립트에 불시착"/><meta data-react-helmet="true" property="og:site_title" content="자바스크립트에 불시착"/><meta data-react-helmet="true" name="description" content="많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
+나는 자바스크립트랑 node.js로 바닥부터 개발을 해보지 않아서 모르지만, 다른 언어와 프레임워크에 비해 프로덕트를 빠르게 낼 수 있어, 초기 스타트업에서 많이 사용한다고 들었다.
+그런데 나처럼 특정 언어와 프레임워크를 사용하는 백엔드 교육 과정으로 개발을 시작한 사람은 배운 것 밖에 쓸 줄 모른다.
+대부분의 교육 과정에서 가르치는 자바•스프링이 공개된 자료도 훨씬 많다. 그런데 예전에 구직 사이트에서 신입 공고를 볼 때 자바스크립트•노드 스택이 많았다.
+가고 싶은 회사 중 한 곳이었던 인프런도 자바스크립트•노드 스택이었다.
+취준 때 스택에 상관없이 이곳저곳 서류를 넣고 면접을 보면서 &lt;자바 스프링이 아닌 무언가&gt;를 사용하는데 괜찮으세요 라는 질문을 받으면 언어랑 프레임워크는 도구일 뿐이죠!😉 라고 답하면서 허세는 잔뜩 부렸는데,
+솔직히 나도 할 줄 아는 걸로 해먹고 살고 싶었다. 편하니까. 다행스럽게 자바•스프링을 사용…"/><meta data-react-helmet="true" property="og:description" content="많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
+나는 자바스크립트랑 node.js로 바닥부터 개발을 해보지 않아서 모르지만, 다른 언어와 프레임워크에 비해 프로덕트를 빠르게 낼 수 있어, 초기 스타트업에서 많이 사용한다고 들었다.
+그런데 나처럼 특정 언어와 프레임워크를 사용하는 백엔드 교육 과정으로 개발을 시작한 사람은 배운 것 밖에 쓸 줄 모른다.
+대부분의 교육 과정에서 가르치는 자바•스프링이 공개된 자료도 훨씬 많다. 그런데 예전에 구직 사이트에서 신입 공고를 볼 때 자바스크립트•노드 스택이 많았다.
+가고 싶은 회사 중 한 곳이었던 인프런도 자바스크립트•노드 스택이었다.
+취준 때 스택에 상관없이 이곳저곳 서류를 넣고 면접을 보면서 &lt;자바 스프링이 아닌 무언가&gt;를 사용하는데 괜찮으세요 라는 질문을 받으면 언어랑 프레임워크는 도구일 뿐이죠!😉 라고 답하면서 허세는 잔뜩 부렸는데,
+솔직히 나도 할 줄 아는 걸로 해먹고 살고 싶었다. 편하니까. 다행스럽게 자바•스프링을 사용…"/><meta data-react-helmet="true" property="og:author" content="최혜원"/><meta data-react-helmet="true" property="og:image" content="/og-image.png"/><meta data-react-helmet="true" property="og:type" content="website"/><style data-href="/styles.9aa10aa5c419d3f49a1f.css" data-identity="gatsby-global-css">@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:100;src:local("Montserrat Thin "),local("Montserrat-Thin"),url(/static/montserrat-latin-100-8d7d79679b70dbe27172b6460e7a7910.woff2) format("woff2"),url(/static/montserrat-latin-100-ec38980a9e0119a379e2a9b3dbb1901a.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:100;src:local("Montserrat Thin italic"),local("Montserrat-Thinitalic"),url(/static/montserrat-latin-100italic-e279051046ba1286706adc886cf1c96b.woff2) format("woff2"),url(/static/montserrat-latin-100italic-3b325a3173c8207435cd1b76e19bf501.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:200;src:local("Montserrat Extra Light "),local("Montserrat-Extra Light"),url(/static/montserrat-latin-200-9d266fbbfa6cab7009bd56003b1eeb67.woff2) format("woff2"),url(/static/montserrat-latin-200-2d8ba08717110d27122e54c34b8a5798.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:200;src:local("Montserrat Extra Light italic"),local("Montserrat-Extra Lightitalic"),url(/static/montserrat-latin-200italic-6e5b3756583bb2263eb062eae992735e.woff2) format("woff2"),url(/static/montserrat-latin-200italic-a0d6f343e4b536c582926255367a57da.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:300;src:local("Montserrat Light "),local("Montserrat-Light"),url(/static/montserrat-latin-300-00b3e893aab5a8fd632d6342eb72551a.woff2) format("woff2"),url(/static/montserrat-latin-300-ea303695ceab35f17e7d062f30e0173b.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:300;src:local("Montserrat Light italic"),local("Montserrat-Lightitalic"),url(/static/montserrat-latin-300italic-56f34ea368f6aedf89583d444bbcb227.woff2) format("woff2"),url(/static/montserrat-latin-300italic-54b0bf2c8c4c12ffafd803be2466a790.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat Regular "),local("Montserrat-Regular"),url(/static/montserrat-latin-400-b71748ae4f80ec8c014def4c5fa8688b.woff2) format("woff2"),url(/static/montserrat-latin-400-0659a9f4e90db5cf51b50d005bff1e41.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:400;src:local("Montserrat Regular italic"),local("Montserrat-Regularitalic"),url(/static/montserrat-latin-400italic-6eed6b4cbb809c6efc7aa7ddad6dbe3e.woff2) format("woff2"),url(/static/montserrat-latin-400italic-7583622cfde30ae49086d18447ab28e7.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:500;src:local("Montserrat Medium "),local("Montserrat-Medium"),url(/static/montserrat-latin-500-091b209546e16313fd4f4fc36090c757.woff2) format("woff2"),url(/static/montserrat-latin-500-edd311588712a96bbf435fad264fff62.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:500;src:local("Montserrat Medium italic"),local("Montserrat-Mediumitalic"),url(/static/montserrat-latin-500italic-c90ced68b46050061d1a41842d6dfb43.woff2) format("woff2"),url(/static/montserrat-latin-500italic-5146cbfe02b1deea5dffea27a5f2f998.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:600;src:local("Montserrat SemiBold "),local("Montserrat-SemiBold"),url(/static/montserrat-latin-600-0480d2f8a71f38db8633b84d8722e0c2.woff2) format("woff2"),url(/static/montserrat-latin-600-b77863a375260a05dd13f86a1cee598f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:600;src:local("Montserrat SemiBold italic"),local("Montserrat-SemiBolditalic"),url(/static/montserrat-latin-600italic-cf46ffb11f3a60d7df0567f8851a1d00.woff2) format("woff2"),url(/static/montserrat-latin-600italic-c4fcfeeb057724724097167e57bd7801.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:700;src:local("Montserrat Bold "),local("Montserrat-Bold"),url(/static/montserrat-latin-700-7dbcc8a5ea2289d83f657c25b4be6193.woff2) format("woff2"),url(/static/montserrat-latin-700-99271a835e1cae8c76ef8bba99a8cc4e.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:700;src:local("Montserrat Bold italic"),local("Montserrat-Bolditalic"),url(/static/montserrat-latin-700italic-c41ad6bdb4bd504a843d546d0a47958d.woff2) format("woff2"),url(/static/montserrat-latin-700italic-6779372f04095051c62ed36bc1dcc142.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:800;src:local("Montserrat ExtraBold "),local("Montserrat-ExtraBold"),url(/static/montserrat-latin-800-db9a3e0ba7eaea32e5f55328ace6cf23.woff2) format("woff2"),url(/static/montserrat-latin-800-4e3c615967a2360f5db87d2f0fd2456f.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:800;src:local("Montserrat ExtraBold italic"),local("Montserrat-ExtraBolditalic"),url(/static/montserrat-latin-800italic-bf45bfa14805969eda318973947bc42b.woff2) format("woff2"),url(/static/montserrat-latin-800italic-fe82abb0bcede51bf724254878e0c374.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:normal;font-weight:900;src:local("Montserrat Black "),local("Montserrat-Black"),url(/static/montserrat-latin-900-e66c7edc609e24bacbb705175669d814.woff2) format("woff2"),url(/static/montserrat-latin-900-8211f418baeb8ec880b80ba3c682f957.woff) format("woff")}@font-face{font-display:swap;font-family:Montserrat;font-style:italic;font-weight:900;src:local("Montserrat Black italic"),local("Montserrat-Blackitalic"),url(/static/montserrat-latin-900italic-4454c775e48152c1a72510ceed3603e2.woff2) format("woff2"),url(/static/montserrat-latin-900italic-efcaa0f6a82ee0640b83a0916e6e8d68.woff) format("woff")}.search-input-wrapper{align-items:center;display:none;margin-top:3px;width:180px}@media(min-width:768px){.search-input-wrapper{display:flex}}.search-icon{color:var(--primary-text-color);margin-right:2px}.search-input{height:100%;width:100%}.search-input .MuiAutocomplete-inputRoot{padding-right:0!important}.search-input .MuiInputBase-input{color:var(--primary-text-color)!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;padding-bottom:2px!important}.search-input .MuiInput-underline:before{border-bottom-color:var(--primary-text-color);border-bottom-width:1px}.search-input .MuiInput-underline:after{border-bottom-color:var(--primary-text-color)}.page-header-wrapper{display:flex;height:60px;justify-content:center;width:100%}.page-header-wrapper .page-header{align-items:center;display:flex;justify-content:space-between;max-width:720px;width:100%}.page-header-wrapper .page-header .link{color:var(--primary-text-color);font-size:17px;font-weight:700}@media(min-width:768px){.page-header-wrapper .page-header .link{font-size:20px;font-weight:700}}.page-header-wrapper .page-header .trailing-section{align-items:center;display:flex}.page-header-wrapper .page-header .trailing-section .link{margin-right:10px}@media(min-width:768px){.page-header-wrapper .page-header .trailing-section .link{margin-right:20px}}.page-footer-wrapper{align-items:center;display:flex;height:62px;justify-content:center;margin-top:auto;width:100%}.page-footer-wrapper .page-footer{max-width:720px;text-align:center;width:100%}.page-footer-wrapper .page-footer .link{color:var(--primary-text-color);font-size:20px;font-weight:700;margin-right:20px}.page-footer-wrapper .page-footer a{color:#3a95ff}.dark-mode-button-wrapper{align-items:center;bottom:20px;display:flex;justify-content:center;position:fixed;right:20px}.dark-mode-button{-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);background-color:#363f47!important;border-radius:50px;box-shadow:0 5px 25px rgba(0,0,0,.12);cursor:pointer;height:50px;width:50px;z-index:3}.dark-mode-icon{color:#fff}a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{border:0;font-size:100%;font:inherit;margin:0;padding:0;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}table{border-collapse:collapse;border-spacing:0}a{outline:none;text-decoration:none}html{--background-color:#fff;--primary-text-color:#000;--secondary-text-color:#9e9e9e;--content-text-color:#37352f;--button-background-color:#f3f3f4;--button-text-color:#363f47;--tab-text-color:#6e6d7a;--tab-hover-text-color:#0d0c22;--tab-selected-background-color:rgba(13,12,34,.05);--bio-link-icon-color:rgba(0,0,0,.54);--about-link-icon-color:#a8a8a8;--chip-background-color:#f3f3f4;--link-text-color:#ffc106;--post-card-border-color:rgba(0,0,0,.12);--markdown-table-even-cell-background-color:#f6f8fa;--markdown-table-border-color:#dfe2e5;--markdown-blockquote-border-color:#dfe2e5;--markdown-border-color:#e1e4e8}html[data-theme=dark]{--background-color:#232326;--primary-text-color:#e6e6e6;--secondary-text-color:#768390;--content-text-color:#e6e6e6;--button-background-color:#444c56;--button-text-color:#363f47;--tab-text-color:#768390;--tab-hover-text-color:#acbac7;--tab-selected-background-color:#373e47;--chip-background-color:#323a42;--bio-link-icon-color:#e6e6e6;--about-link-icon-color:#a8a8a8;--link-text-color:#6a06ff;--post-card-border-color:#363f47;--markdown-table-even-cell-background-color:#2d333b;--markdown-table-border-color:#444c56;--markdown-blockquote-border-color:#4f5864;--markdown-border-color:#e1e4e8}*{-webkit-appearance:none;appearance:none;box-sizing:border-box}html{font-size:14px;height:100%;overflow-y:scroll;width:100%}body{background-color:var(--background-color)!important}a{color:var(--content-text-color)}.page-wrapper{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:var(--primary-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;justify-content:center;min-height:100vh;padding-left:15px;padding-right:15px;word-break:keep-all}.page-wrapper,.page-wrapper .page-content{align-items:center;display:flex;flex-direction:column;width:100%}.page-wrapper .page-content{max-width:720px}.icon{color:var(--about-link-icon-color);font-size:20px}.social-links .icon{color:var(--bio-link-icon-color);font-size:30px}@keyframes blinking-cursor{0%{opacity:0}50%{opacity:1}to{opacity:0}}.bio{color:var(--primary-text-color);display:flex;flex-direction:column;justify-content:space-between;margin-bottom:120px;margin-top:120px;width:100%}@media(min-width:768px){.bio{align-items:center;flex-direction:row}}.bio .introduction{display:flex;flex-direction:column;word-break:keep-all}.bio .introduction .react-rotating-text-cursor{animation:blinking-cursor .8s cubic-bezier(.68,.01,.01,.99) 0s infinite}.bio .introduction strong{display:inline-block;font-weight:600}.bio .introduction.korean{font-size:32px;font-weight:100;line-height:1.2}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:35px;line-height:35px}@media(min-width:768px){.bio .introduction.korean{font-size:40px}.bio .introduction.korean .title .react-rotating-text-cursor{font-size:45px;line-height:45px}}.bio .introduction.english{font-family:montserrat;font-size:25px;line-height:1.2}@media(min-width:768px){.bio .introduction.english{font-size:45px}}.bio .introduction.english .name{font-size:35px;font-weight:600}.bio .introduction.english .job{font-size:35px}.bio .introduction.english .description{font-size:20px;font-weight:200;margin-top:8px}.bio .introduction.english .social-links{display:flex;margin-top:20px}.bio .thumbnail-wrapper{display:none}@media(min-width:768px){.bio .thumbnail-wrapper{display:block}}.section-header-wrapper{display:flex;justify-content:center;margin-bottom:32px;width:100%}.section-header-wrapper .section-header{border-bottom:4px solid var(--primary-text-color);color:var(--primary-text-color);font-size:30px;font-weight:700;padding-bottom:5px}.timestamp-section{align-items:center;display:flex;flex-direction:column;justify-content:center;margin-bottom:50px;width:100%;word-break:keep-all}.timestamp-section .body{padding:0 10px;width:100%}.timestamp-section .body .timestamp{border-left:2px solid #bdbdbd;display:flex;font-size:18px;font-weight:400;justify-items:center;margin-left:5px;padding:10px 0;width:100%}.timestamp-section .body .timestamp:first-child{padding-top:7px}.timestamp-section .body .timestamp:last-child{padding-bottom:7px}.timestamp-section .body .timestamp:before{align-self:center;background-color:var(--background-color);border:2px solid #828282;border-radius:10px;content:"";height:10px;left:-1px;position:relative;transform:translatex(-50%);width:10px}.timestamp-section .body .timestamp .date{align-self:center;color:#828282;margin-left:5px;margin-right:5px;min-width:115px;width:115px}@media(min-width:768px){.timestamp-section .body .timestamp .date{min-width:200px;width:200px}}.timestamp-section .body .timestamp .activity{line-height:23px;width:100%}.project-section{align-items:center;justify-content:center}.project-section,.project-section .project{display:flex;flex-direction:column;width:100%}.project-section .project{margin-bottom:30px;padding:15px}.project-section .project .head{font-size:20px;font-weight:700;line-height:30px;margin-bottom:10px}.project-section .project .body{display:flex;flex-direction:column;width:100%}.project-section .project .body .thumbnail{margin-bottom:10px;width:100%}.project-section .project .body .tech-stack{display:flex;margin-bottom:10px}.project-section .project .body .tech-stack .tech{background-color:var(--chip-background-color);border-radius:10px;font-size:15px;font-weight:500;margin-right:5px;padding:5px 7px}.project-section .project .body .description{font-size:16px;font-weight:400;line-height:1.4}@media(min-width:768px){.project-section .project .body{flex-direction:column}.project-section .project .body .content{margin-top:0}}.post-header{border-bottom:1px solid var(--post-card-border-color);display:flex;flex-direction:column;justify-content:center;margin-bottom:40px;margin-top:20px;padding-bottom:10px;width:100%;word-break:keep-all}.post-header .emoji{font-size:78px;margin-bottom:20px}.post-header .categories{margin-bottom:5px}.post-header .categories .category{color:var(--primary-text-color);font-weight:600;margin-right:4px}.post-header .categories .category:hover{text-decoration:underline}.post-header .title{color:var(--primary-text-color);font-size:32px;font-weight:600;line-height:1.3;margin-bottom:6px}.post-header .info{color:var(--secondary-text-color);display:flex;flex-wrap:wrap;font-size:16px;font-weight:500;line-height:1.5;width:100%}.post-header .info .author{margin-right:4px}.post-header .info strong{color:var(--primary-text-color);font-weight:600}.post-navigator{column-gap:1.4%;display:grid;grid-template-columns:49.3% 49.3%;width:100%}.post-navigator .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;padding:15px;transition:transform .2s;width:100%}.post-navigator .post-card:hover .title{text-decoration:underline}.post-navigator .post-card.prev{margin-right:auto}.post-navigator .post-card.next{margin-left:auto}.post-navigator .post-card .direction{color:gray;font-size:14px;font-weight:500;margin-bottom:5px}.post-navigator .post-card .title{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:7px}.markdown .octicon{fill:currentColor;display:inline-block;vertical-align:text-bottom}.markdown .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.markdown .anchor:focus{outline:none}.markdown h1 .octicon-link,.markdown h2 .octicon-link,.markdown h3 .octicon-link,.markdown h4 .octicon-link,.markdown h5 .octicon-link,.markdown h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown h1:hover .anchor,.markdown h2:hover .anchor,.markdown h3:hover .anchor,.markdown h4:hover .anchor,.markdown h5:hover .anchor,.markdown h6:hover .anchor{text-decoration:none}.markdown h1:hover .anchor .octicon-link,.markdown h2:hover .anchor .octicon-link,.markdown h3:hover .anchor .octicon-link,.markdown h4:hover .anchor .octicon-link,.markdown h5:hover .anchor .octicon-link,.markdown h6:hover .anchor .octicon-link{visibility:visible}.markdown h1:hover .anchor .octicon-link:before,.markdown h2:hover .anchor .octicon-link:before,.markdown h3:hover .anchor .octicon-link:before,.markdown h4:hover .anchor .octicon-link:before,.markdown h5:hover .anchor .octicon-link:before,.markdown h6:hover .anchor .octicon-link:before{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' aria-hidden='true' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'/%3E%3C/svg%3E");content:" ";display:inline-block;height:16px;width:16px}.markdown{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;word-wrap:break-word;color:var(--content-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;font-weight:500;line-height:1.5}.markdown details{display:block}.markdown summary{display:list-item}.markdown a{background-color:initial}.markdown a:active,.markdown a:hover{background-color:var(--link-text-color);outline-width:0}.markdown strong{font-weight:inherit;font-weight:bolder}.markdown h1{margin:.67em 0}.markdown img{border-style:none}.markdown code,.markdown kbd,.markdown pre{font-family:monospace,monospace;font-size:10px}.markdown hr{box-sizing:initial;overflow:visible}.markdown input{font:inherit;margin:0;overflow:visible}.markdown [type=checkbox]{box-sizing:border-box;padding:0}.markdown *{box-sizing:border-box}.markdown input{font-family:inherit;font-size:inherit;line-height:inherit}.markdown a{border-bottom:.15em solid;border-color:var(--link-text-color);color:var(--content-text-color);text-decoration:none}.markdown a.anchor{border-bottom:none}.markdown strong{font-weight:700}.markdown hr{background:transparent;border-bottom:1px solid var(--markdown-blockquote-border-color);height:0;margin:15px 0;overflow:hidden}.markdown hr:after,.markdown hr:before{content:"";display:table}.markdown hr:after{clear:both}.markdown table{border-collapse:collapse;border-spacing:0}.markdown td,.markdown th{padding:0}.markdown details summary{cursor:pointer}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{margin-bottom:0;margin-top:0}.markdown h1{font-size:32px}.markdown h1,.markdown h2{font-weight:600}.markdown h2{font-size:24px}.markdown h3{font-size:20px}.markdown h3,.markdown h4{font-weight:600}.markdown h4{font-size:16px}.markdown h5{font-size:14px}.markdown h5,.markdown h6{font-weight:600}.markdown h6{font-size:12px}.markdown p{margin-bottom:10px;margin-top:0}.markdown blockquote{margin:0}.markdown ol,.markdown ul{margin-bottom:0;margin-top:0;padding-left:0}.markdown ol ol,.markdown ul ol{list-style-type:lower-roman}.markdown ol ol ol,.markdown ol ul ol,.markdown ul ol ol,.markdown ul ul ol{list-style-type:lower-alpha}.markdown dd{margin-left:0}.markdown code,.markdown pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px}.markdown code.language-text{border-radius:3px;font-size:85%;padding:.2em .4em}.markdown :not(pre)>code.language-text{background:hsla(44,6%,50%,.15);color:#eb5757;overflow-wrap:break-word}.markdown pre{margin-bottom:0;margin-top:0}.markdown input::-webkit-inner-spin-button,.markdown input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.markdown :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.markdown .border{border:1px solid var(--markdown-border-color)!important}.markdown .border-0{border:0!important}.markdown .border-bottom{border-bottom:1px solid var(--markdown-border-color)!important}.markdown .rounded-1{border-radius:3px!important}.markdown .bg-white{background-color:transparent!important}.markdown .bg-gray-light{background-color:#fafbfc!important}.markdown .text-gray-light{color:#6a737d!important}.markdown .pl-3,.markdown .px-3{padding-left:16px!important}.markdown .px-3{padding-right:16px!important}.markdown .f6{font-size:12px!important}.markdown .lh-condensed{line-height:1.25!important}.markdown .text-bold{font-weight:600!important}.markdown .pl-c{color:#6a737d}.markdown .pl-c1,.markdown .pl-s .pl-v{color:#005cc5}.markdown .pl-e,.markdown .pl-en{color:#6f42c1}.markdown .pl-s .pl-s1,.markdown .pl-smi{color:#24292e}.markdown .pl-ent{color:#22863a}.markdown .pl-k{color:#d73a49}.markdown .pl-pds,.markdown .pl-s,.markdown .pl-s .pl-pse .pl-s1,.markdown .pl-sr,.markdown .pl-sr .pl-cce,.markdown .pl-sr .pl-sra,.markdown .pl-sr .pl-sre{color:#032f62}.markdown .pl-smw,.markdown .pl-v{color:#e36209}.markdown .pl-bu{color:#b31d28}.markdown .pl-ii{background-color:#b31d28;color:#fafbfc}.markdown .pl-c2{background-color:#d73a49;color:#fafbfc}.markdown .pl-c2:before{content:"^M"}.markdown .pl-sr .pl-cce{color:#22863a;font-weight:700}.markdown .pl-ml{color:#735c0f}.markdown .pl-mh,.markdown .pl-mh .pl-en,.markdown .pl-ms{color:#005cc5;font-weight:700}.markdown .pl-mi{color:#24292e;font-style:italic}.markdown .pl-mb{color:#24292e;font-weight:700}.markdown .pl-md{background-color:#ffeef0;color:#b31d28}.markdown .pl-mi1{background-color:#f0fff4;color:#22863a}.markdown .pl-mc{background-color:#ffebda;color:#e36209}.markdown .pl-mi2{background-color:#005cc5;color:#f6f8fa}.markdown .pl-mdr{color:#6f42c1;font-weight:700}.markdown .pl-ba{color:#586069}.markdown .pl-sg{color:#959da5}.markdown .pl-corl{color:#032f62;text-decoration:underline}.markdown .mb-0{margin-bottom:0!important}.markdown .my-2{margin-bottom:8px!important;margin-top:8px!important}.markdown .pl-0{padding-left:0!important}.markdown .py-0{padding-bottom:0!important;padding-top:0!important}.markdown .pl-1{padding-left:4px!important}.markdown .pl-2{padding-left:8px!important}.markdown .py-2{padding-bottom:8px!important;padding-top:8px!important}.markdown .pl-3{padding-left:16px!important}.markdown .pl-4{padding-left:24px!important}.markdown .pl-5{padding-left:32px!important}.markdown .pl-6{padding-left:40px!important}.markdown .pl-7{padding-left:48px!important}.markdown .pl-8{padding-left:64px!important}.markdown .pl-9{padding-left:80px!important}.markdown .pl-10{padding-left:96px!important}.markdown .pl-11{padding-left:112px!important}.markdown .pl-12{padding-left:128px!important}.markdown hr{border-bottom-color:#eee}.markdown kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da;color:#444d56;display:inline-block;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown:after,.markdown:before{content:"";display:table}.markdown:after{clear:both}.markdown>:first-child{margin-top:0!important}.markdown>:last-child{margin-bottom:0!important}.markdown a:not([href]){color:inherit;text-decoration:none}.markdown blockquote,.markdown details,.markdown dl,.markdown ol,.markdown p,.markdown pre,.markdown table,.markdown ul{margin-bottom:16px;margin-top:0}.markdown hr{background-color:var(--markdown-border-color);border:0;height:.25em;margin:24px 0;padding:0}.markdown blockquote{border-left:.25em solid var(--markdown-blockquote-border-color);color:#6a737d;padding:0 1em}.markdown blockquote>:first-child{margin-top:0}.markdown blockquote>:last-child{margin-bottom:0}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.markdown h1{font-size:2em}.markdown h2{font-size:1.5em}.markdown h3{font-size:1.25em}.markdown h4{font-size:1em}.markdown h5{font-size:.875em}.markdown h6{color:#6a737d;font-size:.85em}.markdown ol,.markdown ul{padding-left:2em}.markdown ol ol,.markdown ol ul,.markdown ul ol,.markdown ul ul{margin-bottom:0;margin-top:0}.markdown ol{list-style-type:decimal}.markdown ul{list-style-type:disc}.markdown li{word-wrap:break-all;display:list-item;text-align:-webkit-match-parent}.markdown li>p{margin-top:16px}.markdown li+li{margin-top:.25em}.markdown dl{padding:0}.markdown dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.markdown dl dd{margin-bottom:16px;padding:0 16px}.markdown table{display:block;overflow:auto;width:100%}.markdown table th{font-weight:600}.markdown table td,.markdown table th{border:1px solid var(--markdown-table-border-color);padding:6px 13px}.markdown table tr{border-top:1px solid var(--markdown-table-border-color)}.markdown table tr:nth-child(2n){background-color:var(--markdown-table-even-cell-background-color)}.markdown img{background-color:transparent;box-sizing:initial;display:block;margin:0 auto;max-width:100%}.markdown img[align=right]{padding-left:20px}.markdown img[align=left]{padding-right:20px}.markdown code{background-color:rgba(27,31,35,.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.markdown pre{word-wrap:normal}.markdown pre>code{background:transparent;border:0;font-size:85%;margin:0;padding:0;white-space:pre;word-break:normal}.markdown .highlight{margin-bottom:16px}.markdown .highlight pre{margin-bottom:0;word-break:normal}.markdown .highlight pre,.markdown pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.markdown pre code{word-wrap:normal;background-color:initial;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0}.markdown .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:90%}.markdown .full-commit .btn-outline:not(:disabled):hover{border-color:#005cc5;color:#005cc5}.markdown .blob-wrapper{overflow-x:auto;overflow-y:hidden}.markdown .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.markdown .blob-num{color:rgba(27,31,35,.3);cursor:pointer;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;-webkit-user-select:none;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.markdown .blob-num:hover{color:rgba(27,31,35,.6)}.markdown .blob-num:before{content:attr(data-line-number)}.markdown .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.markdown .blob-code-inner{word-wrap:normal;color:#24292e;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px;overflow:visible;white-space:pre}.markdown .pl-token.active,.markdown .pl-token:hover{background:#ffea7f;cursor:pointer}.markdown .tab-size[data-tab-size="1"]{tab-size:1}.markdown .tab-size[data-tab-size="2"]{tab-size:2}.markdown .tab-size[data-tab-size="3"]{tab-size:3}.markdown .tab-size[data-tab-size="4"]{tab-size:4}.markdown .tab-size[data-tab-size="5"]{tab-size:5}.markdown .tab-size[data-tab-size="6"]{tab-size:6}.markdown .tab-size[data-tab-size="7"]{tab-size:7}.markdown .tab-size[data-tab-size="8"]{tab-size:8}.markdown .tab-size[data-tab-size="9"]{tab-size:9}.markdown .tab-size[data-tab-size="10"]{tab-size:10}.markdown .tab-size[data-tab-size="11"]{tab-size:11}.markdown .tab-size[data-tab-size="12"]{tab-size:12}.markdown .task-list-item{list-style-type:none}.markdown .task-list-item+.task-list-item{margin-top:3px}.markdown .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown .table-of-contents{align-items:flex-start;display:flex;flex-direction:column;justify-content:center;position:fixed;right:0;top:75px;width:340px}@media(max-width:1300px){.markdown .table-of-contents{display:none}}.markdown .table-of-contents ul{cursor:pointer;list-style-type:none}.markdown .table-of-contents ul li a{border-bottom:none;color:var(--secondary-text-color);font-size:14px;height:30px;padding:6px 2px;width:100%}.markdown .table-of-contents ul p{margin:0}.markdown .gatsby-resp-image-wrapper{display:flex!important;justify-content:center!important;max-height:560px!important;width:100%!important}.markdown .gatsby-resp-image-wrapper img{height:auto!important;max-height:560px!important;max-width:100%!important;position:relative!important;width:auto!important}.markdown .gatsby-resp-image-wrapper+em{color:#6a737d;display:block;font-size:15px;font-style:italic;text-align:center}code[class*=language-],pre[class*=language-]{word-wrap:normal;background:none;color:#ccc;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;-webkit-hyphens:none;hyphens:none;line-height:1.5;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#2d2d2d}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#999}.token.punctuation{color:#ccc}.token.attr-name,.token.deleted,.token.namespace,.token.tag{color:#e2777a}.token.function-name{color:#6196cc}.token.boolean,.token.function,.token.number{color:#f08d49}.token.class-name,.token.constant,.token.property,.token.symbol{color:#f8c555}.token.atrule,.token.builtin,.token.important,.token.keyword,.token.selector{color:#cc99cd}.token.attr-value,.token.char,.token.regex,.token.string,.token.variable{color:#7ec699}.token.entity,.token.operator,.token.url{color:#67cdcc}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.token.inserted{color:green}.post-content{margin-bottom:20px;width:100%}.category-page-header-wrapper,.post-content{display:flex;flex-direction:column;justify-content:center}.category-page-header-wrapper{align-items:center;margin-bottom:30px;margin-top:30px}.category-page-header-wrapper .category-page-title{border-bottom:3px solid var(--primary-text-color);font-size:40px;font-weight:700;margin-bottom:15px;padding-bottom:7px;text-align:center;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content}.category-page-header-wrapper .category-page-subtitle{font-size:20px;font-weight:500;padding-bottom:10px;text-align:center}.post-card-wrapper{display:flex;justify-content:center;min-height:150px;width:100%}.post-card-wrapper .post-card{border:1px solid var(--post-card-border-color);border-radius:6px;color:var(--primary-text-color);cursor:pointer;display:flex;flex-direction:column;height:100%;margin-bottom:15px;max-width:720px;padding:15px;transition:transform .2s;width:100%}.post-card-wrapper .post-card:hover .title{text-decoration:underline}@media(min-width:768px){.post-card-wrapper .post-card{margin-bottom:0}}.post-card-wrapper .post-card .title{font-size:18px;font-weight:600;line-height:1.4;margin-bottom:7px}.post-card-wrapper .post-card .description{-webkit-line-clamp:3;-webkit-box-orient:vertical;color:var(--primary-text-color);display:-webkit-box;font-size:13px;line-height:20px;margin-bottom:10px;overflow:hidden;text-overflow:ellipsis}.post-card-wrapper .post-card .info{color:var(--about-link-icon-color);display:flex;font-size:14px;justify-content:space-between;margin-top:auto}.post-card-wrapper .post-card .info .categories{display:flex}.post-card-wrapper .post-card .info .categories .category{margin-left:4px}.post-card-wrapper .post-card .info .categories .category:hover{text-decoration:underline}.post-card-column-wrapper{display:flex;justify-content:center;width:100%}.post-card-column-wrapper .post-card-column{align-items:center;display:flex;flex-direction:column;width:100%}.post-card-column-wrapper .post-card-column .post-card-wrapper{margin-bottom:10px}.post-card-column-wrapper .post-card-column .more-post-card-button{background-color:var(--button-background-color);color:var(--tab-hover-text-color);font-size:15px;font-weight:500;height:40px}.post-tabs-wrapper{align-self:flex-start;display:flex;flex-direction:column;justify-content:center;top:0;width:100%}.post-tabs-wrapper .post-tabs{display:flex;height:40px;justify-content:center;margin-bottom:12px;max-width:760px;width:100%}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root{color:var(--tab-text-color);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:17px;font-weight:500;height:40px;min-height:auto;min-width:auto;padding:10px 12px;transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected,.post-tabs-wrapper .post-tabs .mui-tabs .MuiTab-root :hover{color:var(--tab-hover-text-color);transition:all .2s ease}.post-tabs-wrapper .post-tabs .mui-tabs .Mui-selected{background-color:var(--tab-selected-background-color);border-radius:8px;font-weight:600}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabScrollButton-root{height:40px;width:20px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-scrollable{height:40px}.post-tabs-wrapper .post-tabs .mui-tabs .MuiTabs-indicator{display:none}</style><style data-emotion="css-global o6gwfi">html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;}*,*::before,*::after{box-sizing:inherit;}strong,b{font-weight:700;}body{margin:0;color:rgba(0, 0, 0, 0.87);font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;background-color:#fff;}@media print{body{background-color:#fff;}}body::backdrop{background-color:#fff;}</style><style data-emotion="css-global 1prfaxn">@-webkit-keyframes mui-auto-fill{from{display:block;}}@keyframes mui-auto-fill{from{display:block;}}@-webkit-keyframes mui-auto-fill-cancel{from{display:block;}}@keyframes mui-auto-fill-cancel{from{display:block;}}</style><style data-emotion="css 1lambp5 feqhe6 12rx5qu mnn31 vubbuv 1yxmbwk 6flbmm">.css-1lambp5.Mui-focused .MuiAutocomplete-clearIndicator{visibility:visible;}@media (pointer: fine){.css-1lambp5:hover .MuiAutocomplete-clearIndicator{visibility:visible;}}.css-1lambp5 .MuiAutocomplete-tag{margin:3px;max-width:calc(100% - 6px);}.css-1lambp5 .MuiAutocomplete-inputRoot{-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiAutocomplete-inputRoot,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiAutocomplete-inputRoot{padding-right:30px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiAutocomplete-inputRoot{padding-right:56px;}.css-1lambp5 .MuiAutocomplete-inputRoot .MuiAutocomplete-input{width:0;min-width:30px;}.css-1lambp5 .MuiInput-root{padding-bottom:1px;}.css-1lambp5 .MuiInput-root .MuiInput-input{padding:4px 4px 4px 0px;}.css-1lambp5 .MuiInput-root.MuiInputBase-sizeSmall .MuiInput-input{padding:2px 4px 3px 0;}.css-1lambp5 .MuiOutlinedInput-root{padding:9px;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiOutlinedInput-root,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiOutlinedInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiOutlinedInput-root{padding-right:65px;}.css-1lambp5 .MuiOutlinedInput-root .MuiAutocomplete-input{padding:7.5px 4px 7.5px 6px;}.css-1lambp5 .MuiOutlinedInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1lambp5 .MuiOutlinedInput-root.MuiInputBase-sizeSmall{padding-top:6px;padding-bottom:6px;padding-left:6px;}.css-1lambp5 .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input{padding:2.5px 4px 2.5px 6px;}.css-1lambp5 .MuiFilledInput-root{padding-top:19px;padding-left:8px;}.MuiAutocomplete-hasPopupIcon.css-1lambp5 .MuiFilledInput-root,.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiFilledInput-root{padding-right:39px;}.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1lambp5 .MuiFilledInput-root{padding-right:65px;}.css-1lambp5 .MuiFilledInput-root .MuiFilledInput-input{padding:7px 4px;}.css-1lambp5 .MuiFilledInput-root .MuiAutocomplete-endAdornment{right:9px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-sizeSmall{padding-bottom:1px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-sizeSmall .MuiFilledInput-input{padding:2.5px 4px;}.css-1lambp5 .MuiInputBase-hiddenLabel{padding-top:8px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel{padding-top:0;padding-bottom:0;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel .MuiAutocomplete-input{padding-top:16px;padding-bottom:17px;}.css-1lambp5 .MuiFilledInput-root.MuiInputBase-hiddenLabel.MuiInputBase-sizeSmall .MuiAutocomplete-input{padding-top:8px;padding-bottom:9px;}.css-1lambp5 .MuiAutocomplete-input{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;text-overflow:ellipsis;opacity:1;}.css-feqhe6{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;position:relative;min-width:0;padding:0;margin:0;border:0;vertical-align:top;width:100%;}.css-12rx5qu{font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.4375em;letter-spacing:0.00938em;color:rgba(0, 0, 0, 0.87);box-sizing:border-box;position:relative;cursor:text;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:100%;position:relative;}.css-12rx5qu.Mui-disabled{color:rgba(0, 0, 0, 0.38);cursor:default;}label+.css-12rx5qu{margin-top:16px;}.css-12rx5qu:after{border-bottom:2px solid #1976d2;left:0;bottom:0;content:"";position:absolute;right:0;-webkit-transform:scaleX(0);-moz-transform:scaleX(0);-ms-transform:scaleX(0);transform:scaleX(0);-webkit-transition:-webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;transition:transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;pointer-events:none;}.css-12rx5qu.Mui-focused:after{-webkit-transform:scaleX(1) translateX(0);-moz-transform:scaleX(1) translateX(0);-ms-transform:scaleX(1) translateX(0);transform:scaleX(1) translateX(0);}.css-12rx5qu.Mui-error:before,.css-12rx5qu.Mui-error:after{border-bottom-color:#d32f2f;}.css-12rx5qu:before{border-bottom:1px solid rgba(0, 0, 0, 0.42);left:0;bottom:0;content:"\00a0";position:absolute;right:0;-webkit-transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;pointer-events:none;}.css-12rx5qu:hover:not(.Mui-disabled, .Mui-error):before{border-bottom:2px solid rgba(0, 0, 0, 0.87);}@media (hover: none){.css-12rx5qu:hover:not(.Mui-disabled, .Mui-error):before{border-bottom:1px solid rgba(0, 0, 0, 0.42);}}.css-12rx5qu.Mui-disabled:before{border-bottom-style:dotted;}.css-mnn31{font:inherit;letter-spacing:inherit;color:currentColor;padding:4px 0 5px;border:0;box-sizing:content-box;background:none;height:1.4375em;margin:0;-webkit-tap-highlight-color:transparent;display:block;min-width:0;width:100%;-webkit-animation-name:mui-auto-fill-cancel;animation-name:mui-auto-fill-cancel;-webkit-animation-duration:10ms;animation-duration:10ms;}.css-mnn31::-webkit-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-moz-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31::-ms-input-placeholder{color:currentColor;opacity:0.42;-webkit-transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-mnn31:focus{outline:0;}.css-mnn31:invalid{box-shadow:none;}.css-mnn31::-webkit-search-decoration{-webkit-appearance:none;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-webkit-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-moz-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31::-ms-input-placeholder{opacity:0!important;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-webkit-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-moz-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus:-ms-input-placeholder{opacity:0.42;}label[data-shrink=false]+.MuiInputBase-formControl .css-mnn31:focus::-ms-input-placeholder{opacity:0.42;}.css-mnn31.Mui-disabled{opacity:1;-webkit-text-fill-color:rgba(0, 0, 0, 0.38);}.css-mnn31:-webkit-autofill{-webkit-animation-duration:5000s;animation-duration:5000s;-webkit-animation-name:mui-auto-fill;animation-name:mui-auto-fill;}.css-vubbuv{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}.css-1yxmbwk{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:rgba(0, 0, 0, 0.54);-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;}.css-1yxmbwk::-moz-focus-inner{border-style:none;}.css-1yxmbwk.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1yxmbwk{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1yxmbwk:hover{background-color:rgba(0, 0, 0, 0.04);}@media (hover: none){.css-1yxmbwk:hover{background-color:transparent;}}.css-1yxmbwk.Mui-disabled{background-color:transparent;color:rgba(0, 0, 0, 0.26);}.css-6flbmm{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:2.1875rem;}</style><link rel="preconnect" href="https://www.google-analytics.com"/><link rel="dns-prefetch" href="https://www.google-analytics.com"/><script>
+  
+  function gaOptout(){document.cookie=disableStr+'=true; expires=Thu, 31 Dec 2099 23:59:59 UTC;path=/',window[disableStr]=!0}var gaProperty='G-JFJXSVC7W2',disableStr='ga-disable-'+gaProperty;document.cookie.indexOf(disableStr+'=true')>-1&&(window[disableStr]=!0);
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'G-JFJXSVC7W2', 'auto', {});
+      ga('set', 'anonymizeIp', true);
+      
+      
+      
+      
+      }</script><link rel="icon" href="/favicon-32x32.png?v=ac282ee8b425d7125928e69153395c36" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=ac282ee8b425d7125928e69153395c36"/><link rel="alternate" type="application/rss+xml" title="어제보다 오늘 더" href="/feed.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2"/><link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href="/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2"/><style>@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2) format("woff2")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:300;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc-.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:400;src:url(/static/webfonts/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxM.woff) format("woff")}@font-face{font-display:swap;font-family:Roboto;font-style:normal;font-weight:500;src:url(/static/webfonts/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc-.woff) format("woff")}</style><link rel="sitemap" type="application/xml" href="/sitemap.xml"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script><title data-react-helmet="true">자바스크립트에 불시착</title></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="page-wrapper"><header class="page-header-wrapper"><div class="page-header"><div class="front-section"><a class="link" href="/">어제보다 오늘 더 </a></div><div class="trailing-section"><a class="link" href="/about/">about</a><a class="link" href="/posts/">posts</a><div class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1lambp5"><div class="search-input-wrapper"><div class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root search-input css-feqhe6"><div class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-12rx5qu"><input aria-invalid="false" autoComplete="off" id=":R74m:" type="text" class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-mnn31" aria-autocomplete="list" aria-expanded="false" autoCapitalize="none" spellcheck="false" role="combobox" value=""/><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium search-icon css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="SearchOutlinedIcon"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div></div></div></div></div></div></header><main class="page-content"><header class="post-header"><div class="emoji"><div data-gatsby-image-wrapper="" class="gatsby-image-wrapper gatsby-image-wrapper-constrained thumbnail"><div style="max-width:2072px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg%20height=&#x27;602&#x27;%20width=&#x27;2072&#x27;%20xmlns=&#x27;http://www.w3.org/2000/svg&#x27;%20version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#585858;position:absolute;top:0;left:0;bottom:0;right:0"></div><picture><source type="image/webp" data-srcset="/static/86908288f77020a745c9d93fb332ad13/8e0ad/fight-javascript.webp 518w,/static/86908288f77020a745c9d93fb332ad13/dfa27/fight-javascript.webp 1036w,/static/86908288f77020a745c9d93fb332ad13/2ead8/fight-javascript.webp 2072w" sizes="(min-width: 2072px) 2072px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 2072px) 2072px, 100vw" decoding="async" loading="lazy" data-src="/static/86908288f77020a745c9d93fb332ad13/0f34b/fight-javascript.png" data-srcset="/static/86908288f77020a745c9d93fb332ad13/38a25/fight-javascript.png 518w,/static/86908288f77020a745c9d93fb332ad13/77fb9/fight-javascript.png 1036w,/static/86908288f77020a745c9d93fb332ad13/0f34b/fight-javascript.png 2072w" alt="hi"/></picture><noscript><picture><source type="image/webp" srcSet="/static/86908288f77020a745c9d93fb332ad13/8e0ad/fight-javascript.webp 518w,/static/86908288f77020a745c9d93fb332ad13/dfa27/fight-javascript.webp 1036w,/static/86908288f77020a745c9d93fb332ad13/2ead8/fight-javascript.webp 2072w" sizes="(min-width: 2072px) 2072px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 2072px) 2072px, 100vw" decoding="async" loading="lazy" src="/static/86908288f77020a745c9d93fb332ad13/0f34b/fight-javascript.png" srcSet="/static/86908288f77020a745c9d93fb332ad13/38a25/fight-javascript.png 518w,/static/86908288f77020a745c9d93fb332ad13/77fb9/fight-javascript.png 1036w,/static/86908288f77020a745c9d93fb332ad13/0f34b/fight-javascript.png 2072w" alt="hi"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div></div><div class="info"><div class="categories"><a class="category" href="/posts/회고/">회고</a></div></div><h1 class="title">자바스크립트에 불시착</h1><div class="info"><div class="author">posted by <strong>써머</strong>,</div> <!-- -->December 10, 2023</div></header><div class="post-content"><div class="markdown"><p>많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
+나는 자바스크립트랑 node.js로 바닥부터 개발을 해보지 않아서 모르지만, 다른 언어와 프레임워크에 비해 프로덕트를 빠르게 낼 수 있어, 초기 스타트업에서 많이 사용한다고 들었다.
+그런데 나처럼 특정 언어와 프레임워크를 사용하는 백엔드 교육 과정으로 개발을 시작한 사람은 배운 것 밖에 쓸 줄 모른다.
+대부분의 교육 과정에서 가르치는 자바•스프링이 공개된 자료도 훨씬 많다.</p>
+<p>그런데 예전에 구직 사이트에서 신입 공고를 볼 때 자바스크립트•노드 스택이 많았다.
+가고 싶은 회사 중 한 곳이었던 인프런도 자바스크립트•노드 스택이었다.
+취준 때 스택에 상관없이 이곳저곳 서류를 넣고 면접을 보면서 &#x3C;자바 스프링이 아닌 무언가>를 사용하는데 괜찮으세요 라는 질문을 받으면 언어랑 프레임워크는 도구일 뿐이죠!😉 라고 답하면서 허세는 잔뜩 부렸는데,
+솔직히 나도 할 줄 아는 걸로 해먹고 살고 싶었다. 편하니까.</p>
+<p>다행스럽게 자바•스프링을 사용하는 디어어 오게 되었는데… 도착해서 본 것은 거대한 자바스크립트•노드 레거시 덩어리였다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 22.22222222222222%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAsElEQVR42m2OywrCMBBF/f9fUxdaF/YdodqkaRuzKdSUHslIQcTAZSYh93B2AOu6xsEw9CTJicsl4XjYk6XXzz05o1TNPM+EEAjhJTP2tmyc3TcwfhzHga4ztO0DYzRaa4wxaN1ibSfprcU5x/fZGD/AIIWqKsmylNtNyV4UOWVZoOqKPM9Qdc29aXBuxPun9P4aLsuC956+twKOhtE2xlorZk/n5N1oLdbTNElvA74BVGQwcrNQF/gAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="deer skillset"
+        title=""
+        src="/static/75dbb32fca23981950800779c64e8d62/37523/deer_skills_1.png"
+        srcset="/static/75dbb32fca23981950800779c64e8d62/e9ff0/deer_skills_1.png 180w,
+/static/75dbb32fca23981950800779c64e8d62/f21e7/deer_skills_1.png 360w,
+/static/75dbb32fca23981950800779c64e8d62/37523/deer_skills_1.png 720w,
+/static/75dbb32fca23981950800779c64e8d62/302a4/deer_skills_1.png 1080w,
+/static/75dbb32fca23981950800779c64e8d62/07a9c/deer_skills_1.png 1440w,
+/static/75dbb32fca23981950800779c64e8d62/6ee58/deer_skills_1.png 1640w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 21.111111111111114%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAsUlEQVR42nWP2wqDMBBE/f9/awOtVXyoVqtuLmo1PpmIUzZoKZQGhiGXPTOJAGDbNjZopRBfL0jTBMktRpalEOIMIU6QkrCuK7z3QcuywDkH791nnj36BvIjYwyI2gBgb5oaTV1DEoWzrjMwRmMYeozjC9M04lg/QE5mQFHkqJ8VyvIRRG2LPL+j2vccau0Eay3m2YYif4HcgNv0fRcaKSV3KRARtFYhlMF8L6UMXz+AbyRmL+5MdeQ8AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="deer skillset"
+        title=""
+        src="/static/112afa491880906c0656e894fac1172f/37523/deer_skills_2.png"
+        srcset="/static/112afa491880906c0656e894fac1172f/e9ff0/deer_skills_2.png 180w,
+/static/112afa491880906c0656e894fac1172f/f21e7/deer_skills_2.png 360w,
+/static/112afa491880906c0656e894fac1172f/37523/deer_skills_2.png 720w,
+/static/112afa491880906c0656e894fac1172f/302a4/deer_skills_2.png 1080w,
+/static/112afa491880906c0656e894fac1172f/07a9c/deer_skills_2.png 1440w,
+/static/112afa491880906c0656e894fac1172f/6ee58/deer_skills_2.png 1640w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  디어 백엔드 채용 공고... 스프링이라며! 스프링이라며! 
+</div>
+<br>
+<p>낯선 언어와 프레임워크로 잘 개발하려면 뭘 하면 될까?
+일단 각잡고 자바스크립트와 노드 공부하기? 인프런에서 강의 끊기?<br>
+이것도 좋은 방식이겠지만, 그냥 자신있게 해오던 대로 하면 된다. 언어랑 프레임워크는 도구일 뿐이죠. 라고 뭣모르고 뱉었던 말을 실천해본다. 🔥</p>
+<br>
+<h2 id="-jest로-테스트-짜기" style="position:relative;"><a href="#-jest%EB%A1%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A7%9C%EA%B8%B0" aria-label=" jest로 테스트 짜기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🚀 Jest로 테스트 짜기</h2>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 49.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAABaklEQVR42o2Sa2ukQBBF8/9/WpZA2GQyD3V8dre2tq8eJ2psz7IuYbOwzKSgqFsf6nAp7gPAuq58Tjt3NKOhtAXVUNKMNdflwnRxWL3Q5uPWVn9wbdw/t7/r4evi3IIcEsLW58l/5CV9JuoDqimnF458N+P90JweNXI3YgKHc+4GcHVIm5IbRSxiRJ4hqgwzF3RiIT/3FMKQRQVl1lEGI6tbbwPVkJHYiKgJCGufxIbUs6bNPijDd8Kj5PgzwqRXymDC3QOKPqXqSxIRo7QibxVmKjagjgZEpIk9hRHDBrzrUF5SwibgVBw45ftN/3U4kCeG1M8x2XeBNkX3kiA5kqgzqsu+OJyIzyX+QVLJ6btAQaALjkLhSY2v5eawl47GVzShR+Wd6KKE+jze++FCahP2uuBFKHayYK8F1aToMke7T+gOb5jXV+zRx/jvt4GfwW6nim6u6SZDO1Zcl+FPsMuVSwWDYdP/C/YvDx/+ZuCRKZYAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="architecture"
+        title=""
+        src="/static/1d10e288c0cf4e1b499b2d07c6dd52c6/37523/spring_node_test_architecture.png"
+        srcset="/static/1d10e288c0cf4e1b499b2d07c6dd52c6/e9ff0/spring_node_test_architecture.png 180w,
+/static/1d10e288c0cf4e1b499b2d07c6dd52c6/f21e7/spring_node_test_architecture.png 360w,
+/static/1d10e288c0cf4e1b499b2d07c6dd52c6/37523/spring_node_test_architecture.png 720w,
+/static/1d10e288c0cf4e1b499b2d07c6dd52c6/302a4/spring_node_test_architecture.png 1080w,
+/static/1d10e288c0cf4e1b499b2d07c6dd52c6/f32b7/spring_node_test_architecture.png 1136w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>현재 자바스크립트•노드로 짜여진 디어의 메인 레거시 서버는 스프링 MVC 아키텍쳐와 비슷한 구조다.
+중간에 여러 서비스를 의존해 처리하는 application 레이어가 끼워져 있을 뿐이다.</p>
+<p>처음 테스트를 작성하려 했을 때 놀랐던 건 H2 처럼 자동으로 설정해주는 인메모리 DB가 있겠거니 한 거였는데 없었다.
+도커로 DB를 띄우는 방식을 생각했지만, DB에 접근하는 코드와 repository 계층 클래스들은 이미 몇 년간 버그없이 잘 사용하고 있어서 테스트 대상 우선순위에서 제외해도 될 것 같았다.
+그래서 repository 계층을 Jest로 모킹한 뒤 application 계층의 메서드를 호출해 통합 테스트를 짰다.</p>
+<p>예시로 디어에는 앱 설치 여부와 관계없이 돈을 대신 내고 친구를 태워줄 수 있는 <code class="language-text">디어쏘기(treat)</code> 기능을 새로 출시했었다. (참고로 현재는 서비스를 중단했다.🥹)
+일부 지역에서 시험적으로 도입한 기능이라 해당 지역의 유저에게만 기능이 노출되어야 한다.</p>
+<ol>
+<li>외부 서버를 호출하는 부분</li>
+<li>DB에서 데이터를 읽어오는 부분</li>
+</ol>
+<p>두 부분을 모킹해 테스트한다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> TreatApplication <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../../../src/applications/TreatApplication"</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> application <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TreatApplication</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 지역인지 확인하다'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_otherServerConnector<span class="token punctuation">.</span>getAreaPolicy <span class="token operator">=</span> jest<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_experimentalAreaRepo<span class="token punctuation">.</span>findAllByAreaId <span class="token operator">=</span> jest<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<br>
+<p>JPA 있으면 되는데~ 아 스프링은 H2로 테스트 해주는데~ 생각 그만하고 성실히 짠다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 지역인지 확인하다'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_otherServerConnector<span class="token punctuation">.</span>getAreaPolicy <span class="token operator">=</span> jest<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_experimentalAreaRepo<span class="token punctuation">.</span>findAllByAreaId <span class="token operator">=</span> jest<span class="token punctuation">.</span><span class="token function">fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 대상 지역이 아니라면 디어쏘기를 보여주지 않는다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token comment">// given</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_otherServerConnector<span class="token punctuation">.</span>getAreaPolicy<span class="token punctuation">.</span><span class="token function">mockReturnValue</span><span class="token punctuation">(</span>
+            <span class="token punctuation">{</span> <span class="token literal-property property">areaId</span><span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_experimentalAreaRepo<span class="token punctuation">.</span>findAllByAreaId<span class="token punctuation">.</span><span class="token function">mockReturnValue</span><span class="token punctuation">(</span>
+            <span class="token punctuation">[</span> <span class="token punctuation">{</span> <span class="token literal-property property">area_id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'SHOP'</span> <span class="token punctuation">}</span> <span class="token punctuation">]</span>
+        <span class="token punctuation">)</span>
+
+        <span class="token comment">// when</span>
+        <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> application<span class="token punctuation">.</span><span class="token function">shouldDisplay</span><span class="token punctuation">(</span><span class="token number">37.123</span><span class="token punctuation">,</span> <span class="token number">127.1234</span><span class="token punctuation">,</span> <span class="token function">moment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token comment">// then</span>
+        <span class="token function">expect</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toEqual</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 대상 지역이라면 디어쏘기를 보여준다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token comment">// given</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_otherServerConnector<span class="token punctuation">.</span>getAreaPolicy<span class="token punctuation">.</span><span class="token function">mockReturnValue</span><span class="token punctuation">(</span>
+            <span class="token punctuation">{</span> <span class="token literal-property property">areaId</span><span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span>
+        application<span class="token punctuation">.</span>_experimentAreaService<span class="token punctuation">.</span>_experimentalAreaRepo<span class="token punctuation">.</span>findAllByAreaId<span class="token punctuation">.</span><span class="token function">mockReturnValue</span><span class="token punctuation">(</span>
+            <span class="token punctuation">[</span> <span class="token punctuation">{</span> <span class="token literal-property property">area_id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'TREAT'</span> <span class="token punctuation">}</span> <span class="token punctuation">]</span>
+        <span class="token punctuation">)</span>
+
+        <span class="token comment">// when</span>
+        <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> application<span class="token punctuation">.</span><span class="token function">shouldDisplay</span><span class="token punctuation">(</span><span class="token number">37.123</span><span class="token punctuation">,</span> <span class="token number">127.1234</span><span class="token punctuation">,</span> <span class="token function">moment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token comment">// then</span>
+        <span class="token function">expect</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toEqual</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<br>
+<p>Jest로도 Junit에서 하던 테스트를 다 할 수 있다.
+다어쏘기는 고객이 발급받은 공유 코드를 친구에게 전달하면, 친구가 그 코드로 킥보드를 탈 수 있다.
+시행 지역 밖에 있거나 미납 상태인 고객에게 코드를 발급하면 안되기에 해당 상황에서 예외를 던지는 경우를 테스트한다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 공유 코드를 발급한다.'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 코드를 발급하는 메서드 issueUrl(userId, latitude, longitude, now)</span>
+    
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 대상 지역이 아니라면 발급하지 않는다.'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>
+        <span class="token comment">// when &amp; then</span>
+        <span class="token keyword">await</span> <span class="token function">expect</span><span class="token punctuation">(</span>application<span class="token punctuation">.</span><span class="token function">issueUrl</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">37.123</span><span class="token punctuation">,</span> <span class="token number">127.1234</span><span class="token punctuation">,</span> <span class="token function">moment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span>rejects<span class="token punctuation">.</span><span class="token function">toThrowError</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">IllegalArgumentError</span><span class="token punctuation">(</span><span class="token string">'디어쏘기 시행 지역이 아니에요.'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'미납 상태인 이용자에겐 발급하지 않는다.'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>
+        <span class="token comment">// when &amp; then</span>
+        <span class="token keyword">await</span> <span class="token function">expect</span><span class="token punctuation">(</span>application<span class="token punctuation">.</span><span class="token function">issueUrl</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">37.123</span><span class="token punctuation">,</span> <span class="token number">127.1234</span><span class="token punctuation">,</span> <span class="token function">moment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span>rejects<span class="token punctuation">.</span><span class="token function">toThrowError</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">IllegalArgumentError</span><span class="token punctuation">(</span><span class="token string">'미납한 이용이 있으면 디어쏘기를 보낼 수 없어요. \n결제를 진행해주세요.'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<br>
+<p>디어쏘기는 해당 기능이 신규 고객 유치에 도움이 되는가가 큰 관심사였다.
+그래서 디어쏘기 기능으로 로그인 또는 회원가입 한 사람을 추적하고 DB에 기록했다.
+앞선 방식으로는 이 데이터가 DB에 제대로 저장되는지, 다시 DB에서 데이터를 읽어 확인할 수 없다.
+그러니 대신 저장 메서드가 호출된 조건을 확인하기로 한다.
+Mockito가 지원하는 것과 동일한 기능이다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'디어쏘기로 회원가입 또는 로그인했다면 기록을 남긴다'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'기존 유저라면 로그인으로 기록을 남긴다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>
+        <span class="token comment">// when </span>
+        <span class="token keyword">await</span> application<span class="token punctuation">.</span><span class="token function">saveTreatAuthHistory</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> now<span class="token punctuation">)</span>
+
+        <span class="token comment">// then</span>
+        <span class="token function">expect</span><span class="token punctuation">(</span>application<span class="token punctuation">.</span>_treatService<span class="token punctuation">.</span>_treatAuthHistoryRepo<span class="token punctuation">.</span>save<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toHaveBeenCalledWith</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> <span class="token constant">LOGIN</span><span class="token punctuation">,</span> <span class="token function">toIsoDateTime</span><span class="token punctuation">(</span>now<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'신규 유저라면 회원가입으로 기록을 남긴다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>
+        <span class="token comment">// when</span>
+        <span class="token keyword">await</span> application<span class="token punctuation">.</span><span class="token function">saveTreatAuthHistory</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> now<span class="token punctuation">)</span>
+
+        <span class="token comment">// then</span>
+        <span class="token function">expect</span><span class="token punctuation">(</span>application<span class="token punctuation">.</span>_treatService<span class="token punctuation">.</span>_treatAuthHistoryRepo<span class="token punctuation">.</span>save<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toHaveBeenCalledWith</span><span class="token punctuation">(</span>userId<span class="token punctuation">,</span> <span class="token constant">SIGN_UP</span><span class="token punctuation">,</span> <span class="token function">toIsoDateTime</span><span class="token punctuation">(</span>now<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<br>
+<p>그리고 프레임워크와 무관하게 큰 도움이 되었던 방법으로, 개발 전에 테스트 케이스 모두 다 써두기가 있다.
+우리 회사엔 기획자와 QA 담당자가 따로 없다. 내 개발은 내 스스로 책임진다.🔥
+테스트 케이스를 먼저 모두 짜고 시작하면 정책을 정리하고 예외 상황을 미리 파악하는데 도움이 된다.
+미처 고려하지 못했던 부분을 발견해 더 질좋은 서비스를 만들 수 있었다.</p>
+<p>예로, 결제수단으로 카드를 등록 시 타인 명의 카드 등록을 방지하기 위해 간단한 검증을 넣게 되었다.
+그러면 일단 어떤 경우에 통과하고, 어떤 경우에 통과시키지 않을지를 먼저 테스트로 정리하고 빠진 건 없는지 생각한다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'결제수단 카드 등록 시 개인 카드라면 본인 명의인지 확인한다'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'법인 카드라면 명의를 확인하지 않는다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'개인 카드일 때, 유저의 생년월일과 카드의 생년월일이 일치하는지 확인한다'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'일치하지 않으면 본인 명의가 아니라고 판단한다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+        <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'일치하면 본인 명의라고 판단한다'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<br>
+<p>종종 구현하다 생각할 시간이 필요하면 전체 테스트를 돌려놓고 쉬곤 한다.
+불멍 때리듯 초록멍을 때리면 마음이 편해진다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 15%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAoklEQVR42lWOSYrDMBQFfZKQOB40WIP9FUkYZyLk/keq0G5oOoui4C2K1+ggxPzA5ztzeeLmgo0ZKVdiWtFeaIeJU293n5XDpxWpD6ZYUJOgnKCd0KlA02vPoR3QIVK3J/X6Yr2/dy95Y84bJqQ9fOoNvQ4YX9AuM5iF0cofako0xgvHztCOlqVupHpD6m2P2XhhtPPvs9Fx7DSd8l+B//xsHxpcXN+u3XKmAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="jest is fast"
+        title=""
+        src="/static/eae5cf9bee80870173cbc94811f36c5d/37523/fast_jest.png"
+        srcset="/static/eae5cf9bee80870173cbc94811f36c5d/e9ff0/fast_jest.png 180w,
+/static/eae5cf9bee80870173cbc94811f36c5d/f21e7/fast_jest.png 360w,
+/static/eae5cf9bee80870173cbc94811f36c5d/37523/fast_jest.png 720w,
+/static/eae5cf9bee80870173cbc94811f36c5d/302a4/fast_jest.png 1080w,
+/static/eae5cf9bee80870173cbc94811f36c5d/07a9c/fast_jest.png 1440w,
+/static/eae5cf9bee80870173cbc94811f36c5d/cc6fe/fast_jest.png 1860w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>DB 접근을 모킹해서 진짜 엄청 빠르다. 기분이 좋다.</p>
+<br>
+<h2 id="-객체지향적인-리팩터링" style="position:relative;"><a href="#-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%A0%81%EC%9D%B8-%EB%A6%AC%ED%8C%A9%ED%84%B0%EB%A7%81" aria-label=" 객체지향적인 리팩터링 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>👾 객체지향적인 리팩터링</h2>
+<p><code class="language-text">객체지향적인 코드 짜기</code>라는 말이 다소 진부해 지루하게 들리겠지만, 그렇지 않은 레거시 코드가 많다면 시작하려는 마음을 먹기부터 쉽지 않다.
+하면 이왕 시작한 거 한번에 바꿔야 할 것 같고, 깨끗하게 다 걷어내고 싶고 그렇다.
+하지만 달리는 기차의 바퀴를 뜯어서 닦을 수는 없다. (그리고 그러다가 기차를 터트린 적이 꽤 있다…🤯)
+조급한 마음을 버리고 작은 단계부터 한다.</p>
+<p>레거시 코드를 고치다 보면 DB에서 조회한 값을 직접 비교하던 로직을 클래스로 옮길 때가 많았다.
+아래는 유저가 미납한 요금이 있는지 확인하던 기존 코드다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">async</span> <span class="token function">checkUnpaidOfUser</span> <span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> unpaidUseAmount <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_getUserUnpaidUsePayment</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">(</span>unpaidUseAmount<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">async</span> <span class="token function">_getUserUnpaidUsePayment</span> <span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> lastUse <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_useRepo<span class="token punctuation">.</span><span class="token function">getLastUseByUserId</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>lastUse<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lastUse<span class="token punctuation">.</span>pay_fail_at <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span> lastUse<span class="token punctuation">.</span>pay_at<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lastUse<span class="token punctuation">.</span>pay_refund<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>lastUse<span class="token punctuation">.</span>pay_refund_amount <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> lastUse<span class="token punctuation">.</span>pay_riding <span class="token operator">+</span> lastUse<span class="token punctuation">.</span>pay_reservation <span class="token operator">+</span> <span class="token function">Number</span><span class="token punctuation">(</span>lastUse<span class="token punctuation">.</span>additional_charge<span class="token punctuation">)</span> <span class="token operator">-</span> lastUse<span class="token punctuation">.</span>pay_discount <span class="token operator">-</span> lastUse<span class="token punctuation">.</span>pay_refund_amount
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> lastUse<span class="token punctuation">.</span>pay_final
+<span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>왜 해당 값들의 특정한 조합에 따라 미납 여부가 달라지는지 알려면 여러가지 슬픈 사연을 알아야 한다.
+이 말은 처음 코드만 보면 도무지 알 수가 없다는 뜻이다.🤗</p>
+<p>마침 추가 기능을 개발하면서 미납 여부를 확인하는 요구사항이 있길래, 클래스를 만들어 로직을 옮겼다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript">
+<span class="token comment">/**
+ * @param {number} userId
+ * @return {Promise&lt;boolean>}
+ */</span>
+<span class="token keyword">async</span> <span class="token function">checkUnpaidOfUser</span> <span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_isUserHasUnpaidUse</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * @param {number} userId
+ * @return {Promise&lt;boolean>}
+ * @private
+ */</span>
+<span class="token keyword">async</span> <span class="token function">_isUserHasUnpaidUse</span> <span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> lastUseRow <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_useRepo<span class="token punctuation">.</span><span class="token function">getLastUseByUserId</span><span class="token punctuation">(</span>userId<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>lastUseRow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">const</span> lastUse <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Use</span><span class="token punctuation">(</span>lastUseRow<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token operator">!</span>lastUse<span class="token punctuation">.</span><span class="token function">isPaid</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Use</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">/**
+     * @return {boolean}
+     */</span>
+    <span class="token function">isPaid</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> paid <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payAt <span class="token operator">||</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>payFailAt
+        <span class="token keyword">return</span> paid <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_isFullRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_doesNotHavePayRemainAfterPartialRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payFinal <span class="token operator">===</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * @return {boolean}
+     */</span>
+    <span class="token function">_isFullRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">Boolean</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>payRefund <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>payRefundAmount<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * @return {boolean}
+     */</span>
+    <span class="token function">_isPartialRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">Boolean</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>payRefund <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payRefundAmount<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * @return {boolean}
+     */</span>
+    <span class="token function">_doesNotHavePayRemainAfterPartialRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_isPartialRefunded</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>payRiding <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payReservation <span class="token operator">+</span> <span class="token function">Number</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>additionalCharge<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payDiscount <span class="token operator">-</span> <span class="token keyword">this</span><span class="token punctuation">.</span>payRefundAmount <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>뿐만 아니라 외부 서버에 요청해 받은 응답값 처럼 로직이 없는 데이터도 단순한 DTO 클래스로 감싸주었다.
+그리고 아주 간단한 로직이라면 DTO 내부로 옮겼다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token comment">// before</span>
+<span class="token keyword">async</span> <span class="token function">getPolicy</span><span class="token punctuation">(</span><span class="token parameter">requestAt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_client<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/policy'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> requestAt <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ExternalServerError</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// after</span>
+<span class="token comment">/**
+* @param {moment.Moment} requestAt
+* @return {Promise&lt;PolicyResponse>}
+*/</span>
+<span class="token keyword">async</span> <span class="token function">getPolicy</span><span class="token punctuation">(</span><span class="token parameter">requestAt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> response <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_client<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/policy'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> requestAt <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">PolicyResponse</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ExternalServerError</span><span class="token punctuation">(</span>err<span class="token punctuation">.</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PolicyResponse</span> <span class="token punctuation">{</span>
+
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">/**
+         * @type {number}
+         */</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> data<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+
+        <span class="token comment">/**
+         * @type {string}
+         */</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>status <span class="token operator">=</span> data<span class="token punctuation">.</span>status<span class="token punctuation">;</span>
+
+        <span class="token comment">/**
+         * @type {RuleResponse[]}
+         */</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>rules <span class="token operator">=</span> data<span class="token punctuation">.</span>rules<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">it</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token keyword">new</span> <span class="token class-name">RuleResponse</span><span class="token punctuation">(</span>it<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/**
+     * @returns {boolean}
+     */</span>
+    <span class="token function">isStopped</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token string">'STOP'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RuleResponse</span> <span class="token punctuation">{</span>
+
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">/**
+         * @type {number}
+         */</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> data<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+
+        <span class="token comment">/**
+         * @type {string}
+         */</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> data<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div>
+<br>
+<p>이 방법이 답답해 보일 수 있겠지만, 없는 필드에 접근하다가 <code class="language-text">undefined is not a function</code>을 당하지 않을 수 있다.
+나는 이미 너무 너무 많이 충분히!!! 당했다.😇
+dto로 감싸기만 하더라도 코드 작성 시 IDE의 도움을 받을 수 있어서 한결 수월하다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 13.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAr0lEQVR42j3MwU7EIABF0X7KjFoKA1gKpRQsUM0sjP//P9fMmLh4uYuXnEHaTC8/lPZN2D/xWyekk5A6PnWWcHKUO0dt7LlSPio5dZK/411DSMM46f8Nat6p/YtWK/4BPdB04mLjPRzoJaPmxGQiQq8IHRn1inKJOVasL0izouyGtJFhMivGLtQc8KkR9sYcMnZJSOMRN8eL0FzeFNfxxnX86+VVPX/jNkblnuikA7+ui17ZqZDFlwAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="ide"
+        title=""
+        src="/static/06e792bcae1dc8ec0c36c8d010224d54/37523/ide_good.png"
+        srcset="/static/06e792bcae1dc8ec0c36c8d010224d54/e9ff0/ide_good.png 180w,
+/static/06e792bcae1dc8ec0c36c8d010224d54/f21e7/ide_good.png 360w,
+/static/06e792bcae1dc8ec0c36c8d010224d54/37523/ide_good.png 720w,
+/static/06e792bcae1dc8ec0c36c8d010224d54/302a4/ide_good.png 1080w,
+/static/06e792bcae1dc8ec0c36c8d010224d54/07a9c/ide_good.png 1440w,
+/static/06e792bcae1dc8ec0c36c8d010224d54/387f2/ide_good.png 1518w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  얼마나 소중한 기능인지 당연할 때는 몰랐어  
+</div>
+<br>
+<p>자바는 DTO 마다 클래스를 만들어야 해서 중첩된 값이 많아지면 클래스 파일도 늘어나는 게 조금 거슬렸는데, 그래도 자스는 한 파일 안에서 여러 클래스를 선언할 수 있어서 나았다.</p>
+<br>
+<h2 id="-jsdoc으로-타입-힌트-넣기" style="position:relative;"><a href="#-jsdoc%EC%9C%BC%EB%A1%9C-%ED%83%80%EC%9E%85-%ED%9E%8C%ED%8A%B8-%EB%84%A3%EA%B8%B0" aria-label=" jsdoc으로 타입 힌트 넣기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🧶 JSDoc으로 타입 힌트 넣기</h2>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 67.22222222222223%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAADJ0lEQVR42kWQ+0+aZxiG3/f73o+TVgRBh84iVVEcaGEisgqtR3QiBwXKQdqi8TDWmTaOdXPnZnOmW7K2WdJsybJlf0F/2r93LXzb0h+e5M3z3O91388jpNDRhIEuLChpoEmFEBq6pogGBomHRrHbHGZPSQu6qTXo/tOlgV3vxaLZ0aSBs2cI0R0IE6rMZvet64rDdIDfDxL82b7N8XYMKXUTIk2g1YR1Q1g1BzatB6lZ6OvzvQH+7yiEJBMd4fWXRV4d3eFZ+SaPtiZwO61mSikVb7aymsBuQqnb6O/3/weU3VJIE6hoZyb5++oBvxyv8Xj1BsWoi2GP3ZyZJzH1hpnW0OwozYpuOPAMTCC6rsIUKdNdCAt7Cz6e7oU53QjRXPSxn/ARu+4xN1G6gdS6pUwDXbNj0R1YrS6GvO8glOZB17wo3YvN8CKEi7VokF9PUzw/WaezE6Y0P8TizCiaHECIPoRwI+UAhvJgNd7Cpny4rwXxjyQRhurHYvQjpMsUCuUh916IJ/mbfFGIUl0YZiHQy4NGgU4rTSUzz/j1MXrsg//qRT9Wax9D3iDBiS7QFkSoKYY8fqobk7w8T/KqEycd6iP8toPFiV6enB3w/Ls2f1ws8PrZKn99neJFJ8VBMcJEIIyyLOLzZZkJNRHS+y3R+AmfnyxTz6XJry7xYavI4/Y9ivkczVqNy8ufOG83OWmVePSwyWedFvvVLLvbKRLJLIb7Y4bHPiUSu0TYvHmOyot8cLCFcOwgtE3SO1/RaL+kfHjFdvUb0plzspUfeHflgs3yjxTuvWA0fIbQSyjvPqOzTYLhFtHkQ4R/KkmzEKe6s0S+fkb9oyvcoTI9U2Wc4RquSJP4+4cs5+6y2eiQP73ENrbLYHif4bn7jESqBCLbzMZbxBItROJWjKPKHOnlDMuFTzi7+A3neANXsIVr8j7OYIv1YpNKLUf96HtaZz9z7UaV4dlj3OMNHCN38Ud3Sd5uEI7VERuZFLXKGivrGW4tlUit7DMdzROIFJiK7TId22U9m2evlCGRLpFcaRII5xibKeKbLOCfrjC/tMWdtSxTcxX+AfPwjbwfUIt6AAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="is not a function"
+        title=""
+        src="/static/1efaa10740dd14c2ea2056fccb9b5583/37523/is_not_a_function.png"
+        srcset="/static/1efaa10740dd14c2ea2056fccb9b5583/e9ff0/is_not_a_function.png 180w,
+/static/1efaa10740dd14c2ea2056fccb9b5583/f21e7/is_not_a_function.png 360w,
+/static/1efaa10740dd14c2ea2056fccb9b5583/37523/is_not_a_function.png 720w,
+/static/1efaa10740dd14c2ea2056fccb9b5583/302a4/is_not_a_function.png 1080w,
+/static/1efaa10740dd14c2ea2056fccb9b5583/07a9c/is_not_a_function.png 1440w,
+/static/1efaa10740dd14c2ea2056fccb9b5583/5b6ee/is_not_a_function.png 1672w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>코드에 많은 개선이 이뤄지고, 테스트를 꼼꼼히 짜게 되고, 나도 자바스크립트에 익숙해진 지금은 잘 볼 일 없는 에러긴 하지만, 처음에는 정말 <code class="language-text">undefined</code>라는 단어만 봐도 머리에 열이 올랐다.
+그냥 에러만 나면 다행인데, 스테이징 배포를 했는데 CPU가 치솟더니 접속이 안된다거나…
+내가 고통받는 걸 보고 프론트 개발자 팀원이 <a href="https://jsdoc.app/">JSDoc</a>을 써보면 어떻겠냐고 했다.</p>
+<p>JSDoc을 사용하면 주석으로 변수, 매개변수, 함수 반환값 등의 데이터 타입을 지정할 수 있다.
+위에서 봤듯이 직접 선언한 클래스는 물론이고 라이브러리의 클래스를 지정하거나,</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token comment">/**
+ * @param {number} userId
+ * @param {number} landmarkId
+ * @param {moment.Moment} visitedAt
+ * @return {Promise&lt;void>}
+*/</span>
+<span class="token keyword">async</span> <span class="token function">visitLandmark</span><span class="token punctuation">(</span><span class="token parameter">userId<span class="token punctuation">,</span> landmarkId<span class="token punctuation">,</span> visitedAt</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>람다식도 지정 가능하다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript">
+ <span class="token comment">/**
+  * @param {() => Promise&lt;*>} request
+  * @param {number} retryCount
+  * @return {Promise&lt;*>}
+ */</span>
+<span class="token keyword">async</span> <span class="token function">requestWithRetry</span><span class="token punctuation">(</span><span class="token parameter">request<span class="token punctuation">,</span> retryCount</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>레거시 코드에는 DB 테이블에서 특정 컬럼값만 가져오는 로직이 많았다.
+JPA에서는 엔티티 단위로 조회하는 경우가 많아 신경 쓸 일이 크게 없었지만, 여기다 JSDoc을 적용하려고 모든 경우의 수 마다 클래스를 별도로 선언하려니 아주 부담스럽다.</p>
+<p>다행히 클래스 정의 없이 프로퍼티를 명시하는 식으로도 사용 가능하다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token comment">/**
+ * @param {number} count
+ * @return {Promise&lt;{useId: number, eventId: number}[]>}
+ * @param {number} userId
+*/</span>
+<span class="token function">findByUserIdOrderByADesc</span><span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> queryString <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+        select u.id as useId, e.id as eventId
+        from use u 
+                left join event e on u.id = e.use_id
+        where u.user_id = ?
+        order by u.id desc
+    </span><span class="token template-punctuation string">`</span></span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_selectPluralRead</span><span class="token punctuation">(</span>queryString<span class="token punctuation">,</span> <span class="token punctuation">[</span>userId<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>아니면 아예 타입 선언을 주석 내에서 할 수도 있다.</p>
+<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token comment">/**
+ * @typedef {Object} UseEvent
+ * @property {number} use_id
+ * @property {number | undefined} event_id
+*/</span>
+
+<span class="token comment">/**
+ * @param {number} userId
+ * @return {Promise&lt;UseEvent[]>}
+*/</span>
+<span class="token function">findByUserIdOrderByUseDesc</span><span class="token punctuation">(</span><span class="token parameter">userId</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span></code></pre></div>
+<br>
+<p>위 모든 단계를 거치니 자스에서 겪었던 불편이 많이 사라졌다.
+코드가 늘어나서 보기에 답답할 순 있지만 안정성이 짱이다.
+작성하는 시간도 오래 걸리지 않고, 문제가 생겨서 디버깅 하는 시간에 비하면 짧다! 이런 면에서 테스트 작성과 성격이 비슷하다 느꼈다.</p>
+<br>
+<h2 id="️-잘-모르겠으면-직접-쳐보면-된다" style="position:relative;"><a href="#%EF%B8%8F-%EC%9E%98-%EB%AA%A8%EB%A5%B4%EA%B2%A0%EC%9C%BC%EB%A9%B4-%EC%A7%81%EC%A0%91-%EC%B3%90%EB%B3%B4%EB%A9%B4-%EB%90%9C%EB%8B%A4" aria-label="️ 잘 모르겠으면 직접 쳐보면 된다 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>✍️ 잘 모르겠으면 직접 쳐보면 된다</h2>
+<p>결과를 모르겠거나, 이해할 수 없는 자스 코드는 로컬에서 노드로 직접 실행해본다.<br>
+자바 스프링 환경에서는 라이브러리나 프레임워크 원리를 공부하려고 학습 테스트를 종종 했는데,
+자스는 언어부터가 낯설어 간단한 코드라도 종종 하게 된다.</p>
+<p>최근에 객체 배열을 시간 문자열 필드 기준 역순 정렬했는데 정렬이 제대로 되지 않았다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 19.444444444444443%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAc0lEQVR42pXP0Q7FEBCE4bXqIDbhKFq8/3NOwxO0F3/m7kuGSilYjTFQa0XOeW+MEcYYENG3FiYikCDovaO1trGFzjmRUoL3/j3YroZ8ZjjvECTstc6CFIGZd0qp9yAXhr1/MH+DQw5wZehTQ3sNVvz58gOfGVUl6YqPIAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="정렬 안 됨"
+        title=""
+        src="/static/ef4c95f5830afb7ab3055c2377987559/37523/date_not_sorted.png"
+        srcset="/static/ef4c95f5830afb7ab3055c2377987559/e9ff0/date_not_sorted.png 180w,
+/static/ef4c95f5830afb7ab3055c2377987559/f21e7/date_not_sorted.png 360w,
+/static/ef4c95f5830afb7ab3055c2377987559/37523/date_not_sorted.png 720w,
+/static/ef4c95f5830afb7ab3055c2377987559/302a4/date_not_sorted.png 1080w,
+/static/ef4c95f5830afb7ab3055c2377987559/11b93/date_not_sorted.png 1124w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>분명 자스에서는 문자열 끼리 비교 연산자 계산이 잘 되었었다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 12.777777777777777%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAR0lEQVR42p2OQQoAMQgDtYoVpFD9/1+zWNi9bw8DSQ5DqKqw1gIzo/OLqoKI/pOZiAiICPbeh966XwnndJjZeejuH2OMK+EDqWY+RT1Uga8AAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="부등호 비교"
+        title=""
+        src="/static/50d5932526644923dcace7dfb585ccb8/37523/compare_date_string.png"
+        srcset="/static/50d5932526644923dcace7dfb585ccb8/e9ff0/compare_date_string.png 180w,
+/static/50d5932526644923dcace7dfb585ccb8/f21e7/compare_date_string.png 360w,
+/static/50d5932526644923dcace7dfb585ccb8/37523/compare_date_string.png 720w,
+/static/50d5932526644923dcace7dfb585ccb8/302a4/compare_date_string.png 1080w,
+/static/50d5932526644923dcace7dfb585ccb8/0f246/compare_date_string.png 1118w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>숫자가 아니라서 뺄셈이 안 되는 구나! 하고 원래 식을 고치지만 여전히 안 된다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.222222222222221%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAL0lEQVR42mPg4Ob4zynG+Z9LjOs/Jx/nf1Z+1v/swuz/WfhY/jMxM/1nYGAgCQMARWYU0VNIiQwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="여전히 안됨"
+        title=""
+        src="/static/642440a7108bca31e810f9b1f72d3a54/37523/still_not_working.png"
+        srcset="/static/642440a7108bca31e810f9b1f72d3a54/e9ff0/still_not_working.png 180w,
+/static/642440a7108bca31e810f9b1f72d3a54/f21e7/still_not_working.png 360w,
+/static/642440a7108bca31e810f9b1f72d3a54/37523/still_not_working.png 720w,
+/static/642440a7108bca31e810f9b1f72d3a54/302a4/still_not_working.png 1080w,
+/static/642440a7108bca31e810f9b1f72d3a54/0f246/still_not_working.png 1118w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>그러면 <code class="language-text">Date</code> 인스턴스로 만들면 되지 않을까?</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.222222222222221%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAANElEQVR42n3DwQ3AMAgEQT5g4wO+9F/ppoOMNJaV5CZacecSE7x99DY9zYmDJKoKd8fMfn9mmhWFqwjTrQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="date도 안됨"
+        title=""
+        src="/static/bc450718f3b707009e70180ab535b0a0/37523/date_not_working.png"
+        srcset="/static/bc450718f3b707009e70180ab535b0a0/e9ff0/date_not_working.png 180w,
+/static/bc450718f3b707009e70180ab535b0a0/f21e7/date_not_working.png 360w,
+/static/bc450718f3b707009e70180ab535b0a0/37523/date_not_working.png 720w,
+/static/bc450718f3b707009e70180ab535b0a0/302a4/date_not_working.png 1080w,
+/static/bc450718f3b707009e70180ab535b0a0/0f246/date_not_working.png 1118w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p><code class="language-text">Date</code> 인스턴스로 만들어도 안되는구나 싶던 차에 혹시 해서 해 보니 이건 또 된다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.222222222222221%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAABYlAAAWJQFJUiTwAAAANklEQVR42n3DwQnAMAwEQT3EIftkP+P03+gGXEAGJsrFOAM/plahLeaZ7HfhNpLo7jsziYjfH2QaFXp7+BCnAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="date 다시 됨"
+        title=""
+        src="/static/77eaebc389574c260a3be740f85cede3/37523/date_working.png"
+        srcset="/static/77eaebc389574c260a3be740f85cede3/e9ff0/date_working.png 180w,
+/static/77eaebc389574c260a3be740f85cede3/f21e7/date_working.png 360w,
+/static/77eaebc389574c260a3be740f85cede3/37523/date_working.png 720w,
+/static/77eaebc389574c260a3be740f85cede3/302a4/date_working.png 1080w,
+/static/77eaebc389574c260a3be740f85cede3/0f246/date_working.png 1118w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>자스에 익숙한 사람이 보면 어떻게 이런 걸 몰라 싶겠지만, sort의 람다식은 숫자를 반환해야 하며, 그 결과가 양수/0/음수임에 따라 정렬하게 된다. <code class="language-text">Date</code> 인스턴스로 만들어 뺄셈을 했을 땐 결과가 숫자여서 되었던 것이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 10%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAPUlEQVR42mPg5xf6z8bG/p+Xl/c/Hx8fmObm5v7PxsYGZoMwDw8PWIyJiek/AwMDfiwuzvifg4OBsEIiMQBKECmf4u81HQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="date operation"
+        title=""
+        src="/static/ba4c9d6053ac6e1fb91a233da33b007d/37523/compare_date.png"
+        srcset="/static/ba4c9d6053ac6e1fb91a233da33b007d/e9ff0/compare_date.png 180w,
+/static/ba4c9d6053ac6e1fb91a233da33b007d/f21e7/compare_date.png 360w,
+/static/ba4c9d6053ac6e1fb91a233da33b007d/37523/compare_date.png 720w,
+/static/ba4c9d6053ac6e1fb91a233da33b007d/302a4/compare_date.png 1080w,
+/static/ba4c9d6053ac6e1fb91a233da33b007d/07a9c/compare_date.png 1440w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<p>생각해보면 자바도 <code class="language-text">Comparator</code> 인터페이스를 동일한 방식으로 구현한다. 해당 코드는 <code class="language-text">Date</code> 인스턴스 뺄셈으로 해결했지만, 기왕 공부한 거 문자열로 정렬하는 코드도 짜서 실행해보고 넘어간다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 9.444444444444445%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAUUlEQVR42m3MOQ6AMBADwD2iPbJCkIqK/z/TKOlAKUaWXZj0VGgqJAVyCJo3qCpE5OO/EdFePYUcCRsGuw11FTIS7g4zWzn13hERy+zMvD18AQWwKfOMWxObAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="문자열로 정렬"
+        title=""
+        src="/static/5c530c2c9a383fb3885ba2daa69dbc19/37523/sort_string_result.png"
+        srcset="/static/5c530c2c9a383fb3885ba2daa69dbc19/e9ff0/sort_string_result.png 180w,
+/static/5c530c2c9a383fb3885ba2daa69dbc19/f21e7/sort_string_result.png 360w,
+/static/5c530c2c9a383fb3885ba2daa69dbc19/37523/sort_string_result.png 720w,
+/static/5c530c2c9a383fb3885ba2daa69dbc19/302a4/sort_string_result.png 1080w,
+/static/5c530c2c9a383fb3885ba2daa69dbc19/07a9c/sort_string_result.png 1440w,
+/static/5c530c2c9a383fb3885ba2daa69dbc19/e405b/sort_string_result.png 1566w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>프로그래머스 레벨1 문제에도 못미칠 것 같은 예시라 부끄럽지만, 하다 보면 이것 보다 간단한 것도 자주 직접 실행해 본다.
+문법을 하나하나 외우며 하기 보다 이렇게 야생형으로 익히는 게 더 빨리 익는 것 같다.</p>
+<br>
+<h2 id="️-그리고-함께-공부" style="position:relative;"><a href="#%EF%B8%8F-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%ED%95%A8%EA%BB%98-%EA%B3%B5%EB%B6%80" aria-label="️ 그리고 함께 공부 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>✏️ 그리고, 함께 공부</h2>
+<p>처음 자스 코스를 열어봤을 때 막막했다.
+신입 같지 않은 멋진 모습을 보여주겠다고 생각했는데, 자스 코드를 보니까 이건 신입 개발자도 못 되고 대학생 때 처음으로 교양 프로그래밍 강의에 들어갔던 때 처럼 압도되었다.</p>
+<p>노드 -> 스프링 마이그레이션을 위한 리팩터링 중에, 인텔리제이로 제대로 인덱싱이 되지 않은 코드를 사용하지 않는 코드로 착각해 지우고 스테이징에 배포했다가 CPU를 터트리는 일이 잦았다. 또, 마이그레이션을 하면서 하위 호환을 맞추다 보니 점점 코드가 지저분해지고, 그 코드에 익숙해지니 점점 정리되지 않은 코드에 대한 민감도도 떨어진다고 느꼈다. 나만 이런 문제를 느낀 게 아니어서 팀에서 이를 개선하기 위한 스터디도 했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 57.22222222222223%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAABcUlEQVR42p3STUsCQRjA8T5Zn6Jrl+gWFEVFdAoierEXCIyIDqESnaJDHXqxQ1BaZNiqQUR20WwrX0rd2d3Z9R+zaxFRYC4My8zzzG+Y55kOgEaj4Q2af0sICvFzXrQU77kcUjo4jj+k42AIgS2ln/99P9DxE3SBqq5zF4pwMTpGZjnoJTZcFfE3KVAI8YX8DYIHvus6+egxWmCRq4lJcodRP+Y2D3VdD20JdFRyrUY6sIA2Pcf50AipmQC3m1ucHm/jtgVWa9yEIuTOYmRCYW7X1tkb7GO4t5N89tLLq9frLYKq6IZBIpkkFo9znUpTLOtcayfMjXcR253362i0CEopMU3Tu5ajOgnYpkE2q7Ey1kN4thuj+oxpyWajWgQ/19X3Vn7kYGeK9aUBIqv9FPJ3SMevZVtgqVjgYC/IydEGqcR+e1dW78y2bW9umYLC4z3pRJTXp4cmaPyjKUJQLJW+HrBCVdjDbUmlUsGyrF/BD0YAQcxki63BAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="파이브 라인즈 오브 코드"
+        title=""
+        src="/static/861079224684682a7b430d57ffdcea27/37523/five_lines_of_code.png"
+        srcset="/static/861079224684682a7b430d57ffdcea27/e9ff0/five_lines_of_code.png 180w,
+/static/861079224684682a7b430d57ffdcea27/f21e7/five_lines_of_code.png 360w,
+/static/861079224684682a7b430d57ffdcea27/37523/five_lines_of_code.png 720w,
+/static/861079224684682a7b430d57ffdcea27/302a4/five_lines_of_code.png 1080w,
+/static/861079224684682a7b430d57ffdcea27/07a9c/five_lines_of_code.png 1440w,
+/static/861079224684682a7b430d57ffdcea27/2d912/five_lines_of_code.png 1772w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<p>그 중 하나가 <a href="https://product.kyobobook.co.kr/detail/S000200661796">파이브 라인즈 오브 코드</a> 책을 읽고 액션 아이템을 정해 실천한 것이다.
+이 책은 메뉴얼처럼 구체적인 사례와 명확한 리팩터링 방법을 알려주는 게 특이하다.
+지금 다시 훑어보니 사람보다 기계를 학습시킬 때 효율적일 것 같다는 생각이 들 정도다.</p>
+<p>스터디를 할 당시, 우리 팀은 마이그레이션 하는 동시에 실험적인 기능을 빠르게 출시하고 있었다. 책에서 함께 뽑은 여러 액션 아이템 중, 그 때 뽑아 지금도 지키고 있는 것들을 몇 개 소개한다.</p>
+<ul>
+<li>최소 개발! 우리가 상상할 수 있는 문제가 아니라면 당면한 문제만 해결해야 한다.</li>
+<li>메서드 이름에 도메인 용어 사용하자</li>
+<li>사용하지 않는 코드 제거하자. (당연해 보이지만 쉽지 않다! 이미 그런 코드가 많고 시간이 촉박하며 이 코드를 지웠을 때 언.낫.펑이 터지진 않을까 하는 불안감이 항상 존재한다면!)</li>
+<li>메서드/함수에서 Ten Lines of Code 하자. 단, 추상화 수준을 맞춰서</li>
+</ul>
+<p>사실 스터디는 셋이 했는데, 현재 팀에 있는 건 나 뿐이지만… 그래도 체화해서 잘 지키고 있다. 이런 룰 없이 인원 변동이 있었다면 코드 퀄리티 유지가 쉽지 않았을 것이다.</p>
+<p>그 외에도 여러 심금을 울리는 얘기가 나온다.</p>
+<blockquote>
+<p>추상화는 인지된 복잡성의 감소를 위해 실제의 복잡성의 증가를 허용하는 것이다. (p151)</p>
+</blockquote>
+<blockquote>
+<p>프로그램이 시간이 고정된 도메인에 대한 개발팀의 공동 지식이라는 유사성에 주목했습니다. 프로그램은 개발자가 도메인에 대해 사실이라고 믿는 모든 것에 대한 완전하고 모호하지 않은 설명입니다. (p223)</p>
+</blockquote>
+<blockquote>
+<p>부수적 복잡성의 가장 단순한 유형은 기술적 무지입니다. 무의식적으로 코드에서 잘못된 결정을 내림으로써 좋지 않은 아키텍처를 만듭니다. …가장 중요하게는 의도적인 연습을 통해 기술을 향상시키기 위해 지속적으로 노력해야 합니다. 연습을 대신할 수 있는 것이란 없습니다. (p251)</p>
+</blockquote>
+<blockquote>
+<p>레거시 코드의 일반적인 정의는 ‘수정하기가 겁나는 코드’입니다. 이 상황은 종종 서커스 팩터의 결과입니다. …만약 이 시스템을 배포하는 방법은 존 밖에 모른다 라는 말을 듣는다면 해당 시스템에 서커스 팩터가 있다고 말합니다. (p254)</p>
+</blockquote>
+<blockquote>
+<p>‘아주 좋은’의 기준을 넘을 수 있는 시간이나 기술이 없다면 그냥 ‘나쁘게’ 놔두어야 합니다. 이 활동을 코드를 깨끗한 코드와 레거시 코드로 분리합니다. (p335)</p>
+</blockquote>
+<blockquote>
+<p>필요한 것 보다 더 많은 기능이나 더 일반적인 기능을 구축한다면 우리를 구할 방법은 존해하지 않습니다. 따라서 이 문제를 해결하는 유일한 방법은 최소한으로 구축하기 위한 끊임없는 노력입니다. …상상할 수 있는 문제가 아니라 이미 당면한 문제만 해결해야 합니다. (p318)</p>
+</blockquote>
+<p>딱 필요한 순간에 잘 읽은 책이었다.</p>
+<br>
+<p>다른 하나는 <a href="https://www.inflearn.com/course/practical-testing-%EC%8B%A4%EC%9A%A9%EC%A0%81%EC%9D%B8-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%80%EC%9D%B4%EB%93%9C">Practical Testing: 실용적인 테스트 가이드</a> 강의를 함께 듣는 스터디였다. 이 강의는 스프링 환경에서 테스트를 작성해본 경험이 적거나, 테스트를 도입하고 싶은데 막막한 사람에게 큰 도움이 될 것 같다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 44.44444444444444%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABTklEQVR42oVRTUvDQBDN/z958FDoWfEiiCCKRXKxCOJBrVhUkjZpkjZNsrv5aM3Hbp7sNo1NCxrYzMybmfdmdjUASNMU8/kC/nIpQ9R1fWD/87efJn/mZIrBnY7RaATwAvUemZC+bJaZpn9L9lu3wRRhWZZIswx5kUNUVau2q/7XVLuYtp8sBUdIaBvL6V4TB7RaHxCzJQHnvEOqqTUE8E4c9O+vwVgCOwk7qkfnZ3hxzUZANHgN/fmhJdySqpV5JaDrtzju9zC8uAFl8aZZCGWvLgeYOV4Hsx0XvZNTGMa0O6EMcl7Bm9gQ6TfGb2P4i6BzDb4fIMtWHWy1WuNx+AQS0b2Vm7VmjoOPr09YtoWiKBQWxzFM04RlWTAMA57nqQkJIQqPohCu6yIIgu7K0pFFMiFPnueqIEmSBgtBKQNjTIlJG0WROtKnlLav/AMrKLXk1MaWAgAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="테스트 강의"
+        title=""
+        src="/static/cf90a2cbbf1633a790dfd5ec1ea5139e/37523/practical_test.png"
+        srcset="/static/cf90a2cbbf1633a790dfd5ec1ea5139e/e9ff0/practical_test.png 180w,
+/static/cf90a2cbbf1633a790dfd5ec1ea5139e/f21e7/practical_test.png 360w,
+/static/cf90a2cbbf1633a790dfd5ec1ea5139e/37523/practical_test.png 720w,
+/static/cf90a2cbbf1633a790dfd5ec1ea5139e/302a4/practical_test.png 1080w,
+/static/cf90a2cbbf1633a790dfd5ec1ea5139e/07a9c/practical_test.png 1440w,
+/static/cf90a2cbbf1633a790dfd5ec1ea5139e/ce0a7/practical_test.png 1590w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<div style="text-align:center; font-style:italic; color:grey;">
+  딱 강의 소개대로!  
+</div>  
+<br>
+<p>스프링 테스트에 익숙한 사람도 있었고 아닌 사람도 있었는데, 같이 강의를 보면서 현재 팀의 테스트 작성 방식이 어떤지 점검하고, 어떤 좋은 점을 유지할지, 어떤 점을 보충할지, 통일되지 않은 부분은 어떻게 맞추면 좋을지 얘기해서 좋았다.</p>
+<br>
+<h2 id="-회고" style="position:relative;"><a href="#-%ED%9A%8C%EA%B3%A0" aria-label=" 회고 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🍹 회고</h2>
+<p>메서드보다 더 긴 JSDoc을 써야할 때, 비교적 간단한 로직을 테스트하기 위해 모킹을 산더미처럼 해야할 때, <code class="language-text">null</code>이나 <code class="language-text">undefined</code> 값을 검사할 때… 자바스크립트를 자바스크립트 답게 쓰지 못하고 자꾸 익숙한 자바처럼 끼워맞추려는 욕심을 부린다는 생각이 종종 들곤 했다. 사실 자바스크립트 답게 쓰는 건 무엇인가? 를 말할 수 있을 만큼 잘 알지도 못한다.<br>
+하지만 자바스크립트에서 자바로 단방향 마이그레이션 하는 중이고, 컨셉이 다른 두 언어를 함께 사용하며 개발하려니 한 쪽으로 생각하는 게 편하고 효율적이었다.</p>
+<p>이런 자잘한 과정 없이 달리는 기차를 마법처럼 비행기로 바꿀 수 있다면 얼마나 좋을까? 생각보다 훨씬 까다롭고 지치는 작업이라는 걸 해 보기 전엔 몰랐다. 재밌겠다고 꼭 해보고 싶다고만 생각했다. 허허…</p>
+<p>다만 자바스크립트와 노드 프레임워크 공부를 더 제대로 해야 할 필요성은 언제나 느낀다. 스프링을 공부 할 때를 떠올려보면, 단순히 스프링 애플리케이션을 실행해 사용하는 건 인강을 듣고 금방 따라할 수 있었다. 하지만 내부의 원리나 철학에 진심으로 관심을 가져 탐구하고 이해하기 까지는 꽤 오랜 시간이 걸렸다.<br>
+따라하며 ‘일단 돌아가게 만들기’ 급급했던 시기를 지나, 관심이 생기는 지금이 원리나 철학을 공부하기에 좋은 때가 왔다 싶다.</p>
+<p>만약 입사하기 전의 내 귓가에 <em>너 자바스크립트 해야함</em>을 속삭였다면 도망갔을지도 모른다.
+난 뭐… 속삭여 준 사람이 없어서 선택지가 없었다! 그래도 겁내지 않고 도전하니 좋았다.
+기술 스택 때문에 회사 지원이나 입사를 망설이는 사람이 있다면 얼마든 도전해보라고 얘기해주고 싶다.
+처음엔 멘붕이었는데 지금은 꽤 즐겁다.
+다른 언어나 프레임워크를 하게 되어도 충분히 할 수 있을 것 같다! 👻</p>
+<p>마지막으로 회사가 오해를 살까 하는 걱정에 덧붙이자면, 노드보다 스프링을 훨씬 많이 짜고 생각하고 고민하고 있다. 끝!</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAdklEQVR42l2MQQrCMBQFe/+zeALBrQjus1FiQWMKLaGaRGySn5GWuulshoHHa5RSaK15GENn75zOR9o+ce2+GDeRSkFEkL+lrhZqraSU8SEyM3fjvSfGuAwuN83usOc5BFo7Yl1gCI4wfSjji/L2bFlOc6au/QMKvZlonKtLgQAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="node contributes"
+        title=""
+        src="/static/323e65dc2f9f80100cfc3d105a4978cd/37523/node_contributes.png"
+        srcset="/static/323e65dc2f9f80100cfc3d105a4978cd/e9ff0/node_contributes.png 180w,
+/static/323e65dc2f9f80100cfc3d105a4978cd/f21e7/node_contributes.png 360w,
+/static/323e65dc2f9f80100cfc3d105a4978cd/37523/node_contributes.png 720w,
+/static/323e65dc2f9f80100cfc3d105a4978cd/302a4/node_contributes.png 1080w,
+/static/323e65dc2f9f80100cfc3d105a4978cd/07a9c/node_contributes.png 1440w,
+/static/323e65dc2f9f80100cfc3d105a4978cd/5df5d/node_contributes.png 1572w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; "
+    >
+      <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAhklEQVR42h3DuQrCQBRAUf//UwQbC8FWjEXETsQodllgMiTzJruzXIkHzqaWnDQ9cb1nfJTnkQ8oWfDB4b3HO8dq6C27/ZZXYcjKmXc1YaeFED3Ruf/VJkbPMTlze2ZoM1EqQXcW3bfM48DXCDFGbNdzuCSUdUuhhEpblDQ0o7C0htkILgR+ZS2WjIZabaEAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <img
+        class="gatsby-resp-image-image"
+        alt="spring contributes"
+        title=""
+        src="/static/2d6372d1979a6f22e8aaaa032786ba87/37523/spring_contributes.png"
+        srcset="/static/2d6372d1979a6f22e8aaaa032786ba87/e9ff0/spring_contributes.png 180w,
+/static/2d6372d1979a6f22e8aaaa032786ba87/f21e7/spring_contributes.png 360w,
+/static/2d6372d1979a6f22e8aaaa032786ba87/37523/spring_contributes.png 720w,
+/static/2d6372d1979a6f22e8aaaa032786ba87/302a4/spring_contributes.png 1080w,
+/static/2d6372d1979a6f22e8aaaa032786ba87/07a9c/spring_contributes.png 1440w,
+/static/2d6372d1979a6f22e8aaaa032786ba87/5df5d/spring_contributes.png 1572w"
+        sizes="(max-width: 720px) 100vw, 720px"
+        style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+        loading="lazy"
+        decoding="async"
+      />
+    </span></p>
+<br>
+<div class="table-of-contents">
+<ul>
+<li><a href="#-jest%EB%A1%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A7%9C%EA%B8%B0">🚀 Jest로 테스트 짜기</a></li>
+<li><a href="#-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%A0%81%EC%9D%B8-%EB%A6%AC%ED%8C%A9%ED%84%B0%EB%A7%81">👾 객체지향적인 리팩터링</a></li>
+<li><a href="#-jsdoc%EC%9C%BC%EB%A1%9C-%ED%83%80%EC%9E%85-%ED%9E%8C%ED%8A%B8-%EB%84%A3%EA%B8%B0">🧶 JSDoc으로 타입 힌트 넣기</a></li>
+<li><a href="#%EF%B8%8F-%EC%9E%98-%EB%AA%A8%EB%A5%B4%EA%B2%A0%EC%9C%BC%EB%A9%B4-%EC%A7%81%EC%A0%91-%EC%B3%90%EB%B3%B4%EB%A9%B4-%EB%90%9C%EB%8B%A4">✍️ 잘 모르겠으면 직접 쳐보면 된다</a></li>
+<li><a href="#%EF%B8%8F-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%ED%95%A8%EA%BB%98-%EA%B3%B5%EB%B6%80">✏️ 그리고, 함께 공부</a></li>
+<li><a href="#-%ED%9A%8C%EA%B3%A0">🍹 회고</a></li>
+</ul>
+</div></div></div><div class="post-navigator"><div class="post-navigator-card-wrapper"><a class="post-card prev" href="/how-can-collect-time/"><div class="direction">이전 글</div><div class="title">새는 시간을 줄이고 싶다는 고민</div></a></div><div class="post-navigator-card-wrapper"></div></div><div class="utterances"></div></main><footer class="page-footer-wrapper"><p class="page-footer">© <!-- -->2023<!-- --> <a href="https://github.com/hyewoncc">최혜원</a> powered by<a href="https://github.com/zoomKoding/zoomkoding-gatsby-blog"> zoomkoding-gatsby-blog</a></p></footer><div class="dark-mode-button-wrapper"><button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium dark-mode-button css-1yxmbwk" tabindex="0" type="button"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge dark-mode-icon css-6flbmm" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DarkModeIcon"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"></path></svg></button></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/fight-javascript/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+          <script
+            id="gatsby-chunk-mapping"
+          >
+            window.___chunkMapping="{\"app\":[\"/app-b483ac2a6df864a496ac.js\"],\"component---cache-caches-gatsby-plugin-offline-app-shell-js\":[\"/component---cache-caches-gatsby-plugin-offline-app-shell-js-7d2390e45387f77150e7.js\"],\"component---src-pages-404-js\":[\"/component---src-pages-404-js-c63686867eac418b4a83.js\"],\"component---src-pages-about-js\":[\"/component---src-pages-about-js-6ff3e1e677f249e3d5a0.js\"],\"component---src-pages-index-js\":[\"/component---src-pages-index-js-cda9041956cb96426cc7.js\"],\"component---src-templates-blog-template-js\":[\"/component---src-templates-blog-template-js-c9d6f6cc05a9faacf210.js\"],\"component---src-templates-category-template-js\":[\"/component---src-templates-category-template-js-d2acca944737816567e6.js\"]}";
+          </script>
+        <script>window.___webpackCompilationHash="600127ff728be066ff05";</script><script src="/webpack-runtime-7b9a65587cf10e19ad02.js" async></script><script src="/framework-6311fb43802fa1f7615d.js" async></script><script src="/app-b483ac2a6df864a496ac.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
