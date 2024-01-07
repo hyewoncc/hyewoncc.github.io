@@ -1,4 +1,180 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 10 Dec 2023 07:33:58 GMT</lastBuildDate><item><title><![CDATA[자바스크립트에 불시착]]></title><description><![CDATA[많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 07 Jan 2024 10:05:55 GMT</lastBuildDate><item><title><![CDATA[2023년 회고 겸 1년차 회고]]></title><description><![CDATA[2023년도 회고를 이제와서 올린다니? 싶겠지만 이유가 있다.
+작년 말에 우리 팀은 12월 23일 ~ 1월…]]></description><link>https://hyewoncc.github.io/goodbye-2023/</link><guid isPermaLink="false">https://hyewoncc.github.io/goodbye-2023/</guid><pubDate>Sun, 07 Jan 2024 10:05:00 GMT</pubDate><content:encoded>&lt;p&gt;2023년도 회고를 이제와서 올린다니? 싶겠지만 이유가 있다.
+작년 말에 우리 팀은 12월 23일 ~ 1월 1일까지 끝내주는 휴가를 다녀왔다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 7.777777777777778%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAZ0lEQVR42mWNQQrDMBAD8/9n9RUpdkqbmKzXcW89+GDvlM2hh0YgBgmBphgX7vNM2DKtG5gxzDDnGCev7if/5d2UUkJVea0rIUTqUSmlICLsu5BV8Y1n1cK7Co/lxjNvtA7Hp/2OXF+yypk34125KAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;휴가&quot;
+        title=&quot;&quot;
+        src=&quot;/static/20dbea8af9a91c2e88edef075c9a91ff/37523/vacation.png&quot;
+        srcset=&quot;/static/20dbea8af9a91c2e88edef075c9a91ff/e9ff0/vacation.png 180w,
+/static/20dbea8af9a91c2e88edef075c9a91ff/f21e7/vacation.png 360w,
+/static/20dbea8af9a91c2e88edef075c9a91ff/37523/vacation.png 720w,
+/static/20dbea8af9a91c2e88edef075c9a91ff/302a4/vacation.png 1080w,
+/static/20dbea8af9a91c2e88edef075c9a91ff/07a9c/vacation.png 1440w,
+/static/20dbea8af9a91c2e88edef075c9a91ff/f098e/vacation.png 1506w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그래서 휴가 기간동안 뭘 했냐면…&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB80lEQVR42gXB308SAQDA8Xvr0S2WpuWPFH8D8iM5kLvDg0Pg+HlnOsRJoCAiqVNHY2Gt5oKl/Vi22mr1kG2temi5Htrqpf6yb5+PoGo66+5xAhuPsJl1QvltrpVf4dg7I95+R+j4F0qqhjOawx5MMqaYGG9/s3T+D/X0M2O5e4wYDQaTdfpDawgz3hDL8yqxwg7FbIlk/BZ9hRMmKqfstBoUyxsYYR+lhJ9C2IW8EEerNYm1njO8/RLn5lN8Bx8YTe8yXTxGkPr7aNb2qN/Z5lPjEPnGOD2OIF5zndTRC7ZOnpBfNSkaEaqVMkrzjKHlBgPmAb36JpMbHUaMQ+YfX+A5eI+wODrI32aVjw8bfN/SaSk+3MMjZBazjFefIXa+kN09RKvfx7N/RvjNHxzVDhZtky7vIj3hIt2iyXSpjdT+iVBxz3I3phG1jrE6YaUi+tFFmWDcxK2XcSy1cJbaeB58Rdx/zXQ0z5CUoVtZ45IjRdfNLJZAniuRGr3qbQRvVscacDGnzqD6RFZicVJSBKstgF+USEQLRJI1/KtHuI1dhuQcA5EK1+UcFq/BZXcay6xJj7LGVaeOoF3IxH6YTH1LMbkSJq2l8StRpmYj2MQFPHNxZCmJKifwBjPYZAN70MCumFjFLAMujWHPAi45jUtK8h9wwQ6qy/H2SgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;발더삼&quot;
+        title=&quot;&quot;
+        src=&quot;/static/53c653c61ee40b389a35f714aca47a25/37523/baldurs_gate.png&quot;
+        srcset=&quot;/static/53c653c61ee40b389a35f714aca47a25/e9ff0/baldurs_gate.png 180w,
+/static/53c653c61ee40b389a35f714aca47a25/f21e7/baldurs_gate.png 360w,
+/static/53c653c61ee40b389a35f714aca47a25/37523/baldurs_gate.png 720w,
+/static/53c653c61ee40b389a35f714aca47a25/302a4/baldurs_gate.png 1080w,
+/static/53c653c61ee40b389a35f714aca47a25/07a9c/baldurs_gate.png 1440w,
+/static/53c653c61ee40b389a35f714aca47a25/169e3/baldurs_gate.png 1682w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;밥먹고 잠자고 화장실 갈 때만 빼고 (그리고 그와중에 어떻게 인프런 강의를 하나 들었다) 발더스 게이트3 게임을 했다.
+그러려던 건 아닌데, 재밌다는 얘기를 하도 들어서 ‘그럼 딱 휴가 때 하고 남은 시간에 할 거 해야지~’ 했으나 이렇게 볼륨이 큰 줄 몰랐다.
+해도 해도 안끝나서 거짓말처럼 1월 1일 밤 12시에 엔딩 크레딧을 봤다. 개발 블로그가 자기 홍보의 수단 중 하나란 걸 생각하면 회고 처음부터 미친듯이 게임했다는 얘기를 쓰는게 해로울 것 같은데, 이 얘기를하는 이유가 있다.&lt;/p&gt;
+&lt;p&gt;올해 내내 회고글 써야지 생각만 계속 했다.
+3개월 수습 끝나면 써야지, 엇 늦었으니 6개월 반년 회고 해야지… 하다가 정신차리니 12월이었다.
+그럼 휴가 때 써야지ㅎㅎ 했다가 해가 지나고, 이제 3일 있으면 입사 1년차가 된다.
+그래도 재밌는 게임을 해서 후회는 없다.
+늦어서 민망하지만 하는 게 중요하니까 회고를 올린다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-잘-한-일&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%9E%98-%ED%95%9C-%EC%9D%BC&quot; aria-label=&quot; 잘 한 일 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;💯 잘 한 일&lt;/h2&gt;
+&lt;h3 id=&quot;-회사에서&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%ED%9A%8C%EC%82%AC%EC%97%90%EC%84%9C&quot; aria-label=&quot; 회사에서 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🦌 회사에서&lt;/h3&gt;
+&lt;p&gt;작년에 정말 많은 일을 했다고 생각했는데, 쭉 나열해놓고 보니 결국 몇 개로 간단하게 분류되어서 허무한 마음이 있다. 메타인지가 없는 채로 눈 앞의 일만 해서 더 그런 것 같다. 올해는 내가 뭘 하고 있는지 인지를 놓치지 말아야겠다. 어쨌든…&lt;/p&gt;
+&lt;h3 id=&quot;레거시-정리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A0%88%EA%B1%B0%EC%8B%9C-%EC%A0%95%EB%A6%AC&quot; aria-label=&quot;레거시 정리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;레거시 정리&lt;/h3&gt;
+&lt;p&gt;레거시 서버에서 특정 서비스를 분리하고 사용하지 않는 코드를 많이 걷어냈다. 더 이상 정보를 아는 사람이 없는데 고장나면 서비스에 큰 지장을 주는 무서운 php 서버 같은 걸 페이드 아웃 시켰다. 레거시 속에서도 계속 사용할 코드는 꾸준히 리팩터링 했다.&lt;/p&gt;
+&lt;h3 id=&quot;여러-프로덕트-출시&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%ED%94%84%EB%A1%9C%EB%8D%95%ED%8A%B8-%EC%B6%9C%EC%8B%9C&quot; aria-label=&quot;여러 프로덕트 출시 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;여러 프로덕트 출시&lt;/h3&gt;
+&lt;p&gt;대표적으로 결제 시 사용할 수 있는 ‘이용권’ 관련 프로덕트를 만들었다. 이용권을 신규 유저를 위한 프로모션, 지류 쿠폰 지급, CS 보상 등의 여러 면에서 활용하고 있다. 한편 이용권 프로덕트 출시를 위해 레거시에서 관련 도메인을 분리하고 개선하는 작업도 했었는데, 이 작업 덕분에 유저 데이터를 추적하기 수월해졌다.&lt;br&gt;
+또 앱 설치 없이 친구 태워주기나 그룹으로 무한 잠금해제 무료 혜택을 받는 구독제 등 만들었지만 반응이 저조해서 밀려난 것들도 있다. 그 외에도 많았고 여전히 만들어내고 있는데… 여러 기능을 빠르게 만들고 실험하면서 어떤 방식으로 접근할지, 어디까지 가라(?)로 칠 수 있을지, 그렇다면 정식 기능으로 편입시킬 때 어떤 방식으로 개선해야 할지 등을 치열하게 고민할 수 있었다.&lt;/p&gt;
+&lt;h3 id=&quot;cs-응대-어드민-개발&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#cs-%EC%9D%91%EB%8C%80-%EC%96%B4%EB%93%9C%EB%AF%BC-%EA%B0%9C%EB%B0%9C&quot; aria-label=&quot;cs 응대 어드민 개발 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;CS 응대 어드민 개발&lt;/h3&gt;
+&lt;p&gt;CS 응대를 위한 서비스를 개발했다. 처음에는 지루한 작업이라고 생각했는데, 할 수록 백엔드 개발자다보니 평소에 잘 하지 않던 고민을 하게 되는 게 재밌었다. 예를 들어 정보를 어떻게 구성하고 배치해야 작업자가 편하게 처리할 수 있을지, 또는 기능 요청이 들어왔을 때 요청 뒤에 숨겨진 진짜 불편이 뭔지 생각하고 물어보기 등이 재밌었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h3 id=&quot;-개인적으로&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B0%9C%EC%9D%B8%EC%A0%81%EC%9C%BC%EB%A1%9C&quot; aria-label=&quot; 개인적으로 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌿 개인적으로&lt;/h3&gt;
+&lt;h3 id=&quot;vim-사용&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#vim-%EC%82%AC%EC%9A%A9&quot; aria-label=&quot;vim 사용 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;vim 사용&lt;/h3&gt;
+&lt;p&gt;예전에 그림 관련 작업을 할 때, 모든 프로그램 조작을 왼손으로 할 수 있게 세팅하고 오른손은 키보드에 올라올 일 없게 한 적이 있었다. 그 때는 손을 빨리 움직이는 게 중요했기 때문이다. 프로그래밍은 머리 써서 고민해야 할 때가 많으니 그 때랑 다르게 느껴져서 답답할 정도로 단축키 등을 잘 안쓰곤 했는데… 회사 사람들의 권유로 vim을 사용하기 시작했고 단축키도 적극적으로 쓰고 있다. 아직 초보자라 마우스로 손이 갈 때가 있지만 간지나서 만족한다.&lt;/p&gt;
+&lt;h3 id=&quot;스터디-참석&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%ED%84%B0%EB%94%94-%EC%B0%B8%EC%84%9D&quot; aria-label=&quot;스터디 참석 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스터디 참석&lt;/h3&gt;
+&lt;p&gt;회사에서 여러 스터디에 참석했다. 일 한 건 아니어서 ‘개인’ 칸에 넣었다. 요즘 난 한 게 없어 라는 생각을 자주 하는데, 회고해보니 테스트, 독서, 코틀린 등 생각보다 많은 공부를 했다. 지금은 &lt;a href=&quot;https://wikibook.co.kr/domain-driven-design/&quot;&gt;도메인 주도 설계&lt;/a&gt;를 일주일에 한 번, 백엔드 개발자끼리 모여 읽고 있다. 세 달 쯤 지난 것 같은데 반 넘게 읽었다.&lt;/p&gt;
+&lt;h3 id=&quot;글쓰기-모임-주최&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B8%80%EC%93%B0%EA%B8%B0-%EB%AA%A8%EC%9E%84-%EC%A3%BC%EC%B5%9C&quot; aria-label=&quot;글쓰기 모임 주최 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;글쓰기 모임 주최&lt;/h3&gt;
+&lt;p&gt;당장 내 블로그 글쓰기 주기만 봐도 알겠지만, 일하면서 글쓰는 게 쉽지 않다. 취준 때는 기술 블로그 있는 회사 가면 글 왕창 올려야지 했는데 역시 배부르고 등따시면 바로 눕게된다!&lt;br&gt;
+그래서 2023년도에 회사 블로그에 글을 쓰자는 사내 글쓰기 모임을 만들었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 28.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAz0lEQVR42pXRTWvEIBAGYP//X+qxh70Uei1KDGvQbPMFbpLVCUne4hSLsO2hAw+I47xzUEgpYa2FMQZVVUFJBe89Up3n+W/CWYtpmrCuK5ZlwTzP2LaNm8dxPA2U9Wsg/qjyUQpO9n3n5cMwsHJxJuT7Bbb9hL/PeISISBsekfichEg8mBARB2YhhJ9eJt5eX6DMDR/VFbppoa4O5jaiHe9wg8foFxBFxBg5IIVm+a4k1kCotYaSElprVtc1+r5H13VomoY/zTn3NBzD96LSFxyNzy774sKDAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;글쓰모&quot;
+        title=&quot;&quot;
+        src=&quot;/static/ca28d461b1078922cbc828ef7225f821/37523/writing_club.png&quot;
+        srcset=&quot;/static/ca28d461b1078922cbc828ef7225f821/e9ff0/writing_club.png 180w,
+/static/ca28d461b1078922cbc828ef7225f821/f21e7/writing_club.png 360w,
+/static/ca28d461b1078922cbc828ef7225f821/37523/writing_club.png 720w,
+/static/ca28d461b1078922cbc828ef7225f821/302a4/writing_club.png 1080w,
+/static/ca28d461b1078922cbc828ef7225f821/07a9c/writing_club.png 1440w,
+/static/ca28d461b1078922cbc828ef7225f821/7db30/writing_club.png 1494w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://hyewoncc.github.io/fight-javascript/&quot;&gt;글&lt;/a&gt;은 완성했는데, 회사 블로그 용으로 다듬는 걸 아직 못해서 결국 23년도에 올리기는 실패했다. 주최인 나부터 못지켰고 달성률이 많이 낮았다. 그래서 아쉬운 일에 넣으려다가, 성공적으로 마무리하려면 어떻게 개선해야 할지 떠오른 것들이 있어서 잘 한 일에 넣었다. 모임 열고 실패도 해봤으니 올해 재도전 해야겠다.&lt;/p&gt;
+&lt;h3 id=&quot;커피챗-참석&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%BB%A4%ED%94%BC%EC%B1%97-%EC%B0%B8%EC%84%9D&quot; aria-label=&quot;커피챗 참석 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;커피챗 참석&lt;/h3&gt;
+&lt;p&gt;글또 8기에서 처음 보는 분들과 커피챗을 했다. 낯을 많이 가리고 일 없으면 집 밖으로 안나가는 성격이라 커피챗을 하는 것 자체가 큰 도전이었다. 실용적인 네트워킹으로 접근하지 않아도 그냥 만나서 얘기하고 하는 게 좋았다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;️-아쉬운-일&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%95%84%EC%89%AC%EC%9A%B4-%EC%9D%BC&quot; aria-label=&quot;️ 아쉬운 일 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;☁️ 아쉬운 일&lt;/h2&gt;
+&lt;h3 id=&quot;주도적-업무-부족&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A3%BC%EB%8F%84%EC%A0%81-%EC%97%85%EB%AC%B4-%EB%B6%80%EC%A1%B1&quot; aria-label=&quot;주도적 업무 부족 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;주도적 업무 부족&lt;/h3&gt;
+&lt;p&gt;인원이 적고 일의 범위가 넓어 다른 회사보다 의사결정에 기여할 기회가 많은 편인 것 같은데, 막상 1년 간 내가 나서서 벌인 일이 없는 것 같다. 이 생각을 안해보다 경력직 CX 매니저 팀원분이 들어오셨는데, voc를 분석해서 어떤 일을 하자고 의견을 내는 걸 보고 감탄했다. 포지션과 경력 차이가 있겠지만 그래도 저런 시도를 되든 말든 나도 해보는 게 중요한 것 같다. 올해는 꼭 해봐야겠다.&lt;/p&gt;
+&lt;h3 id=&quot;자아-표류&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9E%90%EC%95%84-%ED%91%9C%EB%A5%98&quot; aria-label=&quot;자아 표류 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;자아 표류&lt;/h3&gt;
+&lt;p&gt;10월 들어서 조금 힘들었다. 회사와 관계없는 개인적인 일도 있었고, 팀 인원 변동으로 백엔드를 혼자 하게 되어 부담도 있었고, 누적된 피로도 있었다. 일과 생활의 능률이 곤두박질 쳤다.&lt;/p&gt;
+&lt;p&gt;일단 백엔드를 혼자 하게 되니 ‘어차피 해도 잘 안될 것’ 이라는 생각에 이전만큼 일이 재밌지 않았다. 주말에 하던 공부나 독서를 거의 할 수 없었다. 우테코 할 때 부터 8월까지 최소 주 2회는 운동을 했는데, 운동도 나가지 않고 PT도 건너 뛰었다. 도저히 나갈 수가 없었다! 나중에는 내 퍼포먼스에 문제가 있는 것 같아서 출근하기 무서울 정도였다. 팀장님과 면담할 때 이런 생각을 토로했는데 다행히도 딱히 내가 뒤쳐지고 있다거나 하는 건 못느꼈다 했다…&lt;/p&gt;
+&lt;p&gt;왜 모든 게 버겁게 느껴지는 지점이 왔나 생각해보니, 개발을 공부하면서 남들보다 늦게 시작했으니 이제 헛짓거리 할 시간이 없다고 여겼다. 그래서 우테코 신청하기 몇 달 전부터인 21년도 중후반부터 ‘되어야 하는 개발자’ 같이 살려고 노력했다. 예시로 우테코 자소서에도 게임 얘기를 썼고, 실제로 만들어 출시하는데 참여해봤고, 한창 때는 잠자는 시간 빼고 게임만 했을 정도로 하드 게이머였는데, 개발 공부를 시작하면서 스스로 신기할 정도로 거짓말처럼 단번에 뚝 끊었다. 그리고 놀랍게도 약 2년 간 게임을 전혀 하지 않았다. 개발과 관련된 무언가 하지 않고 노는 시간이 부끄럽게 느껴졌다. 운동 처럼 자기개발 성격이 없어서 더 그랬다.&lt;/p&gt;
+&lt;p&gt;하여간 주말에 지쳐 누워서 이걸 해야해, 저걸 해야해 가책만 느끼며 꼼짝도 못하는 시기를 보내다 진짜로 내가 재밌어서 하는 일은 하나도 하지 않고 있다는 걸 깨달았다. 그래서 일주일에 한번 친구들이랑 게임을 했다. 그리고 휴가 때 발더스 게이트를 하고 나니까 이렇게 재밌어 할 거면 그냥 하고 지내지 싶었다. 놀았으니 더 열심히 해야겠다는 마음도 들었다.&lt;/p&gt;
+&lt;p&gt;그래서 슬프지만 나는 ‘개발’ 자체가 보상이 될 수 없는 사람임을 인정할 수 밖에 없었다. 스스로에게 보상을 주지 않고 달리게만 했다가 부딪힌 한계점이 연말에 왔었다. 이 말을 쓰는 지금도 속쓰리고 부끄러운데 더 고집 부리지 않으려고 한다. 결과적으로 더 일을 즐겁게 잘 할 수 있으면 되는 게 아닐까.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-그래서-올해는&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B7%B8%EB%9E%98%EC%84%9C-%EC%98%AC%ED%95%B4%EB%8A%94&quot; aria-label=&quot; 그래서 올해는 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🌈 그래서 올해는?&lt;/h2&gt;
+&lt;p&gt;그래서 올해는 내가 생각하는 ‘되어야 하는 개발자’에 억지로 맞추지 말고 내가 잘 일하고 잘 즐길 수 있는 한 해를 만들고 싶다. 나도 여전히 잘난 개발자가 되고 싶다. 그런데 남들 잘하는 점만 여기저기 떼와서 그런 사람인 척 하려니 불가능했다. 지속할 수 있는 방법을 찾아야 한다.&lt;/p&gt;
+&lt;p&gt;이미 글을 지나치게 구구절절 쓴 것 같아서 만다라트로 대체한다. 24년도 회고에서 각 칸을 얼만큼 달성했는지 돌아보는 걸로 할 것이다!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 141.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAACXBIWXMAAC4jAAAuIwF4pT92AAAEiElEQVR42oVWyXLbOBD1///SnOaeSSVeItmSuGHfCK6SJVF+U920nLlMhVUQSQBs9FvQ0AMAfHx8/G9bx4HLZcGyfGC5feB6vfGdn5cbv9+vB/o5nd5hrEfdKNxuvwfpmucZyTfIoUawJZKvEV0Frws4XaD1NY8502BZbmvAcZxQVgKNUPAhwbqA3PUcMKWEzm+xzBVau4FtHqGqHwjqBdltMec9rlMJXT9zYhxwWRYOQK1tO7S5Q9cPOJ8v3Ke1gpINRFNh6CL6LiK3HqIuYT/HhqFnijhg1w3ohwHjNGOcJgzjhOPxhGk+cuB5PmGcjrh9ctn1I7SK2L01ePpeoSgk+n76zeH7+xlWJOgqQhYeuoxIbl3xcr3icrl8tXk+Yrcv8fdf3/H8uMPjtz2KvcAwjGtA+oiwOxthTODmfeLW5h4hJOY1hBYhtkhtRowti6iNg3MRUlleiAR9oJ+6kYgxwXkPbS2sdSirhvul0iirGlIpCKFQlDWMcVBKQ2sDHwIvGlOLYZjwcL1e4XzgFWLICL7l9KXUrPY0zQg+YegmeB/ZCZTdMAxf/Sm16PuB3fJwuVxhrMPQjygeA6qXBOc8f3jPsHoJUNsBRVFjty8gpeE55S+P5iVDSQdtDCf1mWHEOM5oXhPEW0LOPZS2zBGtLHYJZj/AmoCqFpzpNE2Qh7U/+Iw25zUgubsRktO2zjEnXddxhvSxMQZ13UBKCSEkc8h0WMdU5ZwZIXFK9LAoUhmEEGGdh1KGg2ttIZSGMtQMC2achZAK1nq+UyCa6xw5Y9Xh4Xb7YFsQPAqstGO4JEh0PXTVot476LpF+WYgq8CUEE1kF7oLqVmo8/m8Qj4cCmitoY1myDFGlFWF8peD3oxonjv4/RnNc8buh4G1Ky2pbTHNI5pGQGl9t83CKxAMVUVu9EwclhsH/Tpi97iHeKtQPgXsflpGQAbXIiHqAUJohs+2ocJAxiUO1WaA3PQwxqJuGlRbj1i8o3z7Bif/gdhEthVDJG7fOsT9BaLWnCHtfw6oWJQEUXg0hWeiiXQKyP57qaAPEtVzxOHJr4jIq6WFEx2Ucpwhq3xdFrZN21IQqokCIQTOunmNSMUFzXMPv3uH3k4clLYezQkxInctK0y8U5Vi2xjjWSVWWFl+J9W1iGj2ntVtDh7Fq0G1s4yGhCEu6TtyB83nAkuQ2U9tZsMSfCqwNJH6KQvrPStKRlbasFXaNrO1aC690/efO2XhKkLVhqCXZYXT6bSuLDVTsRo4sXCHouKxFWbLtfS+8HBXmVbNuYPad5C7jJTyV1WhftrLrhiRUrdSoS26vocqEnw5oSpWH66iXFfIXLK2HfRuwDROX9xQJvK1hdsfkfPAsAli3/fQhw7hcFpto75sc+MiEFOCFAZNrdigd3Nz5spCS7cWVm25nwJQvzPhK+v5+MnhHQJlSqambUXZkd+6rudqTOWKKgzXSN5ZZH4BYy3XTGp0yPGZQurQCUc1kRpxQe9EeFVL/HzaYPt64MOJ5pI9Jj4hP+dOR+7/Ouj/dP33b8mfrn8BIAU6rKTwgd8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;만다라트&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e79238d22c1060e53ba3d50835553912/37523/mandalart.png&quot;
+        srcset=&quot;/static/e79238d22c1060e53ba3d50835553912/e9ff0/mandalart.png 180w,
+/static/e79238d22c1060e53ba3d50835553912/f21e7/mandalart.png 360w,
+/static/e79238d22c1060e53ba3d50835553912/37523/mandalart.png 720w,
+/static/e79238d22c1060e53ba3d50835553912/302a4/mandalart.png 1080w,
+/static/e79238d22c1060e53ba3d50835553912/7a4b2/mandalart.png 1240w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EC%9E%98-%ED%95%9C-%EC%9D%BC&quot;&gt;💯 잘 한 일&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%ED%9A%8C%EC%82%AC%EC%97%90%EC%84%9C&quot;&gt;🦌 회사에서&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%A0%88%EA%B1%B0%EC%8B%9C-%EC%A0%95%EB%A6%AC&quot;&gt;레거시 정리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%ED%94%84%EB%A1%9C%EB%8D%95%ED%8A%B8-%EC%B6%9C%EC%8B%9C&quot;&gt;여러 프로덕트 출시&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#cs-%EC%9D%91%EB%8C%80-%EC%96%B4%EB%93%9C%EB%AF%BC-%EA%B0%9C%EB%B0%9C&quot;&gt;CS 응대 어드민 개발&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B0%9C%EC%9D%B8%EC%A0%81%EC%9C%BC%EB%A1%9C&quot;&gt;🌿 개인적으로&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#vim-%EC%82%AC%EC%9A%A9&quot;&gt;vim 사용&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%8A%A4%ED%84%B0%EB%94%94-%EC%B0%B8%EC%84%9D&quot;&gt;스터디 참석&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EA%B8%80%EC%93%B0%EA%B8%B0-%EB%AA%A8%EC%9E%84-%EC%A3%BC%EC%B5%9C&quot;&gt;글쓰기 모임 주최&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%BB%A4%ED%94%BC%EC%B1%97-%EC%B0%B8%EC%84%9D&quot;&gt;커피챗 참석&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%95%84%EC%89%AC%EC%9A%B4-%EC%9D%BC&quot;&gt;☁️ 아쉬운 일&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A3%BC%EB%8F%84%EC%A0%81-%EC%97%85%EB%AC%B4-%EB%B6%80%EC%A1%B1&quot;&gt;주도적 업무 부족&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9E%90%EC%95%84-%ED%91%9C%EB%A5%98&quot;&gt;자아 표류&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#-%EA%B7%B8%EB%9E%98%EC%84%9C-%EC%98%AC%ED%95%B4%EB%8A%94&quot;&gt;🌈 그래서 올해는?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[자바스크립트에 불시착]]></title><description><![CDATA[많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
 나는 자바스크립트랑 node.js…]]></description><link>https://hyewoncc.github.io/fight-javascript/</link><guid isPermaLink="false">https://hyewoncc.github.io/fight-javascript/</guid><pubDate>Sun, 10 Dec 2023 07:30:00 GMT</pubDate><content:encoded>&lt;p&gt;많은 스타트업에서 백엔드 언어로 자바스크립트를 쓰고 있다.
 나는 자바스크립트랑 node.js로 바닥부터 개발을 해보지 않아서 모르지만, 다른 언어와 프레임워크에 비해 프로덕트를 빠르게 낼 수 있어, 초기 스타트업에서 많이 사용한다고 들었다.
 그런데 나처럼 특정 언어와 프레임워크를 사용하는 백엔드 교육 과정으로 개발을 시작한 사람은 배운 것 밖에 쓸 줄 모른다.
