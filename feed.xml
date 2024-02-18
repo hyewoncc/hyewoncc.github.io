@@ -1,4 +1,312 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 07 Jan 2024 10:05:55 GMT</lastBuildDate><item><title><![CDATA[2023년 회고 겸 1년차 회고]]></title><description><![CDATA[2023년도 회고를 이제와서 올린다니? 싶겠지만 이유가 있다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[어제보다 오늘 더]]></title><description><![CDATA[써머]]></description><link>https://hyewoncc.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 18 Feb 2024 13:35:23 GMT</lastBuildDate><item><title><![CDATA[서버리스와 람다로 더 싸고 유연하게 구조 개편하기]]></title><description><![CDATA[…]]></description><link>https://hyewoncc.github.io/serverless-notification/</link><guid isPermaLink="false">https://hyewoncc.github.io/serverless-notification/</guid><pubDate>Sun, 18 Feb 2024 13:32:00 GMT</pubDate><content:encoded>&lt;p&gt;최근 디어에 알림함이 생겼다.
+근데 최근이라고 쓰고 확인해보니 최초 오픈한지 이미 몇달이 지났다… 요즘 시간 지나가는 속도가 정말 충격적이다…&lt;/p&gt;
+&lt;p&gt;어쨌든 그 전에 디어엔 ‘알림’ 개념이 없었다. 몇 기능에 푸시 알림이 붙어 있었을 뿐이다.&lt;br&gt;
+공유 모빌리티 서비스를 사용한 적이 있다면 앱 체류 시간을 떠올려 보자. 굉장히 짧지 않았나?
+나도 길에서 킥보드가 보이면 대여할 때 한 번, 반납할 때 한 번 앱을 키는 게 전부다.
+그래서 알림의 필요성이 부족해 없었다.&lt;br&gt;
+그러다 게이미피케이션 같이 고객과 상호작용이 강한 기능이 도입되면서, 고객에게 전달한 정보가 어디에도 남지 않고 휘발된다는 문제점을 팀 디자이너 분이 발견했다. 알림함은 그 분의 오랜 숙원 사업이었는데, 오픈하고 보니 ‘필요없다’고 생각해서 고객에게 전하지 않던 정보 중 필요한 것도 있었고, 원래 도입하려던 기능에 알림이 큰 도움이 되는 것도 있었다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-알림-도입과-아키텍쳐-개편&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EC%95%8C%EB%A6%BC-%EB%8F%84%EC%9E%85%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B0%9C%ED%8E%B8&quot; aria-label=&quot; 알림 도입과 아키텍쳐 개편 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🔔 알림 도입과 아키텍쳐 개편&lt;/h2&gt;
+&lt;p&gt;인앱 알림 도입 이전엔 푸시 알림만 여러곳에서 보냈다. 예로 문의를 남겼을 때 A서버에서 ‘문의를 보냈다’는 푸시를, CX 관리 어드민에서 답변을 작성했을 때 ‘문의 답변이 달렸다’는 푸시를 보냈다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 28.888888888888886%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA1ElEQVR42n2Q3WrDMAyF8/7PVHaxVyhsgV7sZknXJHZ+/G/XOsVqE8IgFRwk2fBJR1XOGXsREbz3XJcgAgg7Eb1VZYxB27ZomgbzPGNZFq6VUngS007PIf+jgNZcWWs3UIGsn94HiK7FdPmErD8w1ScE+QMXEpxz7KLklNIG24BSSAghoLWGlJI3NsbCqAnu7wvh9g1/PeOuO7a9P48xGjFGjOPIYAYOw4C+73nL0pfJdGCPL/lykeZfiPqEuFyhtOX3arV4dJsjlchBg0yHHC3ur40fdeLUSQ28YHEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;기존 구조&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8bb6b9f4b7b4aef22d0b614c3f054ec8/37523/only_push.png&quot;
+        srcset=&quot;/static/8bb6b9f4b7b4aef22d0b614c3f054ec8/e9ff0/only_push.png 180w,
+/static/8bb6b9f4b7b4aef22d0b614c3f054ec8/f21e7/only_push.png 360w,
+/static/8bb6b9f4b7b4aef22d0b614c3f054ec8/37523/only_push.png 720w,
+/static/8bb6b9f4b7b4aef22d0b614c3f054ec8/50383/only_push.png 740w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;앱에 알림함을 만들고 게이미피케이션 푸시 및 인앱 알림을 보내면서 구조가 추가되었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35.55555555555556%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABNUlEQVR42m2S227UMBRF+/9/VPraN+CtCKkqgoF2QpOM40t8Ob6tNhM6IOBI21u25SVvH18BtNaotV4854xSCu89vTd6FWgZNu+Vv6v3ftHVtrAdPB6PDMOAMYZSClprTmphHH4w3b1jvrtGf75B9CMpF1JKF/0DjDFircU5x7quWOvO4BgTfrWIOlCW75TlQBNH73uqDiTJ1NYuN92BITCNI/M0Yq1BL4rVGXKW37H+0Da+eVw1Jcd97w24hshpsSjtsC6QGvgCIQr/rf4LWAP64RY5fcFYRy1lB/7Ulff3mg/3iochcpwsh2eLcZ5WCy4IX2fhSQkimXmemaeJxTg+fvrG47PG+5VS6w50sTKawmQLi8vUIrQilJzPHRcRUpJzA7b59r56WfAhYkIh5rb/htfIL1LRHxq7ny2eAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;알림함 추가 구조&quot;
+        title=&quot;&quot;
+        src=&quot;/static/a3586692851a4f0b991c60890240dabc/37523/push_and_noti.png&quot;
+        srcset=&quot;/static/a3586692851a4f0b991c60890240dabc/e9ff0/push_and_noti.png 180w,
+/static/a3586692851a4f0b991c60890240dabc/f21e7/push_and_noti.png 360w,
+/static/a3586692851a4f0b991c60890240dabc/37523/push_and_noti.png 720w,
+/static/a3586692851a4f0b991c60890240dabc/50383/push_and_noti.png 740w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;사실 여기까지만 해도 나쁘지 않아 보이는데, 고객들의 편의와 정보 전달을 위한 알림을 적극적으로 추가하려니 문제가 생겼다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAABnklEQVR42m2S247TMBRF5/9/CPHOAzwwCCEhwUxJy9Bc2zS+x5dkITu00nSwtJPYPt5ZJzsP67pyHfk5pcSyLGWe0kKvFoRby1qe5/1rTa6/18N2cCsyxqC1RgjBYb9HKYXWCqsF3kpmq/DeM88z1tpXIDfDfDHa0LYtbdMipSTGiFaK82Xi9PwJ8f0952/vmI+P+BCKYa67mr8hdM4VmqxMmQmnacK6GdG/4E4Vq6pZ7bARLelGOPtAWtYbaSHMm33fF4lp4jIJpDbMzpUDk1R0w4leRuopUYsF63wxMeJM9PY1YTbMVLkNqRRD80JzeN4ojcEYTQh+a9EHhFTlhV6PTE8fCOcKISQpxX/f0Bi6rqNtm43u3CFPNc7HYtI0DfXxD92oS+rD0FMfjzzt9nz8uuM4SKw1JdhCOLu5BGO0LfcQAsFKopU4ozHWljXvAyHEElqGcM6jXcLHu1DGRvDjc8XPLxV1NaDVhO4qdH9AXE64eWZJiUFFfo+R5uJLkG/G1VCNhuOuo/7VM3aCECMhpk0hbsR3yu3978f+C93CBZrKwJB9AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;알림이 늘어남&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b09f4d02c1e7b8aa84d5db58175d7c94/37523/more_alerts.png&quot;
+        srcset=&quot;/static/b09f4d02c1e7b8aa84d5db58175d7c94/e9ff0/more_alerts.png 180w,
+/static/b09f4d02c1e7b8aa84d5db58175d7c94/f21e7/more_alerts.png 360w,
+/static/b09f4d02c1e7b8aa84d5db58175d7c94/37523/more_alerts.png 720w,
+/static/b09f4d02c1e7b8aa84d5db58175d7c94/50383/more_alerts.png 740w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그림으로 그리니 복잡함이 과장되게 보이는 느낌이 없잖지만…
+외부 푸시 서비스를 다른 서비스로 교체한다고 생각해보자. 그럼 저 곳을 모두 돌아다니면서 교체해야 한다.
+인앱 알림은 DB에 데이터를 저장하는 식인데, 여기도 변경점이 생긴다면 동일한 문제가 있다.&lt;/p&gt;
+&lt;p&gt;여기에 만약 다른 서비스에서도 알림을 보내고 싶다면?
+똑같은 코드를 또 써야 한다.
+그리고 한 데이터를 여러 곳에서 변경하는 것도 바람직해 보이진 않는다.&lt;/p&gt;
+&lt;p&gt;원래는 이미 이곳 저곳에 퍼져있는 푸시를 재쳐두고, 인앱 알림 저장을 서비스 B나 C에 몰아주고, 차라리 다른 곳에서 호출해 사용하도록 API를 열어줘야 하나? 아니면 알림 서비스를 별도로 분리해야 하나? 싶었다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 45.55555555555556%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZklEQVR42m2S2W7DIBBF8/9/lPeuatq+NFK3KFViJ/WGF4wBA77tjOPEqoo0BuHhzpll0fc9pJSo6xpt28JaC+89hmEALdrH84AQBtgqgk7f2Vy9Z9+530JrjSzLcDweUQoBpRS6roMxhh3DENjIuVUd5G6Fcr2EWC+h9w9QSiKEwAFZkB4SIQnRTpfkQKR/l9YG8AZwLeAkEAxs7+H8JRsmzPMccRyjqipOfQqQlSm22Qab70/sxBdqWY3UzEMfh/LwBtvmDHEmnISapuFUq7pCmqR4Wq9wv7nDzes1nvePEHVxYh2JvC4hPq5gxRZ5UXBWTFjkBaIoOgvTHQkbo2G9hRt6WGe4ttSERkroTiFOSty+HLBLFXTXwTmHBXV5agTthE2P/quh0WO9KTg1UhsD6wKcD5caEokQAkmSMB0JT4TzcZiPEZGMnb2s89gQCdWO0m0pFa1B1NODuSDbqX7//vsV/AFmt7mjUGshngAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;서비스 분리&quot;
+        title=&quot;&quot;
+        src=&quot;/static/fc7789d4fa36f5c7e5da0a637f6d6bfe/37523/notification_service.png&quot;
+        srcset=&quot;/static/fc7789d4fa36f5c7e5da0a637f6d6bfe/e9ff0/notification_service.png 180w,
+/static/fc7789d4fa36f5c7e5da0a637f6d6bfe/f21e7/notification_service.png 360w,
+/static/fc7789d4fa36f5c7e5da0a637f6d6bfe/37523/notification_service.png 720w,
+/static/fc7789d4fa36f5c7e5da0a637f6d6bfe/a1792/notification_service.png 780w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;고려하면서 달갑지 않았다! 이미 별도로 돌아가고 관리에 어려움이 있는 특수 목적의 레거시 서비스들이 있다.
+결제 관련 php 서버 하나를 완전 페이드 아웃 시키는데만 몇 달이 걸렸는데, 하나를 치우고 다른 하나를 놓는 게 영 별로였다.&lt;/p&gt;
+&lt;p&gt;그러다 팀장님이 SQS와 서버리스 프레임워크를 사용한 람다로 분리하면 어떻겠냐 제안해주셨고, 이런 구조로 개선하기로 했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 45.55555555555556%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABVUlEQVR42m1SXU/DMAzc//9De4eBeONje2KAxGhWtrVN0jRNmjY5ZK9loNWSZSVxzuezF33fo21bWGs5DsMAspTSlZNFJ9GrHYL6wmByyvyXv/DeoygKZFmGsixR1zWDxxSvAFvXQe8eITdLFC9L2I8bWKMwxMjADBhCYBBjDGpdg87EdM5s2yIGi+QqRFchdRrOdxhi+s1ZdF0HrTUOhwNHY2o0TYOyLpBrweCFkJBHzcwxNjlB1IVAZyWzizFeACf33mEv9rh7usX9doUsE1ivXrF9/oSUaoQZ4YKBeruB/95AygrOubOGVVlBCMFaUvtaaTRtA9e3oKF5G9C5sxTEgphS4WMh8bDe4V0ofiNyC/pALdJFYxqeMhWZM+cda03F8zxnTV1I8OEyQG5ZKYXT6cSRqlMBYjK3NhSJxLRefy2BpjxqSCtDcdrFuT1kx2Wic+8/fwK56gpUJ5sAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;sqs와 서버리스&quot;
+        title=&quot;&quot;
+        src=&quot;/static/4e1c23956da30fa77f77ca0fa02b68be/37523/sqs_and_serverless.png&quot;
+        srcset=&quot;/static/4e1c23956da30fa77f77ca0fa02b68be/e9ff0/sqs_and_serverless.png 180w,
+/static/4e1c23956da30fa77f77ca0fa02b68be/f21e7/sqs_and_serverless.png 360w,
+/static/4e1c23956da30fa77f77ca0fa02b68be/37523/sqs_and_serverless.png 720w,
+/static/4e1c23956da30fa77f77ca0fa02b68be/a1792/sqs_and_serverless.png 780w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;언듯 보면 SQS가 추가로 끼어서 더 복잡할 것 같지만, ec2 인스턴스로 띄우는 서버와 달리 여러 면에서 장점이 있다. 트래픽을 고려해 스펙을 정하지 않아도 되고, 실행 시간이 짧은 만큼 요금도 저렴하다. 또 클라우드 워치에서 로그도 쉽게 볼 수 있고, 서버리스는 배포도 쉽다. 사실 스타트업에서는 다른 거 다 빼도 비용 저렴한 것 만으로 가치가 있다!&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;-개편-중-사소한-트러블-슈팅&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#-%EA%B0%9C%ED%8E%B8-%EC%A4%91-%EC%82%AC%EC%86%8C%ED%95%9C-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85&quot; aria-label=&quot; 개편 중 사소한 트러블 슈팅 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;🧨 개편 중 사소한 트러블 슈팅&lt;/h2&gt;
+&lt;p&gt;분명 주말 내내 삽질을 했었는데, 한달 정도 지났더니 세 개만 기억난다.😭&lt;/p&gt;
+&lt;p&gt;첫번째로 다른 서비스에서 SQS에 메시지를 보낼 때 접근 권한 관리다. 원인은 모르겠으나 스프링 애플리케이션 서버에서 SQS에 접근이 안 돼 메시지를 보낼 수 없었다. 그래서 별도의 iam 사용자를 만들어 권한을 주고, 키를 발급해 프로퍼티 값으로 넣어 사용했다.&lt;/p&gt;
+&lt;p&gt;그런데 보안상 키를 사용하지 않는 게 낫고, 내가 yml 설정을 잘못해서 안 됐던 거였다. 대신 iam 역할에서 각 서비스 별 권한 정책에 &lt;code class=&quot;language-text&quot;&gt;AmazonSQSFullAccess&lt;/code&gt;를 추가하는 걸로 대체했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 31.11111111111111%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA6klEQVR42oWRS2sDMQyE/f9/YJueQg/trmXWT/lNmGBtEnIpPXxIWKMZG6v90FgYR3DewnmPECNiSv/yrlu9dQ6K9Bdo+4T+vYC2C/afDxyHhg9RRH+STrNVT2OGDwFq0wQyBiEGhOBhnZWkJWJmJGbknF/9k7V8OCc1pghrtewoIsJORhJaa5hzYo6JMYbQexeDNZOzfp6VUuB9AOeMVjOC/QZzgmLOSFxQ60BrA7W2BxW1NZRSQWTklq11lFrFbM3fQ1ufWF6q1A6zXeGOK5jpJVqsD1pGt9sNYz5uPacExpjkNU/tnEPC7lWhzS8F9JzfAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;iam 역할 권한 추가&quot;
+        title=&quot;&quot;
+        src=&quot;/static/dd3a9fc9552f26716f7f0ab5ef775178/37523/iam_role.png&quot;
+        srcset=&quot;/static/dd3a9fc9552f26716f7f0ab5ef775178/e9ff0/iam_role.png 180w,
+/static/dd3a9fc9552f26716f7f0ab5ef775178/f21e7/iam_role.png 360w,
+/static/dd3a9fc9552f26716f7f0ab5ef775178/37523/iam_role.png 720w,
+/static/dd3a9fc9552f26716f7f0ab5ef775178/302a4/iam_role.png 1080w,
+/static/dd3a9fc9552f26716f7f0ab5ef775178/1dbe8/iam_role.png 1374w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;더 엄격하게 관리한다면 메시지 전송 작업만 가능한 별도 권한을 줬을 것이다. 그 정도로 관리할 필요성은 없어서 하지 않았다.&lt;/p&gt;
+&lt;p&gt;람다에도 SQS 메시지 읽기와 삭제 권한을 줘야 한다. 삭제는 함수 실행 후 처리한 메시지를 삭제하기 위해 필요하다. 여기는 처음 설정해보는 거라 학습을 위해 전체가 아닌 개별 권한을 줬다. yml로 설정 가능하다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;iam&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;role&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;statements&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;Effect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Allow
+        &lt;span class=&quot;token key atrule&quot;&gt;Action&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; sqs&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;ReceiveMessage
+          &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; sqs&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;DeleteMessage
+        &lt;span class=&quot;token key atrule&quot;&gt;Resource&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;arn:aws:sqs:ap-northeast-2:*:*&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt;
+&lt;p&gt;두번째는 람다에서 AWS RDS를 연결할 때, 직접 연결 대신 프록시를 사용해야 했다. 팀장님과 개편 논의하면서 처음부터 들어서 알고는 있었는데 처음 작업해봐서 헤맸다. 사유와 방법은 감사하게도 잘 정리된 &lt;a href=&quot;https://medium.com/harrythegreat/aws-%EC%84%9C%EB%B2%84%EB%A6%AC%EC%8A%A4%EB%A5%BC-%EC%9C%84%ED%95%9C-rds-proxy%EC%84%9C%EB%B9%84%EC%8A%A4-fb5815b83cce&quot;&gt;Meduim 해리의 유목코딩 - [AWS] 서버리스를 위한 RDS Proxy서비스&lt;/a&gt; 포스팅을 참고했다.&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;마지막으로 vpc 설정이다. 배포가 쉽고 빠르기에 실행 즉시 hello world 문자열을 응답하는 람다를 먼저 배포해보고 점점 붙이는 식으로 학습 및 개발했는데… yml로 vpc 적용이 되지 않았다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;functions&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;함수 이름&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;vpc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;securityGroupIds&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;self&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;provider.SECURITY_GROUP_ID&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;subnetIds&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;self&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;provider.SUBNET_ID&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;알고보니 이 설정은 람다 생성 후 소급 적용이 불가능했다. 그래서 함수를 삭제했다가 배포로 다시 생성하니 적용됐다.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;️-써보니-좋긴-좋더라&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%8D%A8%EB%B3%B4%EB%8B%88-%EC%A2%8B%EA%B8%B4-%EC%A2%8B%EB%8D%94%EB%9D%BC&quot; aria-label=&quot;️ 써보니 좋긴 좋더라 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;⚡️ 써보니 좋긴 좋더라&lt;/h2&gt;
+&lt;p&gt;서버리스로 개발하고 람다에 배포하니 훨씬 쉽고 빨랐다.
+(물론 평소에 자주 쓰는 스프링은 엔터프라이즈급 애플리케이션에 적합하다 나와있어 각자 의도한 쓸모가 다르니 비교에 딱 맞진 않다.)&lt;/p&gt;
+&lt;p&gt;아래에 있는 게 함수 코드 전체다. 메시지의 타입을 보고 푸시면 외부 서비스에 요청을 보내고, 인앱이면 DB에 저장한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token string&quot;&gt;&apos;use strict&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; mysql &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;mysql&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;TYPE&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token constant&quot;&gt;APP_NOTIFICATION&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;APP_NOTIFICATION&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token constant&quot;&gt;PUSH&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;PUSH&apos;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sendAppNotification&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; connection &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mysql&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createConnection&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;DB_PROXY_ENDPOINT&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;DB_USERNAME&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;DB_PASSWORD&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;env&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;DB_SCHEMA&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        connection&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        connection&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;
+                    INSERT INTO ...&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;error&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; results&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; fields&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;error&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; error&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        connection&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sendPushNotification&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token function&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;https://external-service&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;POST&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token literal-property property&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;token string-property property&quot;&gt;&apos;Content-Type&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;application/json&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token string-property property&quot;&gt;&apos;Authorization&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;...&apos;&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function-variable function&quot;&gt;handler&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; body &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;event&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Records&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;body&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;body&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;notificationType &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;TYPE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;APP_NOTIFICATION&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sendAppNotification&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;body&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;body&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;notificationType &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;TYPE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;PUSH&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sendPushNotification&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;body&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;br&gt; 
+&lt;p&gt;람다에 올렸으니 트래픽이 겹쳐 몰릴까 신경쓰지 않고 알림을 보낼 수 있다.
+어디서든 리드미에 정의한 대로 SQS에 메시지만 보내면 된다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.88888888888889%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeElEQVR42pWTfU/CMBDG+/2/l/qPqIBRERUF9tate+k6ytZ2j+kZDKLE7Ul+uaxLn7trr2y1esft3RTL5QumszkeHp/wvFzienKDyc0tZvN7PD4taP1uOsPF5RWiKIZX3/c4FZOyRhTHSBJOMU4SJJzTdxCGtJnzFFJKlFWFPC+w05o2O9eT6TFMqQZZJlBJCaUUfIK6rlFVEkIIiDyntVORwSEeG/I0xcvrG95WK2prsXjGdhv8bTAA5lv5WK+pHWMM2rZFZwy145wjhpqRoW91swmg9f6omp8VWedg7TCYsQ5l0yCtSkRCIM4FsqJGwAuEvETIC8hGY7fv0Oj2X5gxDkkhsMkixCLHNskglUZVa4qFbKB2ezIcAuuMBX6P07es6ynzKMNzB+/l/48ybDsDY+zZWzsYDoUuZd9ZtMZSBn3CbiTMv4ogCFErdXaAx4j5d8l5hqbRdDeWBvoLX/1YWGcchJRIyhyBSBEXAnFWEUNn7/gMPwEXw40ujsXKtQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;리드미&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b667ffd0513ede78e95ecbf519d3f183/37523/readme.png&quot;
+        srcset=&quot;/static/b667ffd0513ede78e95ecbf519d3f183/e9ff0/readme.png 180w,
+/static/b667ffd0513ede78e95ecbf519d3f183/f21e7/readme.png 360w,
+/static/b667ffd0513ede78e95ecbf519d3f183/37523/readme.png 720w,
+/static/b667ffd0513ede78e95ecbf519d3f183/5a190/readme.png 800w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;더 이상 복붙 중복 개발은 없다!
+람다로 교체하고 배치랑 다른 람다를 포함해 여기저기서 유용한 알람을 잘 추가하고 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 84.44444444444446%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAAAsTAAALEwEAmpwYAAABp0lEQVR42p2U647TMBCF9/1fgQfgAfYR+AMS2j8IoVXLNqVp1o3jS5yL3fhykCe0S5cFJYxkZZSMPp05M84dbiIhpUSZ1hpSSspjjPQ+hAAhBMZxnKvTS/0l7m5w6QIFQnwpzHBjzBXy+/N1vAImzMwAo5/RdQoxegLmk5V2XQfn3FKF88fgO/x4vIfRFbTmUErB2hF+mjAMw3pg8gPE4SPK8oii2GO/L1DsdqiOR/Lx4ulyhVOLx4f3UEqAc46Gc7Rao+97WGtxPp+XKcS1ICF6A16fcDoxNA1HjOE68YvCt4bzl6FEBMcxDj3OzsF7TycEj/ArXwyklp3Et0/vUFUV+VYeDrQ2GTRN03pg9BYt+0LeMcbA2DMts/cTAXPL66acEmrb4enpO7bbDbabDfmYb07baoKuUpjyArue9k+IBkpJnBiDpn20N+qWtRwjTB9Q1zWBsn9N05B3Of5LoektdNtSm9nLt34IKxQmfC0HlGWJotjRlDmvYceRTla4GJhmIibO0GoFKQSGof/DknVTdg7m8wfoDJQCSko4axHDfFv+tYc/AdQ9NHQppURUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;알림 모음&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e375831c585153fb944b1f8b73ec9a24/37523/alarms.png&quot;
+        srcset=&quot;/static/e375831c585153fb944b1f8b73ec9a24/e9ff0/alarms.png 180w,
+/static/e375831c585153fb944b1f8b73ec9a24/f21e7/alarms.png 360w,
+/static/e375831c585153fb944b1f8b73ec9a24/37523/alarms.png 720w,
+/static/e375831c585153fb944b1f8b73ec9a24/02cd5/alarms.png 821w&quot;
+        sizes=&quot;(max-width: 720px) 100vw, 720px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이용권 만료 알림 처럼 고객에게 꼭 필요했던 기능이 알림함 개발 및 개편 후 빠르고 쉽게 추가되어서 정말 뿌듯했다.&lt;/p&gt;
+&lt;p&gt;다음 목표는 현재 곳곳에 퍼져있는 푸시 알림 레거시를 모두 걷어내고 메시지 발행으로 교체하기다.
+더 중요한 일들이 산더미라 아마 빠른 시일 내로 하기는 어렵곘지만 상반기 내로는 할 수 있지 않을까?&lt;br&gt;
+그리고 한 번 람다에 올리고 나니 아 이거 똑 떼내면 기가 막히겠다 싶은 것들이 이것저것 보인다. 무분별하게 떼내는 건 자제해야겠지만, 새로운 걸 배우니 선택권이 넓어져서 너무 좋다. 사실 이렇게 개편할 때 일정이 진짜 너!무! 촉박해서 이거 하다가 틀어질까 걱정이 많았는데… 하다보니 어떻게든 되어서 요즘 그래도 경험치 있는 개발자가 된 것 같아 기쁘다. 올해는 경험치를 더 많이 쌓을 수 있었으면 좋겠다.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EC%95%8C%EB%A6%BC-%EB%8F%84%EC%9E%85%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90-%EA%B0%9C%ED%8E%B8&quot;&gt;🔔 알림 도입과 아키텍쳐 개편&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#-%EA%B0%9C%ED%8E%B8-%EC%A4%91-%EC%82%AC%EC%86%8C%ED%95%9C-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85&quot;&gt;🧨 개편 중 사소한 트러블 슈팅&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EF%B8%8F-%EC%8D%A8%EB%B3%B4%EB%8B%88-%EC%A2%8B%EA%B8%B4-%EC%A2%8B%EB%8D%94%EB%9D%BC&quot;&gt;⚡️ 써보니 좋긴 좋더라&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[2023년 회고 겸 1년차 회고]]></title><description><![CDATA[2023년도 회고를 이제와서 올린다니? 싶겠지만 이유가 있다.
 작년 말에 우리 팀은 12월 23일 ~ 1월…]]></description><link>https://hyewoncc.github.io/goodbye-2023/</link><guid isPermaLink="false">https://hyewoncc.github.io/goodbye-2023/</guid><pubDate>Sun, 07 Jan 2024 10:05:00 GMT</pubDate><content:encoded>&lt;p&gt;2023년도 회고를 이제와서 올린다니? 싶겠지만 이유가 있다.
 작년 말에 우리 팀은 12월 23일 ~ 1월 1일까지 끝내주는 휴가를 다녀왔다.&lt;/p&gt;
 &lt;p&gt;&lt;span
